@@ -14,6 +14,7 @@ import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.domain.model.evaluation.LoanApplication
 import com.alo.loan.domain.model.evaluation.UnevaluatedLoan
 
+// If you prefer you can create a class that implements the contract, it does not matter both are functions
 fun evaluateLoanService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
@@ -36,15 +37,3 @@ private fun LoanEvaluationRequest.loanApplication() =
     UnevaluatedLoan(EvaluationId(id), LoanApplication(CustomerId(customerId), AmountToLend(amount)))
 
 fun <L, R> Either<L, R>.peek(consume: (R) -> Unit): Either<L, R> = this.map(consume).let { this }
-
-// If you prefer you can create a class that implements the contract, it does not matter both are functions
-
-// class EvaluateLoanService(
-//    private val assessRisk: AssessCreditRisk,
-//    private val assessEligibility: AssessEligibility,
-//    private val evaluateLoanApplication: EvaluateLoanApplication,
-//    private val saveLoanEvaluationReport: SaveLoanEvaluationReport,
-//    private val createEvents: CreateEvents,
-//    private val publishEvents: PublishEvents
-// ) : EvaluateLoan {
-//    override fun invoke(request: LoanEvaluationRequest) = TODO("Not yet implemented")

@@ -44,11 +44,3 @@ class AssessEligibilityService(
             .map { eligibility -> EvaluableLoan(loan.id, loan.application, loan.riskReport, eligibility) }
     }
 }
-
-// if you prefer with a function, it does not matter, both are functions
-
-// fun assessRiskService(
-//    findCustomer: FindCustomer,
-//    getCreditScore: GetCreditScore,
-//    assess: (LoanApplication, CreditScore) -> RiskReport = defaultAssess
-// ): AssessCreditRisk = { initialLoan: InitialLoan -> TODO("Not yet implemented") }
