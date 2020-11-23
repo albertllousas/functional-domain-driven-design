@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+
+#Four spaces for indent.
+indent_style = space
+
+#Four spaces for indent.
+indent_size = 4
+
+#Unix line endings.
+end_of_line = lf
+
+#Line at the end of every file.
+insert_final_newline = true
+
+trim_trailing_whitespace = true
+
+[*.{java, kt}]
+#No * imports.
+wildcard_import_limit = 0
+disabled_rules=import-ordering
+
+[*.{yml, yaml, md, json}]
+indent_size = 2
