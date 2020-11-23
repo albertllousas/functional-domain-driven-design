@@ -9,6 +9,8 @@ import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.domain.model.GetLoanRecords
 
+// Domain Services
+
 private val defaultRiskOf = LoanEvaluation.Behaviour::simpleCreditRiskAssessment
 
 class AssessRiskService(
