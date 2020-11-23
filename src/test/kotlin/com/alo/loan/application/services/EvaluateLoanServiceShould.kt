@@ -2,17 +2,17 @@ package com.alo.loan.application.services
 
 import arrow.core.left
 import arrow.core.right
-import com.alo.loan.domain.model.AmountToLend
-import com.alo.loan.domain.model.AssessCreditRisk
-import com.alo.loan.domain.model.AssessEligibility
-import com.alo.loan.domain.model.CreateEvents
-import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.CustomerNotFound
-import com.alo.loan.domain.model.EvaluateLoanApplication
-import com.alo.loan.domain.model.EvaluationId
 import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoanEvaluation
+import com.alo.loan.domain.model.evaluation.AmountToLend
+import com.alo.loan.domain.model.evaluation.AssessCreditRisk
+import com.alo.loan.domain.model.evaluation.AssessEligibility
+import com.alo.loan.domain.model.evaluation.CreateEvents
+import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.EvaluateLoanApplication
+import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildEvaluableLoan
 import com.alo.loan.fixtures.buildLoanApplication
@@ -22,9 +22,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 
+@Tag("component")
 class EvaluateLoanServiceShould {
 
     private val assessCreditRisk = mockk<AssessCreditRisk>(relaxed = true)

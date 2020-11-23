@@ -17,7 +17,7 @@ class InMemoryFakeEventStream {
     fun publish(event: Event, stream: String) {
         if (streams.containsKey(stream))
             streams.computeIfPresent(stream) { _, events -> events + event }
-        else streams.put(stream,listOf(event))
+        else streams.put(stream, listOf(event))
         streamHandlers[stream]?.forEach { it.invoke(event) }
     }
 }

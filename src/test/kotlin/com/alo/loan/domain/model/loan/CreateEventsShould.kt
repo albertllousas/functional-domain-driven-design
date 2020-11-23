@@ -1,5 +1,10 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.loan
 
+import com.alo.loan.domain.model.LoanApproved
+import com.alo.loan.domain.model.LoanHeldForFurtherVerification
+import com.alo.loan.domain.model.LoanRejected
+import com.alo.loan.domain.model.evaluation.LoanEvaluation
+import com.alo.loan.domain.model.evaluation.createEvents
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildFurtherVerificationNeededLoan
 import com.alo.loan.fixtures.buildRejectedLoan

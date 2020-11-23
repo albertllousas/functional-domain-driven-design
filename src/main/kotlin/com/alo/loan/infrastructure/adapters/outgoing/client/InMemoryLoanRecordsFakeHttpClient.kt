@@ -1,8 +1,8 @@
 package com.alo.loan.infrastructure.adapters.outgoing.client
 
-import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.GetLoanRecords
-import com.alo.loan.domain.model.LoanRecord
+import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.LoanRecord
 
 // fake http client, just for the sake of the demo
 class InMemoryLoanRecordsFakeHttpClient(

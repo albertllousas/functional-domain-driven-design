@@ -1,17 +1,18 @@
 package com.alo.loan.application.services
 
+import arrow.core.Either
 import arrow.core.flatMap
-import com.alo.loan.domain.model.AmountToLend
-import com.alo.loan.domain.model.AssessCreditRisk
-import com.alo.loan.domain.model.AssessEligibility
-import com.alo.loan.domain.model.CreateEvents
-import com.alo.loan.domain.model.CustomerId
-import com.alo.loan.domain.model.EvaluateLoanApplication
-import com.alo.loan.domain.model.EvaluationId
-import com.alo.loan.domain.model.LoanApplication
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoanEvaluation
-import com.alo.loan.domain.model.UnevaluatedLoan
+import com.alo.loan.domain.model.evaluation.AmountToLend
+import com.alo.loan.domain.model.evaluation.AssessCreditRisk
+import com.alo.loan.domain.model.evaluation.AssessEligibility
+import com.alo.loan.domain.model.evaluation.CreateEvents
+import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.EvaluateLoanApplication
+import com.alo.loan.domain.model.evaluation.EvaluationId
+import com.alo.loan.domain.model.evaluation.LoanApplication
+import com.alo.loan.domain.model.evaluation.UnevaluatedLoan
 
 fun evaluateLoanService(
     assessCreditRisk: AssessCreditRisk,
@@ -34,14 +35,16 @@ fun evaluateLoanService(
 private fun LoanEvaluationRequest.loanApplication() =
     UnevaluatedLoan(EvaluationId(id), LoanApplication(CustomerId(customerId), AmountToLend(amount)))
 
+fun <L, R> Either<L, R>.peek(consume: (R) -> Unit): Either<L, R> = this.map(consume).let { this }
+
 // If you prefer you can create a class that implements the contract, it does not matter both are functions
 
-//class EvaluateLoanService(
+// class EvaluateLoanService(
 //    private val assessRisk: AssessCreditRisk,
 //    private val assessEligibility: AssessEligibility,
 //    private val evaluateLoanApplication: EvaluateLoanApplication,
 //    private val saveLoanEvaluationReport: SaveLoanEvaluationReport,
 //    private val createEvents: CreateEvents,
 //    private val publishEvents: PublishEvents
-//) : EvaluateLoan {
+// ) : EvaluateLoan {
 //    override fun invoke(request: LoanEvaluationRequest) = TODO("Not yet implemented")

@@ -1,10 +1,14 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.loan
 
-import com.alo.loan.domain.model.CreditScore.Bad
-import com.alo.loan.domain.model.CreditScore.Excellent
-import com.alo.loan.domain.model.CreditScore.Fair
-import com.alo.loan.domain.model.CreditScore.Good
-import com.alo.loan.domain.model.CreditScore.Poor
+import com.alo.loan.domain.model.evaluation.AmountToLend
+import com.alo.loan.domain.model.evaluation.CreditScore.Bad
+import com.alo.loan.domain.model.evaluation.CreditScore.Excellent
+import com.alo.loan.domain.model.evaluation.CreditScore.Fair
+import com.alo.loan.domain.model.evaluation.CreditScore.Good
+import com.alo.loan.domain.model.evaluation.CreditScore.Poor
+import com.alo.loan.domain.model.evaluation.LoanEvaluation
+import com.alo.loan.domain.model.evaluation.RiskReport
+import com.alo.loan.domain.model.evaluation.simpleCreditRiskAssessment
 import com.alo.loan.fixtures.buildLoanApplication
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

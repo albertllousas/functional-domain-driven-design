@@ -23,7 +23,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    testImplementation(group =  "com.github.javafaker", name = "javafaker", version = "1.0.2")
+    testImplementation(group = "com.github.javafaker", name = "javafaker", version = "1.0.2")
 }
 
 tasks.withType<Test> {

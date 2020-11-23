@@ -1,7 +1,7 @@
 package com.alo.loan.fixtures
 
-import com.alo.loan.domain.model.Customer
-import com.alo.loan.domain.model.CustomerId
+import com.alo.loan.domain.model.evaluation.Customer
+import com.alo.loan.domain.model.evaluation.CustomerId
 import com.github.javafaker.Faker
 import java.math.BigDecimal
 import java.util.UUID

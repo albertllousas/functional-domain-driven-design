@@ -1,13 +1,15 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.loan
 
-import com.alo.loan.domain.model.EligibilityReport.*
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.AlreadyInDebt
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.InvalidAge
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.NonPayer
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
-import com.alo.loan.domain.model.LoanRecord.Active
-import com.alo.loan.domain.model.LoanRecord.PaidOff
-import com.alo.loan.domain.model.LoanRecord.Unpaid
+import com.alo.loan.domain.model.evaluation.EligibilityReport.Eligible
+import com.alo.loan.domain.model.evaluation.EligibilityReport.ManualEligibilityAssessmentRequired
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.AlreadyInDebt
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.InvalidAge
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
+import com.alo.loan.domain.model.evaluation.LoanEvaluation
+import com.alo.loan.domain.model.evaluation.LoanRecord.Active
+import com.alo.loan.domain.model.evaluation.LoanRecord.Unpaid
+import com.alo.loan.domain.model.evaluation.simpleEligibilityAssessment
 import com.alo.loan.fixtures.buildCustomer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

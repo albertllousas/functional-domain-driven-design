@@ -1,8 +1,16 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.loan
 
-import com.alo.loan.domain.model.EligibilityReport.*
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.*
-import com.alo.loan.domain.model.RiskReport.*
+import com.alo.loan.domain.model.evaluation.Approved
+import com.alo.loan.domain.model.evaluation.EligibilityReport.Eligible
+import com.alo.loan.domain.model.evaluation.EligibilityReport.ManualEligibilityAssessmentRequired
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
+import com.alo.loan.domain.model.evaluation.FurtherVerificationNeeded
+import com.alo.loan.domain.model.evaluation.LoanEvaluation
+import com.alo.loan.domain.model.evaluation.Rejected
+import com.alo.loan.domain.model.evaluation.RiskReport.Low
+import com.alo.loan.domain.model.evaluation.RiskReport.ManualRiskAssessmentRequired
+import com.alo.loan.domain.model.evaluation.RiskReport.TooRisky
+import com.alo.loan.domain.model.evaluation.evaluate
 import com.alo.loan.fixtures.buildEvaluableLoan
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -80,5 +88,4 @@ class EvaluateLoanApplicationShould {
                 FurtherVerificationNeeded(loan.id, loan.application, loan.riskReport, loan.eligibilityReport)
             )
     }
-
 }

@@ -1,7 +1,7 @@
 package com.alo.loan.componenttest
 
-import com.alo.loan.domain.model.CreditScore
 import com.alo.loan.domain.model.LoanApproved
+import com.alo.loan.domain.model.evaluation.CreditScore
 import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.infrastructure.adapters.incoming.stream.LoanEvaluationRequestEvent
 import com.alo.loan.infrastructure.configuration.FakeApp
@@ -9,8 +9,7 @@ import com.alo.loan.infrastructure.fake.Event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import java.util.UUID
-import java.util.UUID.*
+import java.util.UUID.randomUUID
 
 class EvaluateLoanShould {
 
@@ -37,7 +36,7 @@ class EvaluateLoanShould {
         val loanEvaluationRequestEvent =
             LoanEvaluationRequestEvent(id = randomUUID(), customerId = randomUUID(), amount = 5000.toBigDecimal())
         val eventPayload = fakeApp.objectMapper.writeValueAsBytes(loanEvaluationRequestEvent)
-        fakeApp.inMemoryFakeEventStream.subscribe("stream.result-loan-evaluation-stream",testConsumer::reactTo)
+        fakeApp.inMemoryFakeEventStream.subscribe("stream.result-loan-evaluation-stream", testConsumer::reactTo)
 
         fakeApp.inMemoryFakeEventStream.publish(
             event = Event("LoanEvaluationRequestEvent", eventPayload),

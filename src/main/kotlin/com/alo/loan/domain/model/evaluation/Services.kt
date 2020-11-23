@@ -1,8 +1,13 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.evaluation
 
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.alo.loan.domain.model.CustomerNotFound
+import com.alo.loan.domain.model.Error
+import com.alo.loan.domain.model.FindCustomer
+import com.alo.loan.domain.model.GetCreditScore
+import com.alo.loan.domain.model.GetLoanRecords
 
 private val defaultRiskOf = LoanEvaluation.Behaviour::simpleCreditRiskAssessment
 
@@ -40,8 +45,8 @@ class AssessEligibilityService(
 
 // if you prefer with a function, it does not matter, both are functions
 
-//fun assessRiskService(
+// fun assessRiskService(
 //    findCustomer: FindCustomer,
 //    getCreditScore: GetCreditScore,
 //    assess: (LoanApplication, CreditScore) -> RiskReport = defaultAssess
-//): AssessCreditRisk = { initialLoan: InitialLoan -> TODO("Not yet implemented") }
+// ): AssessCreditRisk = { initialLoan: InitialLoan -> TODO("Not yet implemented") }

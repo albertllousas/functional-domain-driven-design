@@ -1,7 +1,10 @@
 package com.alo.loan.domain.model
 
-import java.math.BigDecimal
-import java.util.UUID
+import com.alo.loan.domain.model.evaluation.CreditScore
+import com.alo.loan.domain.model.evaluation.Customer
+import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.EvaluatedLoan
+import com.alo.loan.domain.model.evaluation.LoanRecord
 
 // AKA: Outgoing ports in hexagonal architecture - They will be implemented as adapters in the infrastructure layer
 

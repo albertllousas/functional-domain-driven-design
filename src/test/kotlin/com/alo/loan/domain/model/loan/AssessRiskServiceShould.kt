@@ -1,8 +1,15 @@
-package com.alo.loan.domain.model
+package com.alo.loan.domain.model.loan
 
 import arrow.core.left
 import arrow.core.right
-import com.alo.loan.domain.model.RiskReport.*
+import com.alo.loan.domain.model.CustomerNotFound
+import com.alo.loan.domain.model.FindCustomer
+import com.alo.loan.domain.model.GetCreditScore
+import com.alo.loan.domain.model.evaluation.AssessRiskService
+import com.alo.loan.domain.model.evaluation.CreditScore
+import com.alo.loan.domain.model.evaluation.LoanApplication
+import com.alo.loan.domain.model.evaluation.RiskReport
+import com.alo.loan.domain.model.evaluation.RiskReport.TooRisky
 import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.fixtures.buildRiskAssessedLoan
 import com.alo.loan.fixtures.buildUnevaluatedLoan
@@ -10,7 +17,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
 
 class AssessRiskServiceShould {
 

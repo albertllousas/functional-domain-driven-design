@@ -2,20 +2,20 @@ package com.alo.loan.infrastructure.configuration
 
 import com.alo.loan.application.services.EvaluateLoan
 import com.alo.loan.application.services.evaluateLoanService
-import com.alo.loan.domain.model.AssessCreditRisk
-import com.alo.loan.domain.model.AssessEligibility
-import com.alo.loan.domain.model.AssessEligibilityService
-import com.alo.loan.domain.model.AssessRiskService
-import com.alo.loan.domain.model.CreditScore
-import com.alo.loan.domain.model.Customer
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.domain.model.GetLoanRecords
-import com.alo.loan.domain.model.LoanEvaluation
-import com.alo.loan.domain.model.LoanRecord
 import com.alo.loan.domain.model.PublishEvents
-import com.alo.loan.domain.model.createEvents
-import com.alo.loan.domain.model.evaluate
+import com.alo.loan.domain.model.evaluation.AssessCreditRisk
+import com.alo.loan.domain.model.evaluation.AssessEligibility
+import com.alo.loan.domain.model.evaluation.AssessEligibilityService
+import com.alo.loan.domain.model.evaluation.AssessRiskService
+import com.alo.loan.domain.model.evaluation.CreditScore
+import com.alo.loan.domain.model.evaluation.Customer
+import com.alo.loan.domain.model.evaluation.LoanEvaluation
+import com.alo.loan.domain.model.evaluation.LoanRecord
+import com.alo.loan.domain.model.evaluation.createEvents
+import com.alo.loan.domain.model.evaluation.evaluate
 import com.alo.loan.infrastructure.adapters.incoming.stream.InMemoryLoanEvaluationStreamConsumer
 import com.alo.loan.infrastructure.adapters.outgoing.client.InMemoryCreditScoreFakeHttpClient
 import com.alo.loan.infrastructure.adapters.outgoing.client.InMemoryLoanRecordsFakeHttpClient
@@ -50,12 +50,12 @@ class FakeApp(
         val assessRiskService: AssessCreditRisk = AssessRiskService(findCustomer, getCreditScore)
         val assessEligibilityService: AssessEligibility = AssessEligibilityService(findCustomer, getLoanRecords)
         val evaluateLoanService: EvaluateLoan = evaluateLoanService(
-            assessCreditRisk=  assessRiskService,
-                assessEligibility=  assessEligibilityService,
-                evaluateLoanApplication= LoanEvaluation.Behaviour.evaluate,
-                saveLoanEvaluation= inMemoryLoanEvaluationRepository.save,
-                createEvents=  LoanEvaluation.Behaviour.createEvents,
-                publishEvents= publishEvents
+            assessCreditRisk = assessRiskService,
+            assessEligibility = assessEligibilityService,
+            evaluateLoanApplication = LoanEvaluation.Behaviour.evaluate,
+            saveLoanEvaluation = inMemoryLoanEvaluationRepository.save,
+            createEvents = LoanEvaluation.Behaviour.createEvents,
+            publishEvents = publishEvents
         )
         // wire up incoming infrastructure adapters
         val inMemoryLoanEvaluationStreamConsumer =

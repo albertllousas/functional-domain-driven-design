@@ -1,29 +1,31 @@
 package com.alo.loan.fixtures
 
-import com.alo.loan.domain.model.AmountToLend
-import com.alo.loan.domain.model.Approved
-import com.alo.loan.domain.model.CustomerId
-import com.alo.loan.domain.model.EligibilityReport
-import com.alo.loan.domain.model.EligibilityReport.Eligible
-import com.alo.loan.domain.model.EligibilityReport.NotEligible
-import com.alo.loan.domain.model.EligibilityReport.NotEligible.*
-import com.alo.loan.domain.model.EvaluableLoan
-import com.alo.loan.domain.model.EvaluationId
-import com.alo.loan.domain.model.FurtherVerificationNeeded
-import com.alo.loan.domain.model.LoanApplication
-import com.alo.loan.domain.model.Rejected
-import com.alo.loan.domain.model.RiskAssessed
-import com.alo.loan.domain.model.RiskReport
-import com.alo.loan.domain.model.RiskReport.Low
-import com.alo.loan.domain.model.RiskReport.ManualRiskAssessmentRequired
-import com.alo.loan.domain.model.RiskReport.TooRisky
-import com.alo.loan.domain.model.UnevaluatedLoan
+import com.alo.loan.domain.model.evaluation.AmountToLend
+import com.alo.loan.domain.model.evaluation.Approved
+import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.EligibilityReport
+import com.alo.loan.domain.model.evaluation.EligibilityReport.Eligible
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.AlreadyInDebt
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.InvalidAge
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
+import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
+import com.alo.loan.domain.model.evaluation.EvaluableLoan
+import com.alo.loan.domain.model.evaluation.EvaluationId
+import com.alo.loan.domain.model.evaluation.FurtherVerificationNeeded
+import com.alo.loan.domain.model.evaluation.LoanApplication
+import com.alo.loan.domain.model.evaluation.Rejected
+import com.alo.loan.domain.model.evaluation.RiskAssessed
+import com.alo.loan.domain.model.evaluation.RiskReport
+import com.alo.loan.domain.model.evaluation.RiskReport.Low
+import com.alo.loan.domain.model.evaluation.RiskReport.ManualRiskAssessmentRequired
+import com.alo.loan.domain.model.evaluation.RiskReport.TooRisky
+import com.alo.loan.domain.model.evaluation.UnevaluatedLoan
 import com.github.javafaker.Faker
 import java.util.UUID
 
 private val faker = Faker()
 
-private fun Faker.eligibilityReport() = faker.options().option(Eligible,NonPayer, AlreadyInDebt, NotEnoughAnnualIncomes, InvalidAge)
+private fun Faker.eligibilityReport() = faker.options().option(Eligible, NonPayer, AlreadyInDebt, NotEnoughAnnualIncomes, InvalidAge)
 
 fun buildLoanApplication(
     customerId: CustomerId = CustomerId(UUID.randomUUID()),
@@ -32,8 +34,8 @@ fun buildLoanApplication(
 
 fun buildUnevaluatedLoan(
     id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication()) =
-    UnevaluatedLoan(id, application)
+    application: LoanApplication = buildLoanApplication()
+) = UnevaluatedLoan(id, application)
 
 fun buildRiskAssessedLoan(
     id: EvaluationId = EvaluationId(UUID.randomUUID()),
