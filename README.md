@@ -42,7 +42,7 @@ The idea is pretty simple, you download the mobile app, create an account, take 
 last **payslips** and ask for a personal loan with a **very low interests!**.
 
 <p align="center">
-  <img width="70%" src="./doc/give-me-the-loan.png">
+  <img width="70%" src="./doc/give-me-the-loan-2.png">
 </p>
 
 
