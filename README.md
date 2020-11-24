@@ -72,7 +72,7 @@ discovered and clustered by development teams and domain experts together (If yo
 Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and here the subdomains as a result:
 
 <p align="center">
-  <img width="70%" src="./doc/sub-domains.png">
+  <img width="70%" src="doc/sub-domains.png">
 </p>
 
 ## The solution
