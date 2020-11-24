@@ -35,9 +35,9 @@ FP, hexagonal, microservices and kotlin in a real complex scenario in order to s
 
 ## The problem
 
-Software is meant to solve problems, where we can apply all these cool approaches, patterns, paradigms, let's imagine something to solve then ...
+Software is meant to solve problems, therefore, let's imagine something to solve then ...
 
-### The domain
+### The domain - Give me the loan!
 
 In DDD terminology, the domain is the group of business problems we are trying to solve usually associated with one activity,
 in our case our imaginary activity is an online company that gives **Fast Personal Loans** called **Give me the loan!**.
