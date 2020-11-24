@@ -26,7 +26,7 @@ Nowadays DDD, both strategical and tactical, gave me an approach to follow, a wa
 and always trying bring value.
 
 <p align="center">
-  <img width="70%" src="./doc/word-cloud.png">
+  <img width="70%" src="./doc/cloud.png">
 </p>
 
 In this project I want to share how to put everything together, DDD, FP, hexagonal, microservices and kotlin in a complex
