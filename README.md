@@ -23,7 +23,7 @@ Still, something was missing, that's when I was introduced to domain-driven desi
 those years without paying attention to the most important thing? The focus on the business.
 
 <p align="center">
-  <img width="70%" src="./doc/cloud.png">
+  <img width="55%" src="./doc/cloud.png">
 </p>
 
 Now, I still feel that I know nothing, but in this project I want to try to put everything together, DDD, FP,
