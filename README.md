@@ -26,7 +26,7 @@ those years without paying attention to the most important thing? The focus on t
   <img width="70%" src="./doc/cloud.png">
 </p>
 
-Nowadays, I still feel that I know nothing, but in this project I want to try to put everything together, DDD, FP,
+Now, I still feel that I know nothing, but in this project I want to try to put everything together, DDD, FP,
 hexagonal, microservices and kotlin in a real complex scenario.
 
 ## The domain
