@@ -46,15 +46,31 @@ The idea is pretty simple, you download the mobile app, create an account, take 
 last **payslips** and request for a personal loan with a **very low interests!**.
 
 <p align="center">
-  <img width="70%" src="./doc/give-me-the-loan-2.png">
+  <img width="70%" src="./doc/Give-me-the-loan.png">
 </p>
 
 
-### Breaking down the problem - Bounded contexts
+### Discovering the domain
 
-### Understanding Loan Evaluation BC
+We, as developers, are eager to code, but in order to do it efficiently, let's understand what we have to do first.
+Coming back to DDD, this part is the strategic part, a crucial aspect of DDD, discover the domain, break it down in
+sub-problems, loose-coupled parts that we can tackle autonomously, **the sub-domains**.
+
+There are some techniques to do so, but one of the most effective and quick to doit is an **event-storming**, a workshop-based
+method where we only need a big space, a wide wall, a lot of sticky notes and the right people.
+
+<p align="center">
+  <img width="70%" src="./doc/event-storming.png">
+</p>
+
+
 
 ## The solution
+
+### The bounded context - Loan Evaluation
+
+### Context Mappings
+
 
 
 
