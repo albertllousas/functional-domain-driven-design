@@ -40,7 +40,8 @@ Software is meant to solve problems, therefore, let's imagine something to solve
 ### The domain - Give me the loan!
 
 In DDD terminology, the domain is the group of business problems we are trying to solve usually associated with one activity,
-in our case our imaginary activity is an online company that gives **Fast Personal Loans** called **Give me the loan!**.
+or more simple, what do we want to solve? In our case our imaginary activity is an online company that gives **Fast Personal Loans**
+called **Give me the loan!**.
 
 The idea is pretty simple, you download the mobile app, create an account, take one **photo** of your **ID** and some of your
 last **payslips** and request for a personal loan with a **very low interests!**.
@@ -53,17 +54,26 @@ last **payslips** and request for a personal loan with a **very low interests!**
 ### Discovering the domain
 
 We, as developers, are eager to code, but in order to do it efficiently, let's understand what we have to do first.
-Coming back to DDD, this part is the strategic part, a crucial aspect of DDD, discover the domain, break it down in
+In DDD world, this part is the strategic part, a crucial aspect of DDD, discover the domain, break it down in
 sub-problems, loose-coupled parts that we can tackle autonomously, **the sub-domains**.
 
-There are some techniques to do so, but one of the most effective and quick to doit is an **event-storming**, a workshop-based
-method where we only need a big space, a wide wall, a lot of sticky notes and the right people.
+There are some techniques to do so, but one of the most effective and quick to do it is a **big-picture [event-storming](https://www.eventstorming.com/)**,
+a workshop-based method where we only need a big space, a wide wall, a lot of sticky notes and the right people.
 
 <p align="center">
   <img width="70%" src="./doc/event-storming.png">
 </p>
 
+I am not an expert of running this kind of workshop, and the goal of this post is not to explain it; but in a nutshell,
+an [event-storming](https://en.wikipedia.org/wiki/Event_storming) is a collaborative and visual tool that can be used for
+several purposes, one of them is to discover and decompose a domain into subdomains through domain events, which will
+discovered and clustered by development teams and domain experts together (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
 
+Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and here the subdomains as a result:
+
+<p align="center">
+  <img width="70%" src="./doc/sub-domains.png">
+</p>
 
 ## The solution
 
