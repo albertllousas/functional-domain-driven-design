@@ -29,9 +29,30 @@ those years without paying attention to the most important thing? The focus on t
 Now, I still feel that I know nothing, but in this project I want to try to put everything together, DDD, FP,
 hexagonal, microservices and kotlin in a real complex scenario.
 
-## The domain
+## The problem
 
-Crazy loans
+Software is meant to solve problems, therefore let's imagine an imaginary company to have a something to solve.
+
+### The domain
+
+In DDD terminology, the domain is the group of business problems we are trying to solve usually associated with one activity,
+in our case our imaginary activity is an online company that gives **Fast Personal Loans** called **Give me the loan**.
+
+The idea is pretty simple, you download the mobile app, create an account, take one **photo** of your **ID** and some of your
+last **payslips** and ask for a personal loan with a **very low interests!**.
+
+<p align="center">
+  <img width="70%" src="./doc/give-me-the-loan.png">
+</p>
+
+
+### Breaking down the problem - Bounded contexts
+
+### Understanding Loan Evaluation BC
+
+## The solution
+
+
 
 
 
