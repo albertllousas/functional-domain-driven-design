@@ -33,9 +33,14 @@ Wow, a lot of fuzzy words, right?
 Now, I still feel that I know nothing, I had to review concepts time to time, but in this project I will try apply DDD,
 FP, hexagonal, microservices and kotlin in a real complex scenario in order to see how powerful they are.
 
+
 ## The problem
 
 Software is meant to solve problems, therefore, let's imagine something to solve then ...
+
+**Note**: This section and the following one are about DDD, how decisions are affecting top-down, we will boil down the
+problem till get to implementations details, so feel free to jump directly to the [implementation section](#the-implementation) if you are not
+interested, or you already master all the DDD concepts.
 
 ### The domain - Give me the loan!
 
@@ -126,6 +131,8 @@ Yeah, bounded context and microservices are trying to achieve the same at differ
 ### Loan Evaluation Context
 
 ### Context Mappings
+
+## The implementation
 
 
 
