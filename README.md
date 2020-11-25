@@ -69,15 +69,56 @@ an [event-storming](https://en.wikipedia.org/wiki/Event_storming) is a collabora
 several purposes, one of them is to discover and decompose a domain into subdomains through domain events, which will
 discovered and clustered by development teams and domain experts together (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
 
-Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and here the subdomains as a result:
+Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and here the subdomains
+as a result:
 
 <p align="center">
-  <img width="70%" src="doc/sub-domains-outcome.png">
+  <img width="70%" src="doc/sub-domains.png">
 </p>
+
+As you can see we also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
+the **core** ones, the parts of the domain which have the greatest potential for business impact, supporting subdomains,
+without them our Domain cannot be successful, and generic subdomains, the ones that could be even outsourced.
+
+During these sessions we also spotted that a Loan have different meanings depending on the subdomain, we are discovering
+the **ubiquitous language**, another DDD concept.
 
 ## The solution
 
-### The bounded context - Loan Evaluation
+### Bounded contexts
+
+We have our company divided in different subdomains, we already know which ones are important, but what about teams, services,
+repositories, in summary, **what about boundaries?**
+
+Here it comes, one of the most important concepts of DDD, yes, this word so complicated to explain, the Bounded Contexts,
+I really like to make an analogy with FP here, BCs are the monads of DDD, they are super important but everyone struggles
+ to explain them.
+
+But, what is exactly a bounded context?
+
+> A bounded context is a delimited context that define explicit boundaries in terms of organization, concepts and vocabulary,
+application, teams, code or even data within a subdomain.
+
+Still broad and fuzzy?
+
+Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your domain problems**.
+
+Instead of a simple broad definition we can define some basic rules one them to understand it better:
+- A BC often maps one-to-one with a subdomain, but they cannot.
+- A BC is owned by one, and only one team, but one team can own several BCs.
+- A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
+- A BC owns a set of concepts and vocabulary, shared by team members, domain experts and source code.
+- A BC should be as autonomous as possible, enabling teams to deliver as quick and indenpendently as possible.
+
+<p align="center">
+  <img width="70%" src="doc/BC.png">
+</p>
+
+
+
+
+
+### Loan Evaluation Context
 
 ### Context Mappings
 
