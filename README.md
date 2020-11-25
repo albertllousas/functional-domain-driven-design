@@ -111,7 +111,7 @@ Instead of try to elaborate a simple definition, we can define some rules to und
 - A BC should be as autonomous as possible, enabling teams to deliver faster and independently of each other.
 
 <p align="center">
-  <img width="20%" src="doc/BC.png">
+  <img width="35%" src="doc/BC.png">
 </p>
 
 #### Bounded contexts and microservices
