@@ -38,7 +38,7 @@ FP, hexagonal, microservices and kotlin in a real complex scenario in order to s
 
 Software is meant to solve problems, therefore, let's imagine something to solve then ...
 
-**Note**: This section and the following one are about DDD, how decisions are affecting top-down, we will boil down the
+**Note**: This section and the following one are about DDD, how decisions are affecting top-down, we will break down the
 problem till get to implementations details, so feel free to jump directly to the [implementation section](#the-implementation) if you are not
 interested, or you already master all the DDD concepts.
 
