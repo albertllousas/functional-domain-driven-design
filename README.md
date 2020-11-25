@@ -85,7 +85,7 @@ the **ubiquitous language**, another DDD concept.
 
 ## The solution
 
-### Bounded contexts
+### Bounded context
 
 We have our company divided in different subdomains, we already know which ones are important, but what about teams, services,
 repositories, in summary, **what about boundaries?**
@@ -103,20 +103,25 @@ Still broad and fuzzy?
 
 Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your domain problems**.
 
-Instead of a simple broad definition we can define some basic rules one them to understand it better:
+Instead of try to elaborate a simple definition, we can define some rules to understand it better:
 - A BC often maps one-to-one with a subdomain, but they cannot.
 - A BC is owned by one, and only one team, but one team can own several BCs.
 - A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
 - A BC owns a set of concepts and vocabulary, shared by team members, domain experts and source code.
-- A BC should be as autonomous as possible, enabling teams to deliver as quick and indenpendently as possible.
+- A BC should be as autonomous as possible, enabling teams to deliver faster and independently of each other.
 
 <p align="center">
-  <img width="70%" src="doc/BC.png">
+  <img width="40%" src="doc/BC.png">
 </p>
 
+#### Bounded contexts and microservices
 
+The original promise of microservices is to allow your teams to release frequently and independently of each other ... sounds familiar?
+Yeah, bounded context and microservices are trying to achieve the same at different levels, that's why they are a perfect match!
 
-
+<p align="center">
+  <img width="40%" src="doc/ms-love-bc.png">
+</p>
 
 ### Loan Evaluation Context
 
