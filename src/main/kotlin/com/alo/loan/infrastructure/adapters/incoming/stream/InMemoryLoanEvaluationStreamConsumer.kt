@@ -14,12 +14,12 @@ class InMemoryLoanEvaluationStreamConsumer(
 ) {
     // omitting all error handling since this is a fake inmemory impl for the sake of the demo
     fun reactTo(event: Event) =
-        if (event.eventType == "LoanEvaluationRequestEvent")
+        if (event.eventType == "LoanApplicationCreatedEvent")
             objectMapper
-                .readValue<LoanEvaluationRequestEvent>(event.eventPayload)
+                .readValue<LoanApplicationCreatedEvent>(event.eventPayload)
                 .let { LoanEvaluationRequest(it.id, it.customerId, it.amount) }
                 .also { evaluateLoan(it) }
         else throw Exception("Not recognized event '${event.eventType}'")
 }
 
-data class LoanEvaluationRequestEvent(val id: UUID, val customerId: UUID, val amount: BigDecimal)
+data class LoanApplicationCreatedEvent(val id: UUID, val customerId: UUID, val amount: BigDecimal)

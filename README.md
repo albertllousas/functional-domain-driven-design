@@ -62,7 +62,7 @@ We, as developers, are eager to code, but in order to do it efficiently, let's u
 In DDD world, this part is the strategic part, a crucial aspect of DDD, discover the domain, break it down in
 sub-problems, loose-coupled parts that we can tackle autonomously, **the sub-domains**.
 
-There are some techniques to do so, but one of the most effective and quick to do it is a **big-picture [event-storming](https://www.eventstorming.com/)**,
+There are some techniques to do so, but one of the most effective and quickest way to do it is a **big-picture [event-storming](https://www.eventstorming.com/)**,
 a workshop-based method where we only need a big space, a wide wall, a lot of sticky notes and the right people.
 
 <p align="center">
@@ -102,7 +102,7 @@ I really like to make an analogy with FP here, BCs are the monads of DDD, they a
 But, what is exactly a bounded context?
 
 > A bounded context is a delimited context that define explicit boundaries in terms of organization, concepts and vocabulary,
-application, teams, code or even data within a subdomain.
+application, teams, code or even data most of the times within a subdomain.
 
 Still broad and fuzzy?
 
@@ -125,10 +125,15 @@ The original promise of microservices is to allow your teams to release frequent
 Yeah, bounded context and microservices are trying to achieve the same at different levels, that's why they are a perfect match!
 
 <p align="center">
-  <img width="40%" src="doc/ms-love-bc.png">
+  <img width="40%" src="doc/MS-love-BC.png">
 </p>
 
 ### Loan Evaluation Context
+
+We are lucky, we have assigned to the team in charge of Loan Evaluation, one of the core bounded contexts, but, what we know
+about it?
+
+
 
 ### Context Mappings
 

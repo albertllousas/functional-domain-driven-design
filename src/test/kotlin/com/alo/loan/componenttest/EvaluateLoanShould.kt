@@ -3,7 +3,7 @@ package com.alo.loan.componenttest
 import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.evaluation.CreditScore
 import com.alo.loan.fixtures.buildCustomer
-import com.alo.loan.infrastructure.adapters.incoming.stream.LoanEvaluationRequestEvent
+import com.alo.loan.infrastructure.adapters.incoming.stream.LoanApplicationCreatedEvent
 import com.alo.loan.infrastructure.configuration.FakeApp
 import com.alo.loan.infrastructure.fake.Event
 import org.assertj.core.api.Assertions.assertThat
@@ -34,7 +34,7 @@ class EvaluateLoanShould {
             staticGetLoanRecordsAnswer = emptyList()
         ).also { it.launch() }
         val loanEvaluationRequestEvent =
-            LoanEvaluationRequestEvent(id = randomUUID(), customerId = randomUUID(), amount = 5000.toBigDecimal())
+            LoanApplicationCreatedEvent(id = randomUUID(), customerId = randomUUID(), amount = 5000.toBigDecimal())
         val eventPayload = fakeApp.objectMapper.writeValueAsBytes(loanEvaluationRequestEvent)
         fakeApp.inMemoryFakeEventStream.subscribe("stream.result-loan-evaluation-stream", testConsumer::reactTo)
 
