@@ -19,7 +19,7 @@ class EvaluateLoanShould {
     @Test
     @DisplayName(
         """
-          GIVEN a request for a loan evaluation
+          GIVEN a loan application is created
           WHEN all checks pass
           THEN the loan is approved
         """
@@ -27,27 +27,27 @@ class EvaluateLoanShould {
     fun `return approved scenario`() {
         val testConsumer = TestConsumer()
         val fakeApp = FakeApp(
-            requestLoanStream = "stream.request-loan-evaluation-stream",
-            resultEvaluationStream = "stream.result-loan-evaluation-stream",
+            loanApplicationStream = "stream.loan-application",
+            evaluationStream = "stream.loan-evaluation-stream",
             staticFindCustomerAnswer = buildCustomer(age = optimalAge, annualIncomes = enoughAnnualIncomes),
             staticCreditScoreAnswer = CreditScore.Excellent,
             staticGetLoanRecordsAnswer = emptyList()
         ).also { it.launch() }
-        val loanEvaluationRequestEvent =
+        val applicationCreatedEvent =
             LoanApplicationCreatedEvent(id = randomUUID(), customerId = randomUUID(), amount = 5000.toBigDecimal())
-        val eventPayload = fakeApp.objectMapper.writeValueAsBytes(loanEvaluationRequestEvent)
-        fakeApp.inMemoryFakeEventStream.subscribe("stream.result-loan-evaluation-stream", testConsumer::reactTo)
+        val eventPayload = fakeApp.objectMapper.writeValueAsBytes(applicationCreatedEvent)
+        fakeApp.inMemoryFakeEventStream.subscribe("stream.loan-evaluation-stream", testConsumer::reactTo)
 
         fakeApp.inMemoryFakeEventStream.publish(
-            event = Event("LoanEvaluationRequestEvent", eventPayload),
-            stream = "stream.request-loan-evaluation-stream"
+            event = Event("LoanApplicationCreatedEvent", eventPayload),
+            stream = "stream.loan-application"
         )
 
         assertThat(testConsumer.receivedEvents).isEqualTo(
             listOf(
                 Event(
                     "LoanApproved",
-                    fakeApp.objectMapper.writeValueAsBytes(LoanApproved(loanEvaluationRequestEvent.id))
+                    fakeApp.objectMapper.writeValueAsBytes(LoanApproved(applicationCreatedEvent.id))
                 )
             )
         )

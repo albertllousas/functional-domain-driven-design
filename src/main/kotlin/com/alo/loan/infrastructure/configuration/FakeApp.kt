@@ -27,8 +27,8 @@ import com.alo.loan.infrastructure.fake.InMemoryFakeEventStream
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 class FakeApp(
-    private val requestLoanStream: String,
-    private val resultEvaluationStream: String,
+    private val loanApplicationStream: String,
+    private val evaluationStream: String,
     private val staticFindCustomerAnswer: Customer?,
     private val staticCreditScoreAnswer: CreditScore,
     private val staticGetLoanRecordsAnswer: List<LoanRecord>
@@ -44,7 +44,7 @@ class FakeApp(
         val getLoanRecords: GetLoanRecords = InMemoryLoanRecordsFakeHttpClient(staticGetLoanRecordsAnswer)
         val inMemoryLoanEvaluationRepository = InMemoryLoanEvaluationRepository()
         val domainEventSubscriber =
-            InMemoryFakeStreamSubscriber(inMemoryFakeEventStream, objectMapper, resultEvaluationStream)
+            InMemoryFakeStreamSubscriber(inMemoryFakeEventStream, objectMapper, evaluationStream)
         val publishEvents: PublishEvents = InMemoryDomainEventPublisher(listOf(domainEventSubscriber))
         // wire up business, the inner hexagon
         val assessRiskService: AssessCreditRisk = AssessRiskService(findCustomer, getCreditScore)
@@ -62,6 +62,6 @@ class FakeApp(
             InMemoryLoanEvaluationStreamConsumer(evaluateLoanService, objectMapper)
 
         // subscribe streams
-        inMemoryFakeEventStream.subscribe(requestLoanStream, inMemoryLoanEvaluationStreamConsumer::reactTo)
+        inMemoryFakeEventStream.subscribe(loanApplicationStream, inMemoryLoanEvaluationStreamConsumer::reactTo)
     }
 }
