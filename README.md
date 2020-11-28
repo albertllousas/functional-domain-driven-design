@@ -182,8 +182,8 @@ Cool, and what if we try to apply the same concepts, thinking in data flow trans
 
 Our pipeline is now a workflow, we just change the name ;)
 
-After the event storming and talking with all the different stake-holders we also know which dependencies we are going to
-have, let's add them to our workflow.
+After the event storming and talking with domain experts we also know which dependencies we are going to have,
+let's add them to our workflow.
 
 <p align="center">
   <img width="80%" src="doc/img/workflow-with-dependencies.png">
@@ -203,9 +203,23 @@ Now one step back, put the workflow in the bounded context:
 
 ### Applying hexagonal architecture
 
+To organise the code we need an architectural pattern, it is really common to use a domain-centric one when using DDD, so
+we are going to apply hexagonal architecture (a.k.a. ports & adapters), since it is based in domain isolation it is a the
+perfect chassis for our project.
+
+We have another awesome marriage:
+
+<p align="center">
+  <img width="80%" src="doc/img/hexa-loves-ddd.png">
+</p>
+
+
+
 ### Anemic domain model anti-pattern in FP
 
 ### Declarative and type-driven workflows
+
+### Code that talks the business language
 
 ### Error handling: Monads come to the party
 
