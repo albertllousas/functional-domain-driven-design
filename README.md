@@ -211,14 +211,14 @@ we are going to apply hexagonal architecture (a.k.a. ports & adapters), since it
 chassis for our DDD project.
 
 <p align="center">
-  <img width="80%" src="doc/img/ddd-loves-hexa.png">
+  <img width="50%" src="doc/img/ddd-loves-hexa.png">
 </p>
 
 Explain hexagonal architecture is not the goal of this project, ([here](https://github.com/albertllousas/implementing-hexagonal-architecture) a depth explanation), but in a nutshell
 hexagonal architecture is just a way to apply dependency-inversion (S of SOLID). You could think about hexagonal as [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)) applied at business level.
 
 <p align="center">
-  <img width="80%" src="doc/img/hexa-encapsulation.png">
+  <img width="60%" src="doc/img/hexa-encapsulation.png">
 </p>
 
 From the external world perspective, we are going to expose certain functionalities through the ports, the only way to
@@ -227,7 +227,7 @@ access to the inner hexagon, our business.
 Hexagonal together with DDD looks like this:
 
 <p align="center">
-  <img width="80%" src="doc/img/hexa-ddd.png">
+  <img width="60%" src="doc/img/hexa-ddd.png">
 </p>
 
 
