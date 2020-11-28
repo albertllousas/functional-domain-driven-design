@@ -195,9 +195,31 @@ Now one step back, put the workflow in the bounded context:
   <img width="80%" src="doc/img/whole-workflow.png">
 </p>
 
+### Communication with other bounded contexts
+
 ## The implementation
 
-### Communication with other bounded contexts
+### Applying hexagonal architecture
+
+### Anemic domain model anti-pattern in FP
+
+### Declarative and type-driven workflows
+
+### Error handling: Monads come to the party
+
+### DDD building blocks
+
+### External dependencies implementations
+
+## Run the project
+
+### Running the tests
+
+
+
+
+
+
 
 
 
