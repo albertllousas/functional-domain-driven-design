@@ -210,7 +210,7 @@ perfect chassis for our project.
 We have another awesome marriage:
 
 <p align="center">
-  <img width="80%" src="doc/img/hexa-loves-ddd.png">
+  <img width="40%" src="doc/img/hexa-loves-ddd.png">
 </p>
 
 
