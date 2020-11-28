@@ -197,6 +197,8 @@ Now one step back, put the workflow in the bounded context:
 
 ### Communication with other bounded contexts
 
+// diagram with messages http an so on
+
 ## The implementation
 
 ### Applying hexagonal architecture
@@ -209,7 +211,11 @@ Now one step back, put the workflow in the bounded context:
 
 ### DDD building blocks
 
-### External dependencies implementations
+### Wiring up everything
+
+#### External dependencies
+
+// diagram with inmemory and so on
 
 ## Run the project
 
