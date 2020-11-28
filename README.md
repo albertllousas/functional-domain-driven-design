@@ -174,13 +174,13 @@ If we chain them, we obtain a [pipeline](https://martinfowler.com/articles/colle
   <img width="70%" src="doc/img/pipeline.png">
 </p>
 
-Cool, and what if we try to apply the same concepts, thinking in data flow transformations at business level?
+Cool, what if we try to apply the same concepts, thinking in data flow transformations at business level?
 
 <p align="center">
   <img width="80%" src="doc/img/workflow.png">
 </p>
 
-Our pipeline is now a workflow, we just change the name ;)
+Our pipeline is now a workflow, we just changed the name ;)
 
 After the event storming and talking with domain experts we also know which dependencies we are going to have,
 let's add them to our workflow.
@@ -189,14 +189,16 @@ let's add them to our workflow.
   <img width="80%" src="doc/img/workflow-with-dependencies.png">
 </p>
 
-Now one step back, put the workflow in the bounded context:
+Wow, don't we have a better idea of what we have to do?
+
+Now, just one step back, put the workflow in the bounded context:
 
 <p align="center">
   <img width="80%" src="doc/img/whole-workflow.png">
 </p>
 
-Looking at the workflow as a pipeline, we are able break down the work in a small steps that we have to follow to fulfill
-our goal, evaluate a loan.
+In summary, looking at the workflow as a pipeline, we are able break down the work in steps, small chunks of work that we
+can tackle independently and chain it to fulfill our goal, evaluate a loan.
 
 ### Communication with other bounded contexts
 
@@ -214,50 +216,44 @@ chassis for our DDD project.
   <img width="40%" src="doc/img/ddd-loves-hexa.png">
 </p>
 
-Explain hexagonal architecture is not the goal of this project, ([here](https://github.com/albertllousas/implementing-hexagonal-architecture) a depth explanation), but in a nutshell
-hexagonal architecture is just a way to apply dependency-inversion (S of SOLID). You could think about hexagonal as [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)) applied at business level.
+Explain hexagonal architecture is not the goal of this project, ([here](https://github.com/albertllousas/implementing-hexagonal-architecture) a deep explanation), but in a nutshell
+hexagonal architecture is just a way to apply dependency-inversion (S of SOLID).
+You could think about hexagonal as [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)) applied at business level.
 
 <p align="center">
   <img width="50%" src="doc/img/hexa-encapsulation.png">
 </p>
 
-From the external world perspective, we are going to expose certain functionalities through the ports, the only way to
+From the external world perspective, we are going to expose certain functionalities through the inbound ports, the only way to
 access to the inner hexagon, our business.
 
-Hexagonal together with DDD looks like this:
+Hexagonal together with domain-driven design build blocks looks like this:
 
 <p align="center">
   <img width="60%" src="doc/img/hexa-ddd.png">
 </p>
 
 
+Even though we didn't code anything, we have enough information from all the discovery to draw a diagram:
+
+add all ports an so on
+
+another with loan https://www.slideshare.net/CodelyTV/towards-functional-programming-through-hexagonal-architecture
+
+
+packages?
+
+
+
 ### Anemic domain model anti-pattern in FP
 
 ### Declarative and type-driven workflows
 
-*Types* : think in types declarative type driven, what I want to do? Construsct the pipeline as you want talking business language, someone will implement it
-
-Pipeline == workflow== usecase == aplication services in ddd==  [diagram]
-
-Just write the pipeline with types, with tdd comes natural
-
-declare what we want to do at business level (application service)
-
-declarative programming
-
-type what you want to do, type the pipelime
-
-diagram and code
-
-add types, we don't care about who is going to impl
 
 ### Code that talks the business language
 
 ### Error handling: Monads come to the party
 
-*Monads* are a functional pattern, I am not going even try to explain, but they are useful for several purposes, one of them error handling
-Familiar with Railway programming?
-We have pipes we chain functions, let add errors to the equation
 
 ### DDD building blocks
 
