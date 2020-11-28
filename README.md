@@ -163,7 +163,7 @@ now is time to introduce some functional concepts at business level.
 What is a function?
 
 <p align="center">
-  <img width="40%" src="doc/img/fn.png">
+  <img width="35%" src="doc/img/fn.png">
 </p>
 
 We can see it black box with an input and output.
@@ -177,7 +177,7 @@ If we chain them, we obtain a [pipeline](https://martinfowler.com/articles/colle
 Cool, and what if we try to apply the same concepts, thinking in data flow transformations at business level?
 
 <p align="center">
-  <img width="70%" src="doc/img/workflow.png">
+  <img width="80%" src="doc/img/workflow.png">
 </p>
 
 Our pipeline is now a workflow, we just change the name ;)
@@ -186,42 +186,19 @@ After the event storming and talking with all the different stake-holders we als
 have, let's add them to our workflow.
 
 <p align="center">
-  <img width="70%" src="doc/img/workflow-with-dependencies.png">
+  <img width="80%" src="doc/img/workflow-with-dependencies.png">
 </p>
 
 Now one step back, put the workflow in the bounded context:
 
 <p align="center">
-  <img width="70%" src="doc/img/whole-workflow.png">
+  <img width="80%" src="doc/img/whole-workflow.png">
 </p>
 
 ## The implementation
 
 ### Communication with other bounded contexts
 
-fn : a -> b
-
-why if why pipe fn?
-
-[a->b] -> [b->c] we have a pipeline
-
-pipeline is a workflow
-
-what about errors? monads -> railway
-
-https://bnz-digital.github.io/fp/inductive/composition/
-https://maryrosecook.com/blog/post/a-practical-introduction-to-functional-programming
-
-https://medium.com/@naveenkumarmuguda/railway-oriented-programming-a-powerful-functional-programming-pattern-ab454e467f31
-
-https://fsharpforfunandprofit.com/rop/
-
-https://martinfowler.com/articles/collection-pipeline/
-
-https://livebook.manning.com/book/functional-programming-in-c-sharp/chapter-5/35
-compose funtions the program is just a set of functions, and data flows through the program, through one function and into the next.
-
-https://elixirschool.com/en/lessons/basics/pipe-operator/
 
 
 
