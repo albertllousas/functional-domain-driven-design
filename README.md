@@ -171,13 +171,13 @@ We can see it black box with an input and output.
 If we chain them, we obtain a [pipeline](https://martinfowler.com/articles/collection-pipeline/), a really common pattern in functional programming.
 
 <p align="center">
-  <img width="40%" src="doc/img/pipeline.png">
+  <img width="70%" src="doc/img/pipeline.png">
 </p>
 
 Cool, and what if we try to apply the same concepts, thinking in data flow transformations at business level?
 
 <p align="center">
-  <img width="40%" src="doc/img/workflow.png">
+  <img width="70%" src="doc/img/workflow.png">
 </p>
 
 Our pipeline is now a workflow, we just change the name ;)
@@ -186,13 +186,13 @@ After the event storming and talking with all the different stake-holders we als
 have, let's add them to our workflow.
 
 <p align="center">
-  <img width="40%" src="doc/img/workflow-with-dependencies.png">
+  <img width="70%" src="doc/img/workflow-with-dependencies.png">
 </p>
 
 Now one step back, put the workflow in the bounded context:
 
 <p align="center">
-  <img width="40%" src="doc/img/whole-workflow.png">
+  <img width="70%" src="doc/img/whole-workflow.png">
 </p>
 
 ## The implementation
