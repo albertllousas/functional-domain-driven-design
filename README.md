@@ -25,7 +25,7 @@ those years without paying attention to the most important thing? **The business
 Let's put everything together:
 
 <p align="center">
-  <img width="55%" src="./doc/cloud.png">
+  <img width="55%" src="doc/img/cloud.png">
 </p>
 
 Wow, a lot of fuzzy words, right?
@@ -52,7 +52,7 @@ The idea is pretty simple, you download the mobile app, create an account, take 
 last **payslips** and request for a personal loan with a **very low interests!**.
 
 <p align="center">
-  <img width="70%" src="doc/give-me-the-loan.png">
+  <img width="70%" src="doc/img/give-me-the-loan.png">
 </p>
 
 
@@ -66,7 +66,7 @@ There are some techniques to do so, but one of the most effective and quickest w
 a workshop-based method where we only need a big space, a wide wall, a lot of sticky notes and the right people.
 
 <p align="center">
-  <img width="70%" src="./doc/event-storming.png">
+  <img width="70%" src="doc/img/event-storming.png">
 </p>
 
 I am not an expert of running this kind of workshop, and the goal of this post is not to explain it; but in a nutshell,
@@ -78,7 +78,7 @@ Coming back to our cool problem, let's suppose we have run this session with all
 as a result:
 
 <p align="center">
-  <img width="70%" src="doc/sub-domains.png">
+  <img width="70%" src="doc/img/sub-domains.png">
 </p>
 
 As you can see we also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
@@ -95,20 +95,20 @@ the **ubiquitous language**, another DDD concept.
 We have our company divided in different subdomains, we already know which ones are important, but what about teams, services,
 repositories, in summary, **what about boundaries?**
 
-Here it comes, one of the most important concepts of DDD, yes, this word so complicated to explain, the Bounded Contexts,
+Here it comes, one of the most important concepts of DDD, yes, this word so complicated to explain, the Bounded Context,
 I really like to make an analogy with FP here, BCs are the monads of DDD, they are super important but everyone struggles
  to explain them.
 
 But, what is exactly a bounded context?
 
 > A bounded context is a delimited context that define explicit boundaries in terms of organization, concepts and vocabulary,
-application, teams, code or even data most of the times within a subdomain.
+application, teams, code or even data, most of the times within a subdomain.
 
 Still broad and fuzzy?
 
-Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your domain problems**.
+Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your domain problem**.
 
-Instead of try to elaborate a simple definition, we can define some rules to understand it better:
+Instead of try to elaborate a simple definition, we can define a set of rules to understand it better:
 - A BC often maps one-to-one with a subdomain, but they cannot.
 - A BC is owned by one, and only one team, but one team can own several BCs.
 - A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
@@ -116,7 +116,7 @@ Instead of try to elaborate a simple definition, we can define some rules to und
 - A BC should be as autonomous as possible, enabling teams to deliver faster and independently of each other.
 
 <p align="center">
-  <img width="35%" src="doc/BC.png">
+  <img width="35%" src="doc/img/BC.png">
 </p>
 
 #### Bounded contexts and microservices
@@ -125,7 +125,7 @@ The original promise of microservices is to allow your teams to release frequent
 Yeah, bounded context and microservices are trying to achieve the same at different levels, that's why they are a perfect match!
 
 <p align="center">
-  <img width="40%" src="doc/MS-love-BC.png">
+  <img width="40%" src="doc/img/MS-love-BC.png">
 </p>
 
 ### Loan Evaluation Context
@@ -133,11 +133,95 @@ Yeah, bounded context and microservices are trying to achieve the same at differ
 We are lucky, we have assigned to the team in charge of Loan Evaluation, one of the core bounded contexts, but, what we know
 about it?
 
+Luckily, we have tools in place, you remember the event-storming? the previous one was the big picture version, but there is
+another one, a **Software Design Event-Storming**, a more granular version where we will discover the moving parts of a our software
+implementation, again, developers and business experts together.
+
+[diagram: TODO]
+
+This exercise will give us an idea about the business workflows in terms of:
+
+- Aggregates: In our case, only one, `Loan Evaluation`, it will be reflected in the code.
+- Domain Events: **Things that happened in the domain that are relevant for the business, it does not mean that they will
+be events in our implementation, they could be events or just states in our model**. Some of them will be published
+to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
+to other domains, applications or third party services. We'll see later how they will be implemented.
+- More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
+we will have in our code.
+- Dependencies: TODO
+- Policies: a.k.a. business rules
+- UI: Not applies here.
 
 
-### Context Mappings
+In summary, an idea of how our solution will look like.
+
+### Business Workflows as pipelines
+
+We have been tacking about DDD concepts enough, we have our domain divided, we know how our solution would look like but
+now is time to introduce some functional concepts at business level.
+
+What is a function?
+
+<p align="center">
+  <img width="40%" src="doc/img/fn.png">
+</p>
+
+We can see it black box with an input and output.
+
+If we chain them, we obtain a [pipeline](https://martinfowler.com/articles/collection-pipeline/), a really common pattern in functional programming.
+
+<p align="center">
+  <img width="40%" src="doc/img/pipeline.png">
+</p>
+
+Cool, and what if we try to apply the same concepts, thinking in data flow transformations at business level?
+
+<p align="center">
+  <img width="40%" src="doc/img/workflow.png">
+</p>
+
+Our pipeline is now a workflow, we just change the name ;)
+
+After the event storming and talking with all the different stake-holders we also know which dependencies we are going to
+have, let's add them to our workflow.
+
+<p align="center">
+  <img width="40%" src="doc/img/workflow-with-dependencies.png">
+</p>
+
+Now one step back, put the workflow in the bounded context:
+
+<p align="center">
+  <img width="40%" src="doc/img/whole-workflow.png">
+</p>
 
 ## The implementation
+
+### Communication with other bounded contexts
+
+fn : a -> b
+
+why if why pipe fn?
+
+[a->b] -> [b->c] we have a pipeline
+
+pipeline is a workflow
+
+what about errors? monads -> railway
+
+https://bnz-digital.github.io/fp/inductive/composition/
+https://maryrosecook.com/blog/post/a-practical-introduction-to-functional-programming
+
+https://medium.com/@naveenkumarmuguda/railway-oriented-programming-a-powerful-functional-programming-pattern-ab454e467f31
+
+https://fsharpforfunandprofit.com/rop/
+
+https://martinfowler.com/articles/collection-pipeline/
+
+https://livebook.manning.com/book/functional-programming-in-c-sharp/chapter-5/35
+compose funtions the program is just a set of functions, and data flows through the program, through one function and into the next.
+
+https://elixirschool.com/en/lessons/basics/pipe-operator/
 
 
 

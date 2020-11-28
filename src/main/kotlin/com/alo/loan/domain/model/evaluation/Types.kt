@@ -9,8 +9,8 @@ import com.alo.loan.domain.model.Error
 
 typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<Error, RiskAssessed>
 
-typealias AssessEligibility = (RiskAssessed) -> Either<Error, EvaluableLoan>
+typealias AssessEligibility = (RiskAssessed) -> Either<Error, EligibilityAssessed>
 
-typealias EvaluateLoanApplication = (EvaluableLoan) -> EvaluatedLoan
+typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
 
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>

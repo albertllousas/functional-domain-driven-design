@@ -17,7 +17,7 @@ data class RiskAssessed(
     val riskReport: RiskReport
 ) : LoanEvaluation()
 
-data class EvaluableLoan(
+data class EligibilityAssessed(
     val id: EvaluationId,
     val application: LoanApplication,
     val riskReport: RiskReport,

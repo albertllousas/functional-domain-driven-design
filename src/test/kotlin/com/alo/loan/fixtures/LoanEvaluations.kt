@@ -9,7 +9,7 @@ import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.Alread
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.InvalidAge
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
-import com.alo.loan.domain.model.evaluation.EvaluableLoan
+import com.alo.loan.domain.model.evaluation.EligibilityAssessed
 import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.domain.model.evaluation.FurtherVerificationNeeded
 import com.alo.loan.domain.model.evaluation.LoanApplication
@@ -48,7 +48,7 @@ fun buildEvaluableLoan(
     application: LoanApplication = buildLoanApplication(),
     riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
     eligibilityReport: EligibilityReport = faker.eligibilityReport()
-) = EvaluableLoan(id, application, riskReport, eligibilityReport)
+) = EligibilityAssessed(id, application, riskReport, eligibilityReport)
 
 fun buildRejectedLoan(
     id: EvaluationId = EvaluationId(UUID.randomUUID()),

@@ -35,12 +35,12 @@ class AssessEligibilityService(
     private val getLoanRecords: GetLoanRecords,
     private val eligibilityOf: (Customer, List<LoanRecord>) -> EligibilityReport = defaultEligibilityOf
 ) : AssessEligibility {
-    override fun invoke(loan: RiskAssessed): Either<Error, EvaluableLoan> {
+    override fun invoke(loan: RiskAssessed): Either<Error, EligibilityAssessed> {
         val customer = findCustomer(loan.application.customerId)?.right()
             ?: CustomerNotFound(loan.application.customerId).left()
         return customer
             .map { Pair(getLoanRecords(it.id), it) }
             .map { (loanRecords, customer) -> eligibilityOf(customer, loanRecords) }
-            .map { eligibility -> EvaluableLoan(loan.id, loan.application, loan.riskReport, eligibility) }
+            .map { eligibility -> EligibilityAssessed(loan.id, loan.application, loan.riskReport, eligibility) }
     }
 }
