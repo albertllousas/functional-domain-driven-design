@@ -157,8 +157,8 @@ In summary, an idea of how our solution will look like.
 
 ### Business Workflows as pipelines
 
-We have been tacking about DDD concepts enough, we have our domain divided, we know how our solution would look like but
-now is time to introduce some functional concepts at business level.
+We have been tacking about DDD concepts enough, we have our domain divided, we have aggregates, domain events, we know
+how our solution would look like but now is time to introduce some functional concepts at business level.
 
 What is a function?
 
@@ -195,6 +195,9 @@ Now one step back, put the workflow in the bounded context:
   <img width="80%" src="doc/img/whole-workflow.png">
 </p>
 
+Looking at the workflow as a pipeline, we are able break down the work in a small steps that we have to follow to fulfill
+our goal, evaluate a loan.
+
 ### Communication with other bounded contexts
 
 // diagram with messages http an so on
@@ -203,25 +206,58 @@ Now one step back, put the workflow in the bounded context:
 
 ### Applying hexagonal architecture
 
-To organise the code we need an architectural pattern, it is really common to use a domain-centric one when using DDD, so
-we are going to apply hexagonal architecture (a.k.a. ports & adapters), since it is based in domain isolation it is a the
-perfect chassis for our project.
-
-We have another awesome marriage:
+To create a micro-service we need an architectural pattern to organise the code and its different concerns, in our case
+we are going to apply hexagonal architecture (a.k.a. ports & adapters), since it is domain-centric approach, it is the perfect
+chassis for our DDD project.
 
 <p align="center">
-  <img width="40%" src="doc/img/ddd-loves-hexa.png">
+  <img width="80%" src="doc/img/ddd-loves-hexa.png">
 </p>
 
+Explain hexagonal architecture is not the goal of this project, ([here](https://github.com/albertllousas/implementing-hexagonal-architecture) a depth explanation), but in a nutshell
+hexagonal architecture is just a way to apply dependency-inversion (S of SOLID). You could think about hexagonal as [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)) applied at business level.
+
+<p align="center">
+  <img width="80%" src="doc/img/hexa-encapsulation.png">
+</p>
+
+From the external world perspective, we are going to expose certain functionalities through the ports, the only way to
+access to the inner hexagon, our business.
+
+Hexagonal together with DDD looks like this:
+
+<p align="center">
+  <img width="80%" src="doc/img/hexa-ddd.png">
+</p>
 
 
 ### Anemic domain model anti-pattern in FP
 
 ### Declarative and type-driven workflows
 
+*Types* : think in types declarative type driven, what I want to do? Construsct the pipeline as you want talking business language, someone will implement it
+
+Pipeline == workflow== usecase == aplication services in ddd==  [diagram]
+
+Just write the pipeline with types, with tdd comes natural
+
+declare what we want to do at business level (application service)
+
+declarative programming
+
+type what you want to do, type the pipelime
+
+diagram and code
+
+add types, we don't care about who is going to impl
+
 ### Code that talks the business language
 
 ### Error handling: Monads come to the party
+
+*Monads* are a functional pattern, I am not going even try to explain, but they are useful for several purposes, one of them error handling
+Familiar with Railway programming?
+We have pipes we chain functions, let add errors to the equation
 
 ### DDD building blocks
 
