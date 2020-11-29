@@ -1,6 +1,6 @@
 # functional-domain-driven-design
-A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin
-breaking down from the problem in a top down approach.
+A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin,
+breaking down the problem in a top down approach.
 
 ## Introduction TL;DR
 
