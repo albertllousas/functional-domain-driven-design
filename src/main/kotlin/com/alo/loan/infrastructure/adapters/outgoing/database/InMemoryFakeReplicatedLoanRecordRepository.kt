@@ -5,7 +5,7 @@ import com.alo.loan.domain.model.evaluation.CustomerId
 import com.alo.loan.domain.model.evaluation.LoanRecord
 
 // fake database replicated data of the customer records, just for the sake of the demo
-class InMemoryFakeReplicatedLoanRecords(
+class InMemoryFakeReplicatedLoanRecordRepository(
     private val staticGetLoanRecordsAnswer: List<LoanRecord>
 ) : GetLoanRecords {
     override fun invoke(customerId: CustomerId): List<LoanRecord> = staticGetLoanRecordsAnswer

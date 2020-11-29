@@ -18,7 +18,7 @@ import com.alo.loan.domain.model.evaluation.createEvents
 import com.alo.loan.domain.model.evaluation.evaluate
 import com.alo.loan.infrastructure.adapters.incoming.stream.InMemoryLoanEvaluationStreamConsumer
 import com.alo.loan.infrastructure.adapters.outgoing.client.InMemoryCreditScoreFakeHttpClient
-import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedLoanRecords
+import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedLoanRecordRepository
 import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedCustomerRepository
 import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryLoanEvaluationRepository
 import com.alo.loan.infrastructure.adapters.outgoing.events.InMemoryDomainEventPublisher
@@ -41,7 +41,7 @@ class FakeApp(
         // wire up outbound infrastructure adapters
         val findCustomer: FindCustomer = InMemoryFakeReplicatedCustomerRepository(staticFindCustomerAnswer)
         val getCreditScore: GetCreditScore = InMemoryCreditScoreFakeHttpClient(staticCreditScoreAnswer)
-        val getLoanRecords: GetLoanRecords = InMemoryFakeReplicatedLoanRecords(staticGetLoanRecordsAnswer)
+        val getLoanRecords: GetLoanRecords = InMemoryFakeReplicatedLoanRecordRepository(staticGetLoanRecordsAnswer)
         val inMemoryLoanEvaluationRepository = InMemoryLoanEvaluationRepository()
         val domainEventSubscriber =
             InMemoryFakeStreamSubscriber(inMemoryFakeEventStream, objectMapper, evaluationStream)
