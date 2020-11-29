@@ -1,5 +1,6 @@
 # functional-domain-driven-design
-A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin.
+A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin
+breaking down from the problem in a top down approach.
 
 ## Introduction TL;DR
 
@@ -234,26 +235,83 @@ Hexagonal together with domain-driven design build blocks looks like this:
 </p>
 
 
-Even though we didn't code anything, we have enough information from all the discovery to draw a diagram:
+Even though we didn't code anything, we have enough information from all the previous discovery to draw a diagram:
 
-add all ports an so on
-
-another with loan https://www.slideshare.net/CodelyTV/towards-functional-programming-through-hexagonal-architecture
-
-
-packages?
-
-
+[DIAGRAM]
 
 ### Anemic domain model anti-pattern in FP
 
-### Declarative and type-driven workflows
+[Anemic domain](https://martinfowler.com/bliki/AnemicDomainModel.html) is an anti-pattern in DDD, in an OOP oriented DDD,
+domains are rich, giving to the domain real data and also behaviour.
 
+Functional programming advocates to separate data and behaviour, having [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) on side and functions on the
+other. As you could think and many people tend to think that FP clash with DDD because the first one empowers anemic domain models.
+
+At its heart, an anemic model is a model where the business rules are not being encapsulated by the model itself;
+instead of that, the behaviour is spread around a bunch of services out of the model, usually clients of it, ending up with
+just procedural code.
+
+Therefore, in FP, the model should contain the business rules, maybe just functions over the model but they would be part
+of the model as well.
+
+IMHO, this is how to apply DDD in FP context:
+
+- Entities: Algebraic data types + Functions (if needed)
+- Value Objects(VO): Algebraic data types
+- Factories: Smart constructors or just Functions
+- Aggregates: Aggregate root + Entities + V.O. + Functions
+- Domain Services: Functions
+- Repositories: Type abstractions in the domain
+
+### Writing declarative and type-driven workflows
+
+First let's add some context in the title statement.
+
+> Imperative says how to do it. And declarative says what to do.
+
+> Type-driven development is a style of programming in which we write types first and use those types to guide the
+> definition of functions.
+
+There are lot of definitions of both concepts, from my perspective being type-driven is just about be declarative, think in what we want
+to do before thinking in how to do it, the implementation. This kind of thinking force you to:
+ - Have **meaningful types** that express the what your code is doing and postpone the how's.
+ - Be **consumer-driven**, think first about the client perspective, your public API.
+
+Having said that, imagine that we already started to implement our solution and it's time to code our workflow.
+
+The place to implement the **workflow** is the where the use-cases of the application will be placed, in DDD
+ nomenclature, the **application services**, the orchestrators of our business.
+
+This was our previous workflow:
+
+<p align="center">
+  <img width="50%" src="doc/img/whole-workflow.png">
+</p>
+
+But first of all, let's be type driven and define the functionality that we are going to expose to the world in terms of types,
+
+Our API:
+```kotlin
+typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
+data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
+```
+
+Meaningful?
+
+next
+
+**Shall we include external dependencies in this stage?** Well it depends, I would prefer to go one step further and be dependency agnostic,
+remember about being type driven, how things are done is not really so important.
+
+**Side note:** Outside-in tdd helps a lot in this way of coding.
 
 ### Code that talks the business language
 
 ### Error handling: Monads come to the party
 
+*Monads* are a functional pattern, I am not going even try to explain, but they are useful for several purposes, one of them error handling
+Familiar with Railway programming?
+We have pipes we chain functions, let add errors to the equation
 
 ### DDD building blocks
 
@@ -266,6 +324,14 @@ packages?
 ## Run the project
 
 ### Running the tests
+
+# Glossary:
+
+- BC : Bounded Context
+- FP : Functional programming
+- DDD : Domain-driven design
+- V.O. : Value Object
+- TDD : Test-driven development
 
 
 
