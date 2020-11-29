@@ -110,15 +110,15 @@ I really like to make an analogy with FP here, BCs are the monads of DDD, they a
 
 But, what is exactly a bounded context?
 
-> A bounded context is a delimited context that define explicit boundaries in terms of organization, concepts and vocabulary,
-application, teams, architecture, source-code or even data, most of the times within a subdomain.
+> A bounded context is a well delimited area of a domain where a model applies, it defines explicit boundaries and consistency
+> in terms of vocabulary, organization, application, teams, architecture, source-code or even data, most of the times within a subdomain.
 
 Still broad and fuzzy?
 
-Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your domain problem**.
+Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your a certain domain problem**.
 
 Instead of try to elaborate a simple definition, we can define a set of rules to understand it better:
-- A BC often maps one-to-one with a subdomain, but they cannot.
+- A BC often maps one-to-one with a subdomain, but not always.
 - A BC is owned by one, and only one team, but one team can own several BCs.
 - A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
 - A BC owns a set of concepts and vocabulary, a dialect of the UL, shared by team members, domain experts and source code.
@@ -127,6 +127,7 @@ Instead of try to elaborate a simple definition, we can define a set of rules to
 <p align="center">
   <img width="35%" src="doc/img/BC.png">
 </p>
+
 
 #### Bounded contexts and microservices
 
@@ -286,23 +287,22 @@ Hexagonal code packaging:
 domains are rich, giving to the domain real data and also behaviour.
 
 Functional programming advocates to separate data and behaviour, having [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) on one side and functions over them on the
-other. You could think that FP clash with DDD because empowers anemic domain models but it is not true.
+other.
+
+> FP clash with DDD because empowers anemic domain models.
+
+**This is not true, at all.**
 
 At its heart, an anemic model is a model where the business rules are not being encapsulated by the model itself;
 instead of that, the behaviour is spread around a bunch of services out of the model, usually clients of it, ending up with
 just procedural code.
 
-Therefore, in FP, the model should contain the business rules, maybe just functions over the model but they would be part
+In FP, the domain model should contain the business rules, maybe just functions over the data model, but they would be part
 of the model as well.
 
-IMHO, this is how to apply DDD in FP context:
-
-- **Entities**: Algebraic data types + Functions (if needed)
-- **Value Objects (VO, Tiny types)**: Algebraic data types
-- **Factories**: Smart constructors or just Functions
-- **Aggregates**: Aggregate root + Entities + V.O. + Functions
-- **Domain Services**: Functions
-- **Repositories or any external dependency**: Type abstractions in the domain
+The problem of anemic domain model applies in any language paradigm, is about where to place the business rules, if they
+are not in the domain model (methods on the objects in OOP or functions in FP) it means that our logic will be spread in
+other layers, like application or infrastructure services, where it shouldn't be, remember, separation of concerns.
 
 ### Writing declarative and type-driven workflows
 
@@ -335,24 +335,24 @@ contract:
 
 Our API:
 ```kotlin
-typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
+typealias EvaluateLoan = (LoanEvaluationRequest) -> Unit
 data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
-The type is self-explanatory, we want to evaluate a loan given a loan request, the result, either an error or just side-effects;
+The type is self-explanatory, we want to evaluate a loan given a loan request, the result, just side-effects;
 in our business, we don't know about the loan application created event coming from other context, it will be handled in the
 business client, the stream consumer adapter.
 
-Let's implement the workflow, again, let's be declarative, we already know how our pipeline steps:
+Let's implement the workflow, again, let's be declarative, we already know our pipeline steps:
 ```kotlin
-typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<Error, RiskAssessed>
-typealias AssessEligibility = (RiskAssessed) -> Either<Error, EligibilityAssessed>
+typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
+typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
 typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
-We can just create our application service (a.k.a business workflow):
+And the application service (a.k.a business workflow):
 ```kotlin
 fun evaluateLoanService(
     assessCreditRisk: AssessCreditRisk,
@@ -365,13 +365,16 @@ fun evaluateLoanService(
     request
         .loanApplication()
         .let(assessCreditRisk)
-        .flatMap(assessEligibility)
-        .map(evaluateLoanApplication)
-        .peek(saveLoanEvaluation)
-        .map(createEvents)
-        .map(publishEvents)
+        .let(assessEligibility)
+        .let(evaluateLoanApplication)
+        .also(saveLoanEvaluation)
+        .let(createEvents)
+        .also(publishEvents)
 }
 ```
+**Side notes**:
+- We could use a class that implements the type if you prefer, it does not matter
+- We could try to currify all the dependencies, but kotlin does not help.
 
 > Shall we include external dependencies in this stage?
 
@@ -381,8 +384,8 @@ focusing on what we want to do.
 
 > Who is going to implement this types?
 
-They will be implemented in the domain, as domain services or directly functions on
-the aggregates or as a infrastructure services (a.k.a outgoing adapters), calling the external world (DBs, other services, logs, metrics ...)
+They will be implemented either in the domain (as domain services or directly functions on
+the aggregates) or as infrastructure services (a.k.a. outgoing adapters, interacting with DBs, other services, logging, metrics ...)
 
 > That's a lot of abstraction, I don't need that
 
@@ -391,15 +394,40 @@ the diagram that we wrote together with business experts, it is really easy to f
 
 **Side note:** Outside-in tdd helps a lot in this way of coding, the design would flow better.
 
-### Code that talks the business language
-
 ### Error handling: Monads come to the party
 
-*Monads* are a functional pattern, I am not going even try to explain, but they are useful for several purposes, one of them error handling
-Familiar with Railway programming?
-We have pipes we chain functions, let add errors to the equation
+
+```kotlin
+// The workflow definition
+typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
+
+// Workflow steps
+typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<Error, RiskAssessed>
+typealias AssessEligibility = (RiskAssessed) -> Either<Error, EligibilityAssessed>
+
+// Workflow implementation
+fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
+    request
+        .loanApplication()
+        .let(assessCreditRisk)
+        .flatMap(assessEligibility)
+        .map(evaluateLoanApplication)
+        .peek(saveLoanEvaluation)
+        .map(createEvents)
+        .map(publishEvents)
+}
+```
 
 ### DDD building blocks
+
+IMHO, this is how to apply DDD in FP context:
+
+- **Entities**: Algebraic data types + Functions (if needed)
+- **Value Objects (VO, Tiny types)**: Algebraic data types
+- **Factories**: Smart constructors or just Functions
+- **Aggregates**: Aggregate root + Entities + V.O. + Functions
+- **Domain Services**: Functions
+- **Repositories or any external dependency**: Type abstractions in the domain
 
 ### Wiring up everything
 
