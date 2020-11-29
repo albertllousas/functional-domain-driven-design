@@ -1,11 +1,11 @@
-package com.alo.loan.infrastructure.adapters.outgoing.client
+package com.alo.loan.infrastructure.adapters.outgoing.database
 
 import com.alo.loan.domain.model.GetLoanRecords
 import com.alo.loan.domain.model.evaluation.CustomerId
 import com.alo.loan.domain.model.evaluation.LoanRecord
 
-// fake http client, just for the sake of the demo
-class InMemoryLoanRecordsFakeHttpClient(
+// fake database replicated data of the customer records, just for the sake of the demo
+class InMemoryFakeReplicatedLoanRecords(
     private val staticGetLoanRecordsAnswer: List<LoanRecord>
 ) : GetLoanRecords {
     override fun invoke(customerId: CustomerId): List<LoanRecord> = staticGetLoanRecordsAnswer

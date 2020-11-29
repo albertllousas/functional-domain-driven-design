@@ -92,7 +92,7 @@ Subdomains summary:
 - Scoring: Credit scoring (out-sourced).
 - Loan application: All the loan application lifecycle.
 - Loan evaluation: Basically, it decides if we should lend the money to the customer.
-- Loan management: All the loan management after a decision has benn made, including negotiation, contracts or history.
+- Loan management: All the loan management after a decision has been made, including negotiation or contracts.
 
 During these sessions we also spotted that a Loan have different meanings depending on the subdomain, we are discovering
 the **ubiquitous language**, another DDD concept.
@@ -195,7 +195,7 @@ After the event storming and talking with domain experts we also know which depe
 let's add them to our workflow.
 
 <p align="center">
-  <img width="80%" src="doc/img/workflow-with-deps.png">
+  <img width="80%" src="doc/img/workflow-with-dependencies.png">
 </p>
 
 Wow, don't we have a better idea of what we have to do?
@@ -228,9 +228,19 @@ application for a loan, it is going to publish an event,`Loan Evaluation Context
 it and publish the result in our stream, where our consumers are going to listen, and one of them `Loan Management Context`
 will proceed with the loan and contracts.
 
+What about communications with dependencies in our workflow?
+
 <p align="center">
-  <img width="70%" src="doc/img/BC-deps-communications.png">
+  <img width="70%" src="doc/img/BC-dependencies-communications.png">
 </p>
+
+- **Get Risk Score** dependency: we will need to request for a risk score each time we need to assess a loan.
+- **Get Customer** dependency: Acquisition context is publishing all the customer events, therefore we will replicate all
+the customer info in our local database.
+- **Get Loan Records** dependency: Besides Application Loan created, Loan Application context is publishing all the
+application loan lifecycle events, therefore we will listen, replicate and keep tracking of all of them in our local
+database.
+
 
 ## The implementation
 
