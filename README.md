@@ -316,7 +316,7 @@ First let's add some context in the title statement.
 There are lot of definitions of both concepts, but from my perspective being type-driven is just about be declarative,
 think in what we want to do before thinking in how to do it (implementation details).
 This kind of thinking force you to:
- - Have **meaningful types** that express the what your code is doing and postpone the how.
+ - Have **meaningful types** that express what your code is doing and postpone the how.
  - Be **consumer-driven**, think from the client perspective, your public API.
 
 Having said that, imagine that we already started to implement our solution and it's time to code our workflow.
