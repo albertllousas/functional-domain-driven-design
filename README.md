@@ -86,6 +86,14 @@ As you can see we also identified the different [types](https://thedomaindrivend
 the **core** ones, the parts of the domain which have the greatest potential for business impact, supporting subdomains,
 without them our Domain cannot be successful, and generic subdomains, the ones that could be even outsourced.
 
+Subdomains summary:
+- Acquisition:  Responsible for account creation, kyc and customer data.
+- Fraud detection: Analise, extract data from upload customer docs and detect possible frauds (out-sourced).
+- Scoring: Credit scoring (out-sourced).
+- Loan application: All the loan application lifecycle.
+- Loan evaluation: Basically, it decides if we should lend the money to the customer.
+- Loan management: All the loan management after a decision has benn made, including negotiation, contracts or history.
+
 During these sessions we also spotted that a Loan have different meanings depending on the subdomain, we are discovering
 the **ubiquitous language**, another DDD concept.
 
@@ -113,7 +121,7 @@ Instead of try to elaborate a simple definition, we can define a set of rules to
 - A BC often maps one-to-one with a subdomain, but they cannot.
 - A BC is owned by one, and only one team, but one team can own several BCs.
 - A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
-- A BC owns a set of concepts and vocabulary, shared by team members, domain experts and source code.
+- A BC owns a set of concepts and vocabulary, a dialect of the UL, shared by team members, domain experts and source code.
 - A BC should be as autonomous as possible, enabling teams to deliver faster and independently of each other.
 
 <p align="center">
@@ -187,7 +195,7 @@ After the event storming and talking with domain experts we also know which depe
 let's add them to our workflow.
 
 <p align="center">
-  <img width="80%" src="doc/img/workflow-with-dependencies.png">
+  <img width="80%" src="doc/img/workflow-with-deps.png">
 </p>
 
 Wow, don't we have a better idea of what we have to do?
@@ -203,11 +211,31 @@ can tackle independently and chain it to fulfill our goal, evaluate a loan.
 
 ### Communication with other bounded contexts
 
+Let's assume that all our teams are working together to achieve the main goal in a partnership way, I don't want to talk
+ about [context mappings](https://www.oreilly.com/library/view/domain-driven-design-distilled/9780134434964/ch04.html) or [team topologies](https://teamtopologies.com/) in this post.
+
+Our bounded contexts are not totally isolated, they are going to talk each other, in our case, evaluate a loan is part
+of a bigger user journey, requesting for a loan.
+
+This is how our BC, `loan evaluation context` is going to communicate:
+
 <p align="center">
-  <img width="70%" src="doc/img/BC-messages.png">
+  <img width="70%" src="doc/img/BC-communications.png">
+</p>
+
+Pretty easy, a total async and event-driven approach, when `Loan Application Context` process successfully a new
+application for a loan, it is going to publish an event,`Loan Evaluation Context` (our BC) is going to consume it, evaluate
+it and publish the result in our stream, where our consumers are going to listen, and one of them `Loan Management Context`
+will proceed with the loan and contracts.
+
+<p align="center">
+  <img width="70%" src="doc/img/BC-deps-communications.png">
 </p>
 
 ## The implementation
+
+We are going to work with the assumption that our bounded context is going to be one implemented for now in just one microservice,
+if it grows, we will decide together with our team if we need to split it.
 
 ### Applying hexagonal architecture
 
@@ -246,8 +274,8 @@ Even though we didn't code anything, we have enough information from all the pre
 [Anemic domain](https://martinfowler.com/bliki/AnemicDomainModel.html) is an anti-pattern in DDD, in an OOP oriented DDD,
 domains are rich, giving to the domain real data and also behaviour.
 
-Functional programming advocates to separate data and behaviour, having [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) on side and functions on the
-other. As you could think and many people tend to think that FP clash with DDD because the first one empowers anemic domain models.
+Functional programming advocates to separate data and behaviour, having [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) on one side and functions over them on the
+other. You could think that FP clash with DDD because empowers anemic domain models but it is not true.
 
 At its heart, an anemic model is a model where the business rules are not being encapsulated by the model itself;
 instead of that, the behaviour is spread around a bunch of services out of the model, usually clients of it, ending up with
@@ -274,10 +302,11 @@ First let's add some context in the title statement.
 > Type-driven development is a style of programming in which we write types first and use those types to guide the
 > definition of functions.
 
-There are lot of definitions of both concepts, from my perspective being type-driven is just about be declarative, think in what we want
-to do before thinking in how to do it, the implementation. This kind of thinking force you to:
- - Have **meaningful types** that express the what your code is doing and postpone the how's.
- - Be **consumer-driven**, think first about the client perspective, your public API.
+There are lot of definitions of both concepts, but from my perspective being type-driven is just about be declarative,
+think in what we want to do before thinking in how to do it (implementation details).
+This kind of thinking force you to:
+ - Have **meaningful types** that express the what your code is doing and postpone the how.
+ - Be **consumer-driven**, think from the client perspective, your public API.
 
 Having said that, imagine that we already started to implement our solution and it's time to code our workflow.
 
@@ -302,6 +331,15 @@ data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount:
 The type is self-explanatory, we want to evaluate a loan given a loan request, the result, either an error or just side-effects;
 in our business, we don't know about the loan application created event coming from other context, it will be handled in the
 business client, the stream consumer adapter.
+
+Let's implement the workflow, again, let's be declarative, write what we want to do and make the types match:
+
+```kotlin
+what
+```
+```kotlin
+types
+```
 
 
 **Shall we include external dependencies in this stage?** Well it depends, matter of taste, in my case I  prefer to go one
