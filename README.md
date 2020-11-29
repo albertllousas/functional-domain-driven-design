@@ -79,20 +79,20 @@ Coming back to our cool problem, let's suppose we have run this session with all
 as a result:
 
 <p align="center">
-  <img width="70%" src="doc/img/subdomains.png">
+  <img width="70%" src="doc/img/sub-domains.png">
 </p>
 
 As you can see we also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
 the **core** ones, the parts of the domain which have the greatest potential for business impact, supporting subdomains,
 without them our Domain cannot be successful, and generic subdomains, the ones that could be even outsourced.
 
-Subdomains summary:
+Sub-domains summary:
 - Acquisition:  Responsible for account creation, kyc and customer data.
 - Fraud detection: Analise, extract data from upload customer docs and detect possible frauds (out-sourced).
 - Scoring: Credit scoring (out-sourced).
 - Loan application: All the loan application lifecycle.
 - Loan evaluation: Basically, it decides if we should lend the money to the customer.
-- Loan management: All the loan management after a decision has been made, including negotiation or contracts.
+- Negotiation & Billing: All the loan management after a decision has been made, including negotiation, contracting, billing ...
 
 During these sessions we also spotted that a Loan have different meanings depending on the subdomain, we are discovering
 the **ubiquitous language**, another DDD concept.
