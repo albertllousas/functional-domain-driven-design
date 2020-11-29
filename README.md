@@ -373,12 +373,21 @@ fun evaluateLoanService(
 }
 ```
 
-**Shall we include external dependencies in this stage?** Well it depends, matter of taste, in my case I  prefer to go one
-step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done
-is not really so important, we want to focus on what we want to do.
+> Shall we include external dependencies in this stage?
 
-**Who is going to implement this types?** They will be implemented in the domain, as domain services or directly functions on
+Well it depends, matter of taste, in my case I  prefer to go one
+step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done
+is not really so important, we want to be declarative, focusing on what we want to do.
+
+> Who is going to implement this types?
+
+They will be implemented in the domain, as domain services or directly functions on
 the aggregates or as a infrastructure services (a.k.a outgoing adapters), calling the external world (DBs, other services, logs, metrics ...)
+
+> That's a lot of abstraction, I don't need that
+
+Well, they are just expressive types, now our code talk the business language, it is really easy to follow, even for a
+non-technical person.
 
 **Side note:** Outside-in tdd helps a lot in this way of coding, the design would flow through the tests.
 
