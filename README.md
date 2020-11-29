@@ -313,7 +313,7 @@ First let's add some context in the title statement.
 > Type-driven development is a style of programming in which we write types first and use those types to guide the
 > definition of functions.
 
-There are lot of definitions of both concepts, but from my perspective being type-driven is just about be declarative,
+There are a lot of definitions of both concepts, but from my perspective being type-driven is just about be declarative,
 think in what we want to do before thinking in how to do it (implementation details).
 This kind of thinking force you to:
  - Have **meaningful types** that express what your code is doing and postpone the how.
@@ -375,9 +375,9 @@ fun evaluateLoanService(
 
 > Shall we include external dependencies in this stage?
 
-Well it depends, matter of taste, in my case I  prefer to go one
-step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done
-is not really so important, we want to be declarative, focusing on what we want to do.
+Well it depends, matter of taste, in my case I  prefer to go one step further and be dependency agnostic in the workflows
+as well, remember about being type-driven, how things are done is not really so important, we want to be declarative,
+focusing on what we want to do.
 
 > Who is going to implement this types?
 
@@ -386,10 +386,10 @@ the aggregates or as a infrastructure services (a.k.a outgoing adapters), callin
 
 > That's a lot of abstraction, I don't need that
 
-Well, they are just expressive types, now our code talk the business language, it is really easy to follow, even for a
-non-technical person.
+Well, they are just expressive and meaningful types, now **our code talks the business language**, the workflow just reflects
+the diagram that we wrote together with business experts, it is really easy to follow, even for a non-technical person.
 
-**Side note:** Outside-in tdd helps a lot in this way of coding, the design would flow through the tests.
+**Side note:** Outside-in tdd helps a lot in this way of coding, the design would flow better.
 
 ### Code that talks the business language
 
