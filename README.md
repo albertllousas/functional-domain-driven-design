@@ -156,8 +156,7 @@ be events in our implementation, they could be events or just states in our mode
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
 to other domains, applications or third party services. We'll see later how they will be implemented.
 - More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
-we will have in our code.
-- Dependencies: TODO
+- Dependencies: Other contexts that our BC depends on
 - Policies: a.k.a. business rules
 - UI: Not applies here.
 
@@ -225,8 +224,8 @@ This is how our BC, `loan evaluation context` is going to communicate:
 
 Pretty easy, a total async and event-driven approach, when `Loan Application Context` process successfully a new
 application for a loan, it is going to publish an event,`Loan Evaluation Context` (our BC) is going to consume it, evaluate
-it and publish the result in our stream, where our consumers are going to listen, and one of them `Loan Management Context`
-will proceed with the loan and contracts.
+it and publish the result in our stream, where our consumers are going to listen, and one of them `Negotation & Billing Context`
+will proceed with the negotiation, contracting and billing.
 
 What about communications with dependencies in our workflow?
 
@@ -235,10 +234,10 @@ What about communications with dependencies in our workflow?
 </p>
 
 - **Get Risk Score** dependency: we will need to request for a risk score each time we need to assess a loan.
-- **Get Customer** dependency: Acquisition context is publishing all the customer events, therefore we will replicate all
+- **Get Customer** dependency: Acquisition context is publishing all the customer events, hence we will replicate all
 the customer info in our local database.
-- **Get Loan Records** dependency: Besides Application Loan created, Loan Application context is publishing all the
-application loan lifecycle events, therefore we will listen, replicate and keep tracking of all of them in our local
+- **Get Loan Records** dependency: Besides Application Loan Created Event, Loan Application context is publishing all the
+application loan lifecycle events, therefore we will listen, replicate and keep tracking of all loan states in our local
 database.
 
 
@@ -274,10 +273,12 @@ Hexagonal together with domain-driven design build blocks looks like this:
   <img width="60%" src="doc/img/hexa-ddd.png">
 </p>
 
-
-Even though we didn't code anything, we have enough information from all the previous discovery to draw a diagram:
-
-[DIAGRAM]
+Hexagonal code packaging:
+```
+- Application Services: The use cases, the exposed business workflows
+- Domain model: domain and ports
+- Infrastructure: inbound & outbound adapters, configuration ...
+```
 
 ### Anemic domain model anti-pattern in FP
 
@@ -323,10 +324,10 @@ Having said that, imagine that we already started to implement our solution and 
 The place to implement the **workflow** is the where the use-cases of the application will be placed, in DDD
  nomenclature, the **application services**, the orchestrators of our business.
 
-Keep in mind our previous workflow:
+Keeping in mind our previous workflow:
 
 <p align="center">
-  <img width="60%" src="doc/img/whole-workflow.png">
+  <img width="70%" src="doc/img/whole-workflow.png">
 </p>
 
 First of all, let's be type driven and define the functionality that we are going to expose to the world in terms of a
@@ -342,20 +343,44 @@ The type is self-explanatory, we want to evaluate a loan given a loan request, t
 in our business, we don't know about the loan application created event coming from other context, it will be handled in the
 business client, the stream consumer adapter.
 
-Let's implement the workflow, again, let's be declarative, write what we want to do and make the types match:
-
+Let's implement the workflow, again, let's be declarative, we already know how our pipeline steps:
 ```kotlin
-what
+typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<Error, RiskAssessed>
+typealias AssessEligibility = (RiskAssessed) -> Either<Error, EligibilityAssessed>
+typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
+typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
+typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
+typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
+We can just create our application service (a.k.a business workflow):
 ```kotlin
-types
+fun evaluateLoanService(
+    assessCreditRisk: AssessCreditRisk,
+    assessEligibility: AssessEligibility,
+    evaluateLoanApplication: EvaluateLoanApplication,
+    saveLoanEvaluation: SaveLoanEvaluation,
+    createEvents: CreateEvents,
+    publishEvents: PublishEvents
+): EvaluateLoan = { request ->
+    request
+        .loanApplication()
+        .let(assessCreditRisk)
+        .flatMap(assessEligibility)
+        .map(evaluateLoanApplication)
+        .peek(saveLoanEvaluation)
+        .map(createEvents)
+        .map(publishEvents)
+}
 ```
-
 
 **Shall we include external dependencies in this stage?** Well it depends, matter of taste, in my case I  prefer to go one
-step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done is not really so important, we want to focus on what we want to do.
+step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done
+is not really so important, we want to focus on what we want to do.
 
-**Side note:** Outside-in tdd helps a lot in this way of coding.
+**Who is going to implement this types?** They will be implemented in the domain, as domain services or directly functions on
+the aggregates or as a infrastructure services (a.k.a outgoing adapters), calling the external world (DBs, other services, logs, metrics ...)
+
+**Side note:** Outside-in tdd helps a lot in this way of coding, the design would flow through the tests.
 
 ### Code that talks the business language
 
