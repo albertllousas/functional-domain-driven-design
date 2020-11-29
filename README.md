@@ -79,7 +79,7 @@ Coming back to our cool problem, let's suppose we have run this session with all
 as a result:
 
 <p align="center">
-  <img width="70%" src="doc/img/sub-domains.png">
+  <img width="70%" src="doc/img/subdomains.png">
 </p>
 
 As you can see we also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
@@ -103,7 +103,7 @@ I really like to make an analogy with FP here, BCs are the monads of DDD, they a
 But, what is exactly a bounded context?
 
 > A bounded context is a delimited context that define explicit boundaries in terms of organization, concepts and vocabulary,
-application, teams, code or even data, most of the times within a subdomain.
+application, teams, architecture, source-code or even data, most of the times within a subdomain.
 
 Still broad and fuzzy?
 
@@ -203,7 +203,9 @@ can tackle independently and chain it to fulfill our goal, evaluate a loan.
 
 ### Communication with other bounded contexts
 
-// diagram with messages http an so on
+<p align="center">
+  <img width="70%" src="doc/img/BC-messages.png">
+</p>
 
 ## The implementation
 
@@ -256,12 +258,12 @@ of the model as well.
 
 IMHO, this is how to apply DDD in FP context:
 
-- Entities: Algebraic data types + Functions (if needed)
-- Value Objects(VO): Algebraic data types
-- Factories: Smart constructors or just Functions
-- Aggregates: Aggregate root + Entities + V.O. + Functions
-- Domain Services: Functions
-- Repositories: Type abstractions in the domain
+- **Entities**: Algebraic data types + Functions (if needed)
+- **Value Objects (VO, Tiny types)**: Algebraic data types
+- **Factories**: Smart constructors or just Functions
+- **Aggregates**: Aggregate root + Entities + V.O. + Functions
+- **Domain Services**: Functions
+- **Repositories or any external dependency**: Type abstractions in the domain
 
 ### Writing declarative and type-driven workflows
 
@@ -282,13 +284,14 @@ Having said that, imagine that we already started to implement our solution and 
 The place to implement the **workflow** is the where the use-cases of the application will be placed, in DDD
  nomenclature, the **application services**, the orchestrators of our business.
 
-This was our previous workflow:
+Keep in mind our previous workflow:
 
 <p align="center">
-  <img width="50%" src="doc/img/whole-workflow.png">
+  <img width="60%" src="doc/img/whole-workflow.png">
 </p>
 
-But first of all, let's be type driven and define the functionality that we are going to expose to the world in terms of types,
+First of all, let's be type driven and define the functionality that we are going to expose to the world in terms of a
+contract:
 
 Our API:
 ```kotlin
@@ -296,12 +299,13 @@ typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
 data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
-Meaningful?
+The type is self-explanatory, we want to evaluate a loan given a loan request, the result, either an error or just side-effects;
+in our business, we don't know about the loan application created event coming from other context, it will be handled in the
+business client, the stream consumer adapter.
 
-next
 
-**Shall we include external dependencies in this stage?** Well it depends, I would prefer to go one step further and be dependency agnostic,
-remember about being type driven, how things are done is not really so important.
+**Shall we include external dependencies in this stage?** Well it depends, matter of taste, in my case I  prefer to go one
+step further and be dependency agnostic in the workflows as well, remember about being type driven, how things are done is not really so important, we want to focus on what we want to do.
 
 **Side note:** Outside-in tdd helps a lot in this way of coding.
 
@@ -328,9 +332,10 @@ We have pipes we chain functions, let add errors to the equation
 # Glossary:
 
 - BC : Bounded Context
+- UL : Ubiquitous Language
 - FP : Functional programming
 - DDD : Domain-driven design
-- V.O. : Value Object
+- VO : Value Object
 - TDD : Test-driven development
 
 
