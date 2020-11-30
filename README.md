@@ -473,7 +473,7 @@ IMHO, this is how to apply DDD tactical patterns in FP context:
 
 [<p align="center"> <img width="90%" src="doc/img/show-me-the-code.png"> </p>](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)
 
-<center>[Check out here the complete solution!](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)</center>
+[Check out here the complete solution!](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)
 
 ### Wiring up everything
 
