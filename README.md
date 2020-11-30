@@ -366,7 +366,8 @@ typealias PublishEvents = (List<DomainEvent>) -> Unit
 
 As we already said, domain events are important things that happened in our domain, in order to simplify our design we
 have decided to create a type that will create only the important ones, the ones that will be published to other BCs.
-**In a improved design, we could generate the events in each transition implicitly.**
+**In a improved design, we could generate the events in each transition implicitly and keep them as a property in the
+aggregate or use the state monad.**
 
 And finally, let's chain everything to create our application service (a.k.a business workflow):
 ```kotlin
