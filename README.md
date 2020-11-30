@@ -361,7 +361,8 @@ typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 
 As we already said, domain events are important things that happened in our domain, but it does not mean that we have to
 always create all of them in our implementation, only the ones that are important, the rest they could be seen as states
-in our aggregate.
+in our aggregate. Anyways, this is just a design decision, a good improvement could be to generate the events and carry
+with them in each transition implicitly.
 
 Let's provide a way to create them:
 ```kotlin
