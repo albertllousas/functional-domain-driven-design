@@ -358,16 +358,15 @@ typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 
 > Where are the events?
 
-As we already said, domain events are important things that happened in our domain, but it does not mean that we have to
-always create all of them in our implementation, only the ones that are important, the rest they could be seen as states
-in our aggregate. Anyways, this is just a design decision, a good improvement could be to generate the events and carry
-with them in each transition implicitly.
-
 Let's provide a way to create them:
 ```kotlin
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
+
+As we already said, domain events are important things that happened in our domain, in order to simplify our design we
+have decided to create a type that will create only the important ones, the ones that will be published to other BCs.
+**In a improved design, we could generate the events in each transition implicitly.**
 
 And finally, let's chain everything to create our application service (a.k.a business workflow):
 ```kotlin
