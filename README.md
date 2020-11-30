@@ -349,9 +349,25 @@ typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
 typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
+```
+Easy! Even more we can turn out our previous pipeline to a simple state machine:
+
+<p align="center">
+  <img width="20%" src="doc/img/state-machine.png">
+</p>
+
+> Where are the events?
+
+As we already said, domain events are important things that happened in our domain, but it does not mean that we have to
+always create all of them in our implementation, only the ones that are important, the rest they could be seen as states
+in our aggregate.
+
+Let's provide a way to create them:
+```kotlin
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
-And the application service (a.k.a business workflow):
+
+And finally, let's chain everything to create our application service (a.k.a business workflow):
 ```kotlin
 fun evaluateLoanService(
     assessCreditRisk: AssessCreditRisk,
@@ -372,8 +388,8 @@ fun evaluateLoanService(
 }
 ```
 **Side notes**:
-- We could use a class that implements the type if you prefer, it does not matter
-- We could try to currify all the dependencies, but kotlin does not help.
+    - We could use a class that implements the type if you prefer, it does not matter
+    - We could try to currify all the dependencies, but kotlin does not help.
 
 > Shall we include external dependencies in this stage?
 
