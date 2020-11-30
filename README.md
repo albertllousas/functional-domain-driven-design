@@ -353,7 +353,6 @@ Let's implement the workflow, again, let's be declarative, we already know our p
 typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
 typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
 typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
-typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 ```
 
@@ -366,6 +365,7 @@ with them in each transition implicitly.
 
 Let's provide a way to create them:
 ```kotlin
+typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
