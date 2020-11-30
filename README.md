@@ -402,7 +402,8 @@ focusing on what we want to do.
 > Who is going to implement this types?
 
 They will be implemented either in the domain (functions on the aggregates or domain services) or as infrastructure services
-(a.k.a. outgoing adapters, interacting with DBs, other services, logging, metrics ...)
+(a.k.a. outgoing adapters, interacting with DBs, other services, logging, metrics ...). They will be injected as dependencies
+when the app is configured.
 
 > That's a lot of abstraction, I don't need that
 
