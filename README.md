@@ -338,9 +338,15 @@ typealias EvaluateLoan = (LoanEvaluationRequest) -> Unit
 data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
-The type is self-explanatory, we want to evaluate a loan given a loan request, the result, just side-effects;
-in our business, we don't know about the loan application created event coming from other context, it will be handled in the
-business client, the stream consumer adapter.
+The type is self-explanatory, we want to evaluate a loan given a loan request, the result, just side-effects, we decided to represent
+it as `Unit`, but there are other ways todo it; in our business, we don't know about the loan application created event
+coming from other context, it will be handled in the business client, the stream consumer adapter.
+
+Taking a look on our [previous workflows](https://github.com/albertllousas/functional-domain-driven-design#business-workflows-as-pipelines), we can turn it out to a simple state machine:
+
+<p align="center">
+  <img width="80%" src="doc/img/state-machine.png">
+</p>
 
 Let's implement the workflow, again, let's be declarative, we already know our pipeline steps:
 ```kotlin
@@ -350,11 +356,6 @@ typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 ```
-Easy! Even more we can turn out our previous pipeline to a simple state machine:
-
-<p align="center">
-  <img width="80%" src="doc/img/state-machine.png">
-</p>
 
 > Where are the events?
 
@@ -421,7 +422,7 @@ The downsides:
 - When we have to react in the business side in front of an error our business code can get dirty and messy.
 - Exceptions as the name says, should be used for exceptional cases, not to control the flow of your code.
 
-> What we do then?
+> What do we do then?
 
 Functional programming has a really cool concept that we can use to mitigate this issues with exceptions, **[a monad](https://en.wikipedia.org/wiki/Monad_(functional_programming))**.
 Monads are a functional pattern, ( I am not going even try to explain them, it would take a whole post), but they are
