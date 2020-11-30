@@ -110,14 +110,14 @@ I really like to make an analogy with FP here, BCs are the monads of DDD, they a
 
 But, what is exactly a bounded context?
 
-> A bounded context is a well delimited area of a domain where a model applies, it defines explicit boundaries and consistency
+> A bounded context is a well delimited area of the domain where a model applies, it defines explicit boundaries and consistency
 > in terms of vocabulary, organization, application, teams, architecture, source-code or even data, most of the times within a subdomain.
 
 Still broad and fuzzy?
 
-Let's simplify it, a BC is just the other side of the problem, **the solution, how you solve your a certain domain problem**.
+Let's simplify it, a BC is just the **other side of the problem, the solution,** if a sub-domain is the problem, a BC is how you solve it.
 
-Instead of try to elaborate a simple definition, we can define a set of rules to understand it better:
+Instead of try to elaborate a definition, we can define a set of rules to understand it better:
 - A BC often maps one-to-one with a subdomain, but not always.
 - A BC is owned by one, and only one team, but one team can own several BCs.
 - A BC usually maps one-to-one with a service, but it can be split in several ones if the team decides to.
@@ -396,14 +396,52 @@ the diagram that we wrote together with business experts, it is really easy to f
 
 ### Error handling: Monads come to the party
 
+The previous code for the pipeline looks great, but what about errors? how we are going to deal with them?
+In OOP, a common way is to throw exceptions, but for FP practitioners is considered like a crime, and anti-pattern.
+IMHO, there is no problem with exceptions, there are downsides, but is a way of exception handling totally feasible.
+
+The downsides:
+
+- Since errors are not explicitly part of the flow, we tend to forget and deal properly with them, we don't face them.
+- When we have to react in the business side in front of an error our business code can get dirty and messy.
+- Exceptions as the name says, should be used for exceptional cases, not to control the flow of your code.
+
+> What we do then?
+
+Functional programming has a really cool concept that we can use to mitigate this issues with exceptions, **[a monad](https://en.wikipedia.org/wiki/Monad_(functional_programming))**.
+Monads are a functional pattern, ( I am not going even try to explain them, it would take a whole post), but they are
+useful for several purposes, one of them is error handling.
+
+One of them is `Either` monad, that mainly is a generic container, where we can wrap the result of an operation either a
+failure or a success.
+
+<p align="center">
+  <img width="70%" src="doc/img/either.png">
+</p>
+
+I f you want to know more about how to deal with errors with monads, take a look on [railway programming](https://fsharpforfunandprofit.com/rop/) concept.
+
+> Then, shall we wrap everything that goes wrong?
+
+Well, pure functional code does it, but here we are mixing paradigms, so here my personal strategy to handle errors, and
+again close to the domain:
+- Domain errors: Any error meaningful from the domain perspective, wrap it in a monad.
+- Crashes: Are you going to recover or do anything with an exceptional crash? Let it crash then and deal with them at
+the boundaries of your app.
+
+After this small introduction, let's fix our code introducing errors:
 
 ```kotlin
+// Errors
+sealed class Error
+data class CustomerNotFound(val customerId: CustomerId) : Error()
+
 // The workflow definition
 typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
 
 // Workflow steps
-typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<Error, RiskAssessed>
-typealias AssessEligibility = (RiskAssessed) -> Either<Error, EligibilityAssessed>
+typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<CustomerNotFound, RiskAssessed>
+typealias AssessEligibility = (RiskAssessed) -> Either<CustomerNotFound, EligibilityAssessed>
 
 // Workflow implementation
 fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->

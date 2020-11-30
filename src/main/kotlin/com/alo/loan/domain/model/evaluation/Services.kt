@@ -35,7 +35,7 @@ class AssessEligibilityService(
     private val getLoanRecords: GetLoanRecords,
     private val eligibilityOf: (Customer, List<LoanRecord>) -> EligibilityReport = defaultEligibilityOf
 ) : AssessEligibility {
-    override fun invoke(loan: RiskAssessed): Either<Error, EligibilityAssessed> {
+    override fun invoke(loan: RiskAssessed): Either<CustomerNotFound, EligibilityAssessed> {
         val customer = findCustomer(loan.application.customerId)?.right()
             ?: CustomerNotFound(loan.application.customerId).left()
         return customer
