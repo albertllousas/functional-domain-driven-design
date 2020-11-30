@@ -330,8 +330,7 @@ Keeping in mind our previous workflow:
   <img width="70%" src="doc/img/whole-workflow.png">
 </p>
 
-First of all, let's be type driven and define the functionality that we are going to expose to the world in terms of a
-contract:
+First of all, let's be type driven and define the functionality that we are going to expose to the world:
 
 Our API:
 ```kotlin
@@ -458,16 +457,29 @@ fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
 
 ### DDD building blocks
 
-IMHO, this is how to apply DDD in FP context:
+In all the previous sections we've been talking about the strategical part of DDD, a set of practices to discover what is
+strategically important to your business and how to organise to solve it, but DDD also comes with a tactical part, a set
+of software patterns (a.k.a. building blocks) to model your BC.
 
-- **Entities**: Algebraic data types + Functions (if needed)
+IMHO, this is how to apply DDD tactical patterns in FP context:
+
+- **Entities**: [Algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) + Functions (if needed)
 - **Value Objects (VO, Tiny types)**: Algebraic data types
 - **Factories**: Smart constructors or just Functions
 - **Aggregates**: Aggregate root + Entities + V.O. + Functions
 - **Domain Services**: Functions
 - **Repositories or any external dependency**: Type abstractions in the domain
 
+
+<p align="center">
+  <img width="90%" src="doc/img/show-me-the-code.png">
+</p>
+
+[Check out here the complete solution!](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)
+
 ### Wiring up everything
+
+//TODO
 
 #### External dependencies
 
