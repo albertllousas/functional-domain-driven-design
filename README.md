@@ -471,11 +471,9 @@ IMHO, this is how to apply DDD tactical patterns in FP context:
 - **Repositories or any external dependency**: Type abstractions in the domain
 
 
-<p align="center">
-  <img width="90%" src="doc/img/show-me-the-code.png">
-</p>
+[<p align="center"> <img width="90%" src="doc/img/show-me-the-code.png"> </p>](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)
 
-[Check out here the complete solution!](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)
+<center>[Check out here the complete solution!](https://github.com/albertllousas/functional-domain-driven-design/tree/main/src/main/kotlin/com/alo/loan)</center>
 
 ### Wiring up everything
 
