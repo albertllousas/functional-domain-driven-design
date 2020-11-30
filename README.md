@@ -487,6 +487,13 @@ IMHO, this is how to apply DDD tactical patterns in FP context:
 
 ### Running the tests
 
+# Some resources:
+
+- [Domain modelling made functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional/)
+- [DDD distilled](https://www.oreilly.com/library/view/domain-driven-design-distilled/9780134434964/)
+- [Domain-Driven Design: Tackling Complexity in the Heart of Software](https://www.amazon.com/exec/obidos/ASIN/0321125215/domainlanguag-20)
+- [Functional programming in Scala](https://www.manning.com/books/functional-programming-in-scala)
+
 # Glossary:
 
 - BC : Bounded Context
