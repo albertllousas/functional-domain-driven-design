@@ -358,7 +358,7 @@ typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 
 > Where are the events?
 
-Let's provide a way to create them:
+Let's provide a way to create and publish them:
 ```kotlin
 typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
