@@ -411,7 +411,7 @@ Functional programming has a really cool concept that we can use to mitigate thi
 Monads are a functional pattern, ( I am not going even try to explain them, it would take a whole post), but they are
 useful for several purposes, one of them is error handling.
 
-One of them is `Either` monad, that mainly is a generic container, where we can wrap the result of an operation either a
+A useful one is `Either` monad, that mainly is a generic container, where we can wrap the result of an operation either a
 failure or a success.
 
 <p align="center">
@@ -423,7 +423,7 @@ If you want to know more about how to deal with errors with monads, take a look 
 > Then, shall we wrap everything that goes wrong?
 
 Well, pure functional code does it, but here we are mixing paradigms, so here my personal strategy to handle errors, and
-again close to the domain:
+again, close to the domain:
 - Domain errors: Any error meaningful from the domain perspective, wrap it in a monad.
 - Crashes: Are you going to recover or do anything with an exceptional crash? Let it crash then and deal with them at
 the boundaries of your app.
