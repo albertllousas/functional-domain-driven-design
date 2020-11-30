@@ -416,7 +416,7 @@ One of them is `Either` monad, that mainly is a generic container, where we can 
 failure or a success.
 
 <p align="center">
-  <img width="10%" src="doc/img/either.png">
+  <img width="20%" src="doc/img/either.png">
 </p>
 
 I f you want to know more about how to deal with errors with monads, take a look on [railway programming](https://fsharpforfunandprofit.com/rop/) concept.
