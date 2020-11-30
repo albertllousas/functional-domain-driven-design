@@ -353,7 +353,7 @@ typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
 Easy! Even more we can turn out our previous pipeline to a simple state machine:
 
 <p align="center">
-  <img width="20%" src="doc/img/state-machine.png">
+  <img width="80%" src="doc/img/state-machine.png">
 </p>
 
 > Where are the events?
