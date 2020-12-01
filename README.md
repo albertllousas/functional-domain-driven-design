@@ -352,8 +352,7 @@ Let's implement the workflow, again, let's be declarative, we already know our p
 ```kotlin
 typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
 typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
-typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
-typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
+typealias EvaluateLoanApplication = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
