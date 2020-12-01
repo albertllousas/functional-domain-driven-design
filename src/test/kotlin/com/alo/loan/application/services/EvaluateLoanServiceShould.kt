@@ -9,7 +9,6 @@ import com.alo.loan.domain.model.SaveLoanEvaluation
 import com.alo.loan.domain.model.evaluation.AmountToLend
 import com.alo.loan.domain.model.evaluation.AssessCreditRisk
 import com.alo.loan.domain.model.evaluation.AssessEligibility
-import com.alo.loan.domain.model.evaluation.CreateEvents
 import com.alo.loan.domain.model.evaluation.CustomerId
 import com.alo.loan.domain.model.evaluation.EvaluateLoanApplication
 import com.alo.loan.domain.model.evaluation.EvaluationId
@@ -33,14 +32,12 @@ class EvaluateLoanServiceShould {
     private val assessEligibility = mockk<AssessEligibility>(relaxed = true)
     private val evaluateLoanApplication = mockk<EvaluateLoanApplication>(relaxed = true)
     private val saveLoanEvaluationReport = mockk<SaveLoanEvaluation>(relaxed = true)
-    private val createEvents = mockk<CreateEvents>(relaxed = true)
     private val publishEvents = mockk<PublishEvents>(relaxed = true)
     private val evaluateLoan: EvaluateLoan = evaluateLoanService(
         assessCreditRisk,
         assessEligibility,
         evaluateLoanApplication,
         saveLoanEvaluationReport,
-        createEvents,
         publishEvents
     )
 
@@ -58,8 +55,7 @@ class EvaluateLoanServiceShould {
         val approvedLoan = buildApprovedLoan()
         every { assessCreditRisk(unevaluatedLoan) } returns riskAssessedLoan.right()
         every { assessEligibility(riskAssessedLoan) } returns evaluableLoan.right()
-        every { evaluateLoanApplication(evaluableLoan) } returns approvedLoan
-        every { createEvents(approvedLoan) } returns listOf(LoanApproved(request.id))
+        every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApproved(request.id)))
         every { publishEvents(listOf(LoanApproved(request.id))) } returns Unit
 
         val result = evaluateLoan(request)

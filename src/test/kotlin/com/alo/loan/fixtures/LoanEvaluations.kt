@@ -3,13 +3,13 @@ package com.alo.loan.fixtures
 import com.alo.loan.domain.model.evaluation.AmountToLend
 import com.alo.loan.domain.model.evaluation.Approved
 import com.alo.loan.domain.model.evaluation.CustomerId
+import com.alo.loan.domain.model.evaluation.EligibilityAssessed
 import com.alo.loan.domain.model.evaluation.EligibilityReport
 import com.alo.loan.domain.model.evaluation.EligibilityReport.Eligible
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.AlreadyInDebt
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.InvalidAge
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
 import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
-import com.alo.loan.domain.model.evaluation.EligibilityAssessed
 import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.domain.model.evaluation.FurtherVerificationNeeded
 import com.alo.loan.domain.model.evaluation.LoanApplication

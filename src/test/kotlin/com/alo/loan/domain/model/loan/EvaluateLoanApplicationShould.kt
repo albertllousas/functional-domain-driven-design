@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 
 class EvaluateLoanApplicationShould {
 
-    private val evaluate = LoanEvaluation.Behaviour.evaluate
+    private val evaluate = LoanEvaluation.Behaviour::evaluate
 
     @Test
     fun `require approve a loan with low risk and eligible`() {

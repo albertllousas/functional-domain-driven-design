@@ -4,7 +4,6 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.alo.loan.domain.model.CustomerNotFound
-import com.alo.loan.domain.model.Error
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.domain.model.GetLoanRecords

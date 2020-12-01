@@ -14,12 +14,11 @@ import com.alo.loan.domain.model.evaluation.CreditScore
 import com.alo.loan.domain.model.evaluation.Customer
 import com.alo.loan.domain.model.evaluation.LoanEvaluation
 import com.alo.loan.domain.model.evaluation.LoanRecord
-import com.alo.loan.domain.model.evaluation.createEvents
-import com.alo.loan.domain.model.evaluation.evaluate
+import com.alo.loan.domain.model.evaluation.evaluateAndCreateEvents
 import com.alo.loan.infrastructure.adapters.incoming.stream.InMemoryLoanEvaluationStreamConsumer
 import com.alo.loan.infrastructure.adapters.outgoing.client.InMemoryCreditScoreFakeHttpClient
-import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedLoanRecordRepository
 import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedCustomerRepository
+import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedLoanRecordRepository
 import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryLoanEvaluationRepository
 import com.alo.loan.infrastructure.adapters.outgoing.events.InMemoryDomainEventPublisher
 import com.alo.loan.infrastructure.adapters.outgoing.events.InMemoryFakeStreamSubscriber
@@ -52,9 +51,8 @@ class FakeApp(
         val evaluateLoanService: EvaluateLoan = evaluateLoanService(
             assessCreditRisk = assessRiskService,
             assessEligibility = assessEligibilityService,
-            evaluateLoanApplication = LoanEvaluation.Behaviour.evaluate,
+            evaluateLoanApplication = LoanEvaluation.Behaviour.evaluateAndCreateEvents,
             saveLoanEvaluation = inMemoryLoanEvaluationRepository.save,
-            createEvents = LoanEvaluation.Behaviour.createEvents,
             publishEvents = publishEvents
         )
         // wire up incoming infrastructure adapters

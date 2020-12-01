@@ -1,5 +1,6 @@
 package com.alo.loan.domain.model.evaluation
 
+import com.alo.loan.domain.model.DomainEvent
 import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.LoanHeldForFurtherVerification
 import com.alo.loan.domain.model.LoanRejected
@@ -39,36 +40,34 @@ fun LoanEvaluation.Behaviour.simpleEligibilityAssessment(
         else -> Eligible
     }
 
-val LoanEvaluation.Behaviour.evaluate: EvaluateLoanApplication by lazy {
-    { evaluation ->
-        with(evaluation) {
-            val risk = when (riskReport) {
-                is TooRisky -> Rejected(id, application, riskReport, eligibilityReport, listOf(riskReport::class.simpleName!!))
-                is Low -> Approved(id, application, riskReport, eligibilityReport)
-                is ManualRiskAssessmentRequired -> FurtherVerificationNeeded(id, application, riskReport, eligibilityReport)
-            }
-            val eligibility = when (eligibilityReport) {
-                is NotEligible -> Rejected(id, application, riskReport, eligibilityReport, listOf(eligibilityReport::class.simpleName!!))
-                is Eligible -> Approved(id, application, riskReport, eligibilityReport)
-                is ManualEligibilityAssessmentRequired -> FurtherVerificationNeeded(id, application, riskReport, eligibilityReport)
-            }
-            when {
-                risk is Rejected && eligibility is Rejected ->
-                    Rejected(id, application, riskReport, eligibilityReport, risk.reasons + eligibility.reasons)
-                risk is Rejected || risk is FurtherVerificationNeeded -> risk
-                eligibility is Rejected || eligibility is FurtherVerificationNeeded -> eligibility
-                else -> risk
-            }
-        }
-    }
+val LoanEvaluation.Behaviour.evaluateAndCreateEvents: EvaluateLoanApplication by lazy {
+    { loan -> LoanEvaluation.evaluate(loan).let { Pair(it, LoanEvaluation.createEvents(it)) } }
 }
 
-val LoanEvaluation.Behaviour.createEvents: CreateEvents by lazy {
-    { evaluatedLoan ->
-        when (evaluatedLoan) {
-            is Rejected -> listOf(LoanRejected(evaluatedLoan.id.value, evaluatedLoan.reasons))
-            is FurtherVerificationNeeded -> listOf(LoanHeldForFurtherVerification(evaluatedLoan.id.value))
-            is Approved -> listOf(LoanApproved(evaluatedLoan.id.value))
+fun LoanEvaluation.Behaviour.evaluate(loan: EligibilityAssessed): EvaluatedLoan =
+    with(loan) {
+        val risk = when (riskReport) {
+            is TooRisky -> Rejected(id, application, riskReport, eligibilityReport, listOf(riskReport::class.simpleName!!))
+            is Low -> Approved(id, application, riskReport, eligibilityReport)
+            is ManualRiskAssessmentRequired -> FurtherVerificationNeeded(id, application, riskReport, eligibilityReport)
+        }
+        val eligibility = when (eligibilityReport) {
+            is NotEligible -> Rejected(id, application, riskReport, eligibilityReport, listOf(eligibilityReport::class.simpleName!!))
+            is Eligible -> Approved(id, application, riskReport, eligibilityReport)
+            is ManualEligibilityAssessmentRequired -> FurtherVerificationNeeded(id, application, riskReport, eligibilityReport)
+        }
+        when {
+            risk is Rejected && eligibility is Rejected ->
+                Rejected(id, application, riskReport, eligibilityReport, risk.reasons + eligibility.reasons)
+            risk is Rejected || risk is FurtherVerificationNeeded -> risk
+            eligibility is Rejected || eligibility is FurtherVerificationNeeded -> eligibility
+            else -> risk
         }
     }
-}
+
+fun LoanEvaluation.Behaviour.createEvents(evaluatedLoan: EvaluatedLoan): List<DomainEvent> =
+    when (evaluatedLoan) {
+        is Rejected -> listOf(LoanRejected(evaluatedLoan.id.value, evaluatedLoan.reasons))
+        is FurtherVerificationNeeded -> listOf(LoanHeldForFurtherVerification(evaluatedLoan.id.value))
+        is Approved -> listOf(LoanApproved(evaluatedLoan.id.value))
+    }

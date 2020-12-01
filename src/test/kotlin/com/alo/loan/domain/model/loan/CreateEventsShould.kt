@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 class CreateEventsShould {
 
-    private val createEvents = LoanEvaluation.Behaviour.createEvents
+    private val createEvents = LoanEvaluation.Behaviour::createEvents
 
     @Test
     fun `create an approved loan event when loan evaluation is approved`() {

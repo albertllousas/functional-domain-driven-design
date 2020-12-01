@@ -354,20 +354,8 @@ typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
 typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
 typealias EvaluateLoanApplication = (EligibilityAssessed) -> EvaluatedLoan
 typealias SaveLoanEvaluation = (EvaluatedLoan) -> Unit
-```
-
-> Where are the events?
-
-Let's provide a way to create and publish them:
-```kotlin
-typealias CreateEvents = (EvaluatedLoan) -> List<DomainEvent>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
-
-As we already said, domain events are important things that happened in our domain, in order to simplify our design we
-have decided to create a type that will create only the important ones, the ones that will be published to other BCs.
-**In an improved design, we could generate the events in each transition implicitly and keep them as a property in the
-aggregate or be more functional and use for example the state monad.**
 
 And finally, let's chain everything to create our application service (a.k.a business workflow):
 ```kotlin
@@ -384,9 +372,10 @@ fun evaluateLoanService(
         .let(assessCreditRisk)
         .let(assessEligibility)
         .let(evaluateLoanApplication)
-        .also(saveLoanEvaluation)
-        .let(createEvents)
-        .also(publishEvents)
+        .also { (loan, events) ->
+             saveLoanEvaluation(loan)
+             publishEvents(events)
+        }
 }
 ```
 **Side notes**:
@@ -468,9 +457,10 @@ fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
         .map(evaluateLoanApplication)
-        .peek(saveLoanEvaluation)
-        .map(createEvents)
-        .map(publishEvents)
+        .map { (loan, events) ->
+            saveLoanEvaluation(loan)
+            publishEvents(events)
+        }
 }
 ```
 
