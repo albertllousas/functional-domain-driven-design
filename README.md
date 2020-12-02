@@ -2,6 +2,32 @@
 A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin,
 breaking down the problem in a top down approach.
 
+## Content
+- [functional-domain-driven-design](#functional-domain-driven-design)
+  * [Content](#content)
+  * [Introduction TL;DR](#introduction-tl-dr)
+  * [The problem](#the-problem)
+    + [The domain - Give me the loan!](#the-domain---give-me-the-loan-)
+    + [Discovering the domain](#discovering-the-domain)
+  * [The solution](#the-solution)
+    + [Bounded context](#bounded-context)
+      - [Bounded contexts and microservices](#bounded-contexts-and-microservices)
+    + [Loan Evaluation Context](#loan-evaluation-context)
+    + [Business Workflows as pipelines](#business-workflows-as-pipelines)
+    + [Communication with other bounded contexts](#communication-with-other-bounded-contexts)
+  * [The implementation](#the-implementation)
+    + [Applying hexagonal architecture](#applying-hexagonal-architecture)
+    + [Anemic domain model anti-pattern in FP](#anemic-domain-model-anti-pattern-in-fp)
+    + [Writing declarative and type-driven workflows](#writing-declarative-and-type-driven-workflows)
+    + [Error handling: Monads come to the party](#error-handling--monads-come-to-the-party)
+    + [DDD building blocks](#ddd-building-blocks)
+    + [Wiring up everything](#wiring-up-everything)
+  * [Run the project](#run-the-project)
+    + [Running the tests](#running-the-tests)
+  * [Some resources:](#some-resources-)
+  * [Glossary:](#glossary-)
+
+
 ## Introduction TL;DR
 
 As a developer, I've been working almost all my career in JS and java, imperative OOP and layered architectures,
@@ -529,14 +555,14 @@ Run component tests:
 ```
 
 
-# Some resources:
+## Some resources:
 
 - [Domain modelling made functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional/)
 - [DDD distilled](https://www.oreilly.com/library/view/domain-driven-design-distilled/9780134434964/)
 - [Domain-Driven Design: Tackling Complexity in the Heart of Software](https://www.amazon.com/exec/obidos/ASIN/0321125215/domainlanguag-20)
 - [Functional programming in Scala](https://www.manning.com/books/functional-programming-in-scala)
 
-# Glossary:
+## Glossary:
 
 - BC : Bounded Context
 - UL : Ubiquitous Language
