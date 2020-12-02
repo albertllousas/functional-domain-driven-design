@@ -7,24 +7,24 @@ import com.alo.loan.domain.model.evaluation.AmountToLend
 import com.alo.loan.domain.model.evaluation.AssessCreditRisk
 import com.alo.loan.domain.model.evaluation.AssessEligibility
 import com.alo.loan.domain.model.evaluation.CustomerId
-import com.alo.loan.domain.model.evaluation.EvaluateLoanApplication
+import com.alo.loan.domain.model.evaluation.EvaluateLoan
 import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.domain.model.evaluation.LoanApplication
 import com.alo.loan.domain.model.evaluation.UnevaluatedLoan
 
 // If you prefer you can create a class that implements the contract, it does not matter both are functions
-fun evaluateLoanService(
+fun evaluateService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
-    evaluateLoanApplication: EvaluateLoanApplication,
+    evaluateLoan: EvaluateLoan,
     saveLoanEvaluation: SaveLoanEvaluation,
     publishEvents: PublishEvents
-): EvaluateLoan = { request ->
+): Evaluate = { request ->
     request
         .loanApplication()
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
-        .map(evaluateLoanApplication)
+        .map(evaluateLoan)
         .map { (loan, events) ->
             saveLoanEvaluation(loan)
             publishEvents(events)

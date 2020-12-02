@@ -332,9 +332,9 @@ Keeping in mind our previous workflow:
 
 First of all, let's be type driven and define the functionality that we are going to expose to the world:
 
-Our API:
+Our API (business workflow):
 ```kotlin
-typealias EvaluateLoan = (LoanEvaluationRequest) -> Unit
+typealias Evaluate = (LoanEvaluationRequest) -> Unit
 data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
@@ -352,7 +352,7 @@ Let's implement the workflow, again, let's be declarative, we already know our p
 ```kotlin
 typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
 typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
-typealias EvaluateLoanApplication = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>
+typealias EvaluateLoan = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
@@ -365,12 +365,12 @@ fun evaluateLoanService(
     saveLoanEvaluation: SaveLoanEvaluation,
     createEvents: CreateEvents,
     publishEvents: PublishEvents
-): EvaluateLoan = { request ->
+): Evaluate = { request ->
     request
         .loanApplication()
         .let(assessCreditRisk)
         .let(assessEligibility)
-        .let(evaluateLoanApplication)
+        .let(evaluateLoan)
         .also { (loan, events) ->
              saveLoanEvaluation(loan)
              publishEvents(events)
@@ -443,7 +443,7 @@ sealed class Error
 data class CustomerNotFound(val customerId: CustomerId) : Error()
 
 // The workflow definition
-typealias EvaluateLoan = (LoanEvaluationRequest) -> Either<Error, Unit>
+typealias Evaluate = (LoanEvaluationRequest) -> Either<Error, Unit>
 
 // Workflow steps
 typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<CustomerNotFound, RiskAssessed>
@@ -455,7 +455,7 @@ fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
         .loanApplication()
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
-        .map(evaluateLoanApplication)
+        .map(evaluateLoan)
         .map { (loan, events) ->
             saveLoanEvaluation(loan)
             publishEvents(events)
@@ -485,15 +485,49 @@ IMHO, this is how to apply DDD tactical patterns in FP context:
 
 ### Wiring up everything
 
-//TODO
+One of the main benefits of hexagonal architecture is that it allows you to postpone technical decisions, hence we
+have implemented all the domain without the necessity of any framework or real connections to the different external
+services.
 
-#### External dependencies
+Therefore, **frameworks has been omitted in this project, also all connections to the external world such as DB, stream
+consumers, http are fake**.
 
-// diagram with inmemory and so on
+To move to the next step an have production code, it would be time to select technologies, which chassis framework we are
+going to use? (spring, ktor, http4k, micronaut ...) Which clients are we going to use? (http, db, queue consumers and producers)
+ Which local DB we do really need?(SQL, NoSQL).
+
+But for now our app is just a [simple main](https://github.com/albertllousas/functional-domain-driven-design/blob/main/src/main/kotlin/com/alo/loan/infrastructure/configuration/FakeApp.kt) where we wire up everything and inject all the dependencies.
+
+This is the current state of the project with its dependencies:
+
+<p align="center">
+  <img width="80%" src="doc/img/final-dependencies-overview.png">
+</p>
 
 ## Run the project
 
 ### Running the tests
+
+Run all tests:
+```bash
+./gradlew test
+```
+
+Run unit tests:
+```bash
+./gradlew unitTest
+```
+
+Run integration tests:
+```bash
+./gradlew integrationTest
+```
+
+Run component tests:
+```bash
+./gradlew componentTest
+```
+
 
 # Some resources:
 

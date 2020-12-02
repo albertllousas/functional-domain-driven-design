@@ -6,6 +6,7 @@ plugins {
     application
 }
 
+
 repositories {
     jcenter()
 }
@@ -26,10 +27,6 @@ dependencies {
     testImplementation(group = "com.github.javafaker", name = "javafaker", version = "1.0.2")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 val compileKotlin: KotlinCompile by tasks
 
 compileKotlin.kotlinOptions.freeCompilerArgs += arrayOf("-Xinline-classes")
@@ -42,5 +39,38 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "11"
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xinline-classes")
+    }
+}
+
+
+tasks.apply {
+    test {
+        enableAssertions = true
+        useJUnitPlatform {}
+    }
+
+    task<Test>("unitTest") {
+        description = "Runs unit tests."
+        useJUnitPlatform {
+            excludeTags("integration")
+            excludeTags("component")
+        }
+        shouldRunAfter(test)
+    }
+
+    task<Test>("integrationTest") {
+        description = "Runs integration tests."
+        useJUnitPlatform {
+            includeTags("integration")
+        }
+        shouldRunAfter(test)
+    }
+
+    task<Test>("componentTest") {
+        description = "Runs component tests."
+        useJUnitPlatform {
+            includeTags("component")
+        }
+        shouldRunAfter(test)
     }
 }

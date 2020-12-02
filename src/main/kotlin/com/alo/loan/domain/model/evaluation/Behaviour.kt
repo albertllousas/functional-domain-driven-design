@@ -40,7 +40,7 @@ fun LoanEvaluation.Behaviour.simpleEligibilityAssessment(
         else -> Eligible
     }
 
-val LoanEvaluation.Behaviour.evaluateAndCreateEvents: EvaluateLoanApplication by lazy {
+val LoanEvaluation.Behaviour.EVALUATE_AND_CREATE_EVENTS: EvaluateLoan by lazy {
     { loan -> LoanEvaluation.evaluate(loan).let { Pair(it, LoanEvaluation.createEvents(it)) } }
 }
 

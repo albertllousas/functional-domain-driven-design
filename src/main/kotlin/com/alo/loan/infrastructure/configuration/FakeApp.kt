@@ -1,7 +1,7 @@
 package com.alo.loan.infrastructure.configuration
 
-import com.alo.loan.application.services.EvaluateLoan
-import com.alo.loan.application.services.evaluateLoanService
+import com.alo.loan.application.services.Evaluate
+import com.alo.loan.application.services.evaluateService
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.domain.model.GetLoanRecords
@@ -14,7 +14,7 @@ import com.alo.loan.domain.model.evaluation.CreditScore
 import com.alo.loan.domain.model.evaluation.Customer
 import com.alo.loan.domain.model.evaluation.LoanEvaluation
 import com.alo.loan.domain.model.evaluation.LoanRecord
-import com.alo.loan.domain.model.evaluation.evaluateAndCreateEvents
+import com.alo.loan.domain.model.evaluation.EVALUATE_AND_CREATE_EVENTS
 import com.alo.loan.infrastructure.adapters.incoming.stream.InMemoryLoanEvaluationStreamConsumer
 import com.alo.loan.infrastructure.adapters.outgoing.client.InMemoryCreditScoreFakeHttpClient
 import com.alo.loan.infrastructure.adapters.outgoing.database.InMemoryFakeReplicatedCustomerRepository
@@ -48,16 +48,16 @@ class FakeApp(
         // wire up business, the inner hexagon
         val assessRiskService: AssessCreditRisk = AssessRiskService(findCustomer, getCreditScore)
         val assessEligibilityService: AssessEligibility = AssessEligibilityService(findCustomer, getLoanRecords)
-        val evaluateLoanService: EvaluateLoan = evaluateLoanService(
+        val evaluateService: Evaluate = evaluateService(
             assessCreditRisk = assessRiskService,
             assessEligibility = assessEligibilityService,
-            evaluateLoanApplication = LoanEvaluation.Behaviour.evaluateAndCreateEvents,
+            evaluateLoan = LoanEvaluation.Behaviour.EVALUATE_AND_CREATE_EVENTS,
             saveLoanEvaluation = inMemoryLoanEvaluationRepository.save,
             publishEvents = publishEvents
         )
         // wire up incoming infrastructure adapters
         val inMemoryLoanEvaluationStreamConsumer =
-            InMemoryLoanEvaluationStreamConsumer(evaluateLoanService, objectMapper)
+            InMemoryLoanEvaluationStreamConsumer(evaluateService, objectMapper)
 
         // subscribe streams
         inMemoryFakeEventStream.subscribe(loanApplicationStream, inMemoryLoanEvaluationStreamConsumer::reactTo)

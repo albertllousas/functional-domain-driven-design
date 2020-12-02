@@ -11,4 +11,4 @@ typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<CustomerNotFound, RiskA
 
 typealias AssessEligibility = (RiskAssessed) -> Either<CustomerNotFound, EligibilityAssessed>
 
-typealias EvaluateLoanApplication = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>
+typealias EvaluateLoan = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>

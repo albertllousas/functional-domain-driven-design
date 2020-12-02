@@ -10,7 +10,7 @@ import com.alo.loan.domain.model.evaluation.AmountToLend
 import com.alo.loan.domain.model.evaluation.AssessCreditRisk
 import com.alo.loan.domain.model.evaluation.AssessEligibility
 import com.alo.loan.domain.model.evaluation.CustomerId
-import com.alo.loan.domain.model.evaluation.EvaluateLoanApplication
+import com.alo.loan.domain.model.evaluation.EvaluateLoan
 import com.alo.loan.domain.model.evaluation.EvaluationId
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildEvaluableLoan
@@ -30,10 +30,10 @@ class EvaluateLoanServiceShould {
 
     private val assessCreditRisk = mockk<AssessCreditRisk>(relaxed = true)
     private val assessEligibility = mockk<AssessEligibility>(relaxed = true)
-    private val evaluateLoanApplication = mockk<EvaluateLoanApplication>(relaxed = true)
+    private val evaluateLoanApplication = mockk<EvaluateLoan>(relaxed = true)
     private val saveLoanEvaluationReport = mockk<SaveLoanEvaluation>(relaxed = true)
     private val publishEvents = mockk<PublishEvents>(relaxed = true)
-    private val evaluateLoan: EvaluateLoan = evaluateLoanService(
+    private val evaluate: Evaluate = evaluateService(
         assessCreditRisk,
         assessEligibility,
         evaluateLoanApplication,
@@ -58,7 +58,7 @@ class EvaluateLoanServiceShould {
         every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApproved(request.id)))
         every { publishEvents(listOf(LoanApproved(request.id))) } returns Unit
 
-        val result = evaluateLoan(request)
+        val result = evaluate(request)
 
         assertThat(result).isEqualTo(Unit.right())
         verify { saveLoanEvaluationReport(approvedLoan) }
@@ -76,7 +76,7 @@ class EvaluateLoanServiceShould {
         val customerNotFound = CustomerNotFound(unevaluatedLoan.application.customerId)
         every { assessCreditRisk(unevaluatedLoan) } returns customerNotFound.left()
 
-        val result = evaluateLoan(request)
+        val result = evaluate(request)
 
         assertThat(result).isEqualTo(customerNotFound.left())
     }

@@ -1,6 +1,6 @@
 package com.alo.loan.infrastructure.adapters.incoming.stream
 
-import com.alo.loan.application.services.EvaluateLoan
+import com.alo.loan.application.services.Evaluate
 import com.alo.loan.application.services.LoanEvaluationRequest
 import com.alo.loan.infrastructure.fake.Event
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -9,7 +9,7 @@ import java.math.BigDecimal
 import java.util.UUID
 
 class InMemoryLoanEvaluationStreamConsumer(
-    private val evaluateLoan: EvaluateLoan,
+    private val evaluate: Evaluate,
     private val objectMapper: ObjectMapper
 ) {
     // omitting all error handling since this is a fake inmemory impl for the sake of the demo
@@ -18,7 +18,7 @@ class InMemoryLoanEvaluationStreamConsumer(
             objectMapper
                 .readValue<LoanApplicationCreatedEvent>(event.eventPayload)
                 .let { LoanEvaluationRequest(it.id, it.customerId, it.amount) }
-                .also { evaluateLoan(it) }
+                .also { evaluate(it) }
         else throw Exception("Not recognized event '${event.eventType}'")
 }
 
