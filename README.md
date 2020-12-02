@@ -289,7 +289,7 @@ domains are rich, giving to the domain real data and also behaviour.
 Functional programming advocates to separate data and behaviour, having [algebraic data types](https://en.wikipedia.org/wiki/Algebraic_data_type) on one side and functions over them on the
 other.
 
-> FP clash with DDD because empowers anemic domain models.
+> FP clash with DDD because it empowers anemic domain models.
 
 **This is not true, at all.**
 
