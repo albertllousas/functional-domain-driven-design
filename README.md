@@ -358,7 +358,7 @@ typealias PublishEvents = (List<DomainEvent>) -> Unit
 
 And finally, let's chain everything to create our application service (a.k.a business workflow):
 ```kotlin
-fun evaluateLoanService(
+fun evaluateService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
     evaluateLoanApplication: EvaluateLoanApplication,
@@ -450,7 +450,7 @@ typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<CustomerNotFound, RiskA
 typealias AssessEligibility = (RiskAssessed) -> Either<CustomerNotFound, EligibilityAssessed>
 
 // Workflow implementation
-fun evaluateLoanService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
+fun evaluateService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
     request
         .loanApplication()
         .let(assessCreditRisk)

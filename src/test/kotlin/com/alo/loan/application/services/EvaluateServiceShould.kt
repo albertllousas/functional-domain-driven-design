@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 
 @Tag("component")
-class EvaluateLoanServiceShould {
+class EvaluateServiceShould {
 
     private val assessCreditRisk = mockk<AssessCreditRisk>(relaxed = true)
     private val assessEligibility = mockk<AssessEligibility>(relaxed = true)
