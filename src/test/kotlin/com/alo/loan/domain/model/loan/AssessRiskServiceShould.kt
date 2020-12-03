@@ -2,17 +2,16 @@ package com.alo.loan.domain.model.loan
 
 import arrow.core.left
 import arrow.core.right
+import com.alo.loan.domain.model.AmountToLend
+import com.alo.loan.domain.model.AssessRiskService
+import com.alo.loan.domain.model.CreditScore
+import com.alo.loan.domain.model.CustomerCreditRisk
 import com.alo.loan.domain.model.CustomerNotFound
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
-import com.alo.loan.domain.model.evaluation.AssessRiskService
-import com.alo.loan.domain.model.evaluation.CreditScore
-import com.alo.loan.domain.model.evaluation.LoanApplication
-import com.alo.loan.domain.model.evaluation.RiskReport
-import com.alo.loan.domain.model.evaluation.RiskReport.TooRisky
+import com.alo.loan.fixtures.buildCreatedLoanApplication
 import com.alo.loan.fixtures.buildCustomer
-import com.alo.loan.fixtures.buildRiskAssessedLoan
-import com.alo.loan.fixtures.buildUnevaluatedLoan
+import com.alo.loan.fixtures.buildCreditRiskAssessed
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -24,33 +23,33 @@ class AssessRiskServiceShould {
 
     private val getCreditScore = mockk<GetCreditScore>(relaxed = true)
 
-    private val riskOf = mockk<(LoanApplication, CreditScore) -> RiskReport>(relaxed = true)
+    private val riskOf = mockk<(AmountToLend, CreditScore) -> CustomerCreditRisk>(relaxed = true)
 
     private val assessRisk = AssessRiskService(findCustomer, getCreditScore, riskOf)
 
     @Test
     fun `coordinate the risk assessment of a loan with external world dependencies`() {
-        val unevaluatedLoan = buildUnevaluatedLoan()
+        val created = buildCreatedLoanApplication()
         val customer = buildCustomer()
         val creditScore = CreditScore.Poor
-        every { findCustomer(unevaluatedLoan.application.customerId) } returns customer
+        every { findCustomer(created.application.customerId) } returns customer
         every { getCreditScore(customer) } returns creditScore
-        every { riskOf(unevaluatedLoan.application, creditScore) } returns TooRisky
+        every { riskOf(created.application.amountToLend, creditScore) } returns CustomerCreditRisk.TooRisky
 
-        val result = assessRisk(unevaluatedLoan)
+        val result = assessRisk(created)
 
         assertThat(result).isEqualTo(
-            buildRiskAssessedLoan(
-                id = unevaluatedLoan.id,
-                application = unevaluatedLoan.application,
-                riskReport = TooRisky
+            buildCreditRiskAssessed(
+                id = created.id,
+                application = created.application,
+                customerCreditRisk = CustomerCreditRisk.TooRisky
             ).right()
         )
     }
 
     @Test
     fun `fail coordinating the risk assessment of a loan when customer is not found`() {
-        val unevaluatedLoan = buildUnevaluatedLoan()
+        val unevaluatedLoan = buildCreatedLoanApplication()
         every { findCustomer(unevaluatedLoan.application.customerId) } returns null
 
         val result = assessRisk(unevaluatedLoan)

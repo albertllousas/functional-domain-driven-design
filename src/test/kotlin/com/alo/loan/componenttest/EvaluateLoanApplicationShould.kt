@@ -1,7 +1,7 @@
 package com.alo.loan.componenttest
 
+import com.alo.loan.domain.model.CreditScore
 import com.alo.loan.domain.model.LoanApproved
-import com.alo.loan.domain.model.evaluation.CreditScore
 import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.infrastructure.adapters.incoming.stream.LoanApplicationCreatedEvent
 import com.alo.loan.infrastructure.configuration.FakeApp
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 
-class EvaluateLoanShould {
+class EvaluateLoanApplicationShould {
 
     private val optimalAge = 30
     private val enoughAnnualIncomes = 25_000.toBigDecimal()

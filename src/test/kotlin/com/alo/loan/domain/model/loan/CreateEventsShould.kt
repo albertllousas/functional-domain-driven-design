@@ -1,10 +1,10 @@
 package com.alo.loan.domain.model.loan
 
+import com.alo.loan.domain.model.LoanApplication
 import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.LoanHeldForFurtherVerification
 import com.alo.loan.domain.model.LoanRejected
-import com.alo.loan.domain.model.evaluation.LoanEvaluation
-import com.alo.loan.domain.model.evaluation.createEvents
+import com.alo.loan.domain.model.createEvents
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildFurtherVerificationNeededLoan
 import com.alo.loan.fixtures.buildRejectedLoan
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 
 class CreateEventsShould {
 
-    private val createEvents = LoanEvaluation.Behaviour::createEvents
+    private val createEvents = LoanApplication.Companion::createEvents
 
     @Test
     fun `create an approved loan event when loan evaluation is approved`() {
@@ -25,7 +25,7 @@ class CreateEventsShould {
     fun `create a rejected loan event when loan evaluation is approved`() {
         val rejectedLoan = buildRejectedLoan()
         assertThat(createEvents(rejectedLoan))
-            .isEqualTo(listOf(LoanRejected(rejectedLoan.id.value, rejectedLoan.reasons)))
+            .isEqualTo(listOf(LoanRejected(rejectedLoan.id.value)))
     }
 
     @Test

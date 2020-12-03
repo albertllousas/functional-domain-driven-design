@@ -6,7 +6,6 @@ plugins {
     application
 }
 
-
 repositories {
     jcenter()
 }
@@ -41,7 +40,6 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xinline-classes")
     }
 }
-
 
 tasks.apply {
     test {

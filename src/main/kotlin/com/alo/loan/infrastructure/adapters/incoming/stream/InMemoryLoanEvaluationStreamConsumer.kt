@@ -1,7 +1,7 @@
 package com.alo.loan.infrastructure.adapters.incoming.stream
 
 import com.alo.loan.application.services.Evaluate
-import com.alo.loan.application.services.LoanEvaluationRequest
+import com.alo.loan.application.services.LoanApplicationEvaluationRequest
 import com.alo.loan.infrastructure.fake.Event
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -17,7 +17,7 @@ class InMemoryLoanEvaluationStreamConsumer(
         if (event.eventType == "LoanApplicationCreatedEvent")
             objectMapper
                 .readValue<LoanApplicationCreatedEvent>(event.eventPayload)
-                .let { LoanEvaluationRequest(it.id, it.customerId, it.amount) }
+                .let { LoanApplicationEvaluationRequest(it.id, it.customerId, it.amount) }
                 .also { evaluate(it) }
         else throw Exception("Not recognized event '${event.eventType}'")
 }

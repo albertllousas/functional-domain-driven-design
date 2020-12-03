@@ -1,73 +1,73 @@
 package com.alo.loan.fixtures
 
-import com.alo.loan.domain.model.evaluation.AmountToLend
-import com.alo.loan.domain.model.evaluation.Approved
-import com.alo.loan.domain.model.evaluation.CustomerId
-import com.alo.loan.domain.model.evaluation.EligibilityAssessed
-import com.alo.loan.domain.model.evaluation.EligibilityReport
-import com.alo.loan.domain.model.evaluation.EligibilityReport.Eligible
-import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.AlreadyInDebt
-import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.InvalidAge
-import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NonPayer
-import com.alo.loan.domain.model.evaluation.EligibilityReport.NotEligible.NotEnoughAnnualIncomes
-import com.alo.loan.domain.model.evaluation.EvaluationId
-import com.alo.loan.domain.model.evaluation.FurtherVerificationNeeded
-import com.alo.loan.domain.model.evaluation.LoanApplication
-import com.alo.loan.domain.model.evaluation.Rejected
-import com.alo.loan.domain.model.evaluation.RiskAssessed
-import com.alo.loan.domain.model.evaluation.RiskReport
-import com.alo.loan.domain.model.evaluation.RiskReport.Low
-import com.alo.loan.domain.model.evaluation.RiskReport.ManualRiskAssessmentRequired
-import com.alo.loan.domain.model.evaluation.RiskReport.TooRisky
-import com.alo.loan.domain.model.evaluation.UnevaluatedLoan
+import com.alo.loan.domain.model.AmountToLend
+import com.alo.loan.domain.model.Application
+import com.alo.loan.domain.model.CustomerCreditRisk
+import com.alo.loan.domain.model.CustomerCreditRisk.Low
+import com.alo.loan.domain.model.CustomerCreditRisk.ManualRiskAssessmentRequired
+import com.alo.loan.domain.model.CustomerCreditRisk.TooRisky
+import com.alo.loan.domain.model.CustomerEligibility
+import com.alo.loan.domain.model.CustomerEligibility.Eligible
+import com.alo.loan.domain.model.CustomerEligibility.NotEligible.AlreadyInDebt
+import com.alo.loan.domain.model.CustomerEligibility.NotEligible.InvalidAge
+import com.alo.loan.domain.model.CustomerEligibility.NotEligible.NonPayer
+import com.alo.loan.domain.model.CustomerEligibility.NotEligible.NotEnoughAnnualIncomes
+import com.alo.loan.domain.model.CustomerId
+import com.alo.loan.domain.model.Evaluation.Approved
+import com.alo.loan.domain.model.Evaluation.FurtherVerificationNeeded
+import com.alo.loan.domain.model.Evaluation.Rejected
+import com.alo.loan.domain.model.LoanApplication.Created
+import com.alo.loan.domain.model.LoanApplication.CreditRiskAssessed
+import com.alo.loan.domain.model.LoanApplication.EligibilityAssessed
+import com.alo.loan.domain.model.LoanApplication.Evaluated
+import com.alo.loan.domain.model.LoanApplicationId
 import com.github.javafaker.Faker
 import java.util.UUID
 
 private val faker = Faker()
 
-private fun Faker.eligibilityReport() = faker.options().option(Eligible, NonPayer, AlreadyInDebt, NotEnoughAnnualIncomes, InvalidAge)
+private fun eligibility() = faker.options().option(Eligible, NonPayer, AlreadyInDebt, NotEnoughAnnualIncomes, InvalidAge)
 
-fun buildLoanApplication(
+fun buildApplication(
     customerId: CustomerId = CustomerId(UUID.randomUUID()),
     amountToLend: AmountToLend = AmountToLend(faker.number().randomDigit().toBigDecimal())
-) = LoanApplication(customerId, amountToLend)
+) = Application(customerId, amountToLend)
 
-fun buildUnevaluatedLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication()
-) = UnevaluatedLoan(id, application)
+fun buildCreatedLoanApplication(
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication()
+) = Created(id, application)
 
-fun buildRiskAssessedLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication(),
-    riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired)
-) = RiskAssessed(id, application, riskReport)
+fun buildCreditRiskAssessed(
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication(),
+    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired)
+) = CreditRiskAssessed(id, application, customerCreditRisk)
 
-fun buildEvaluableLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication(),
-    riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
-    eligibilityReport: EligibilityReport = faker.eligibilityReport()
-) = EligibilityAssessed(id, application, riskReport, eligibilityReport)
+fun buildEligibilityAssessed(
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication(),
+    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    customerEligibility: CustomerEligibility = eligibility()
+) = EligibilityAssessed(id, application, customerCreditRisk, customerEligibility)
 
 fun buildRejectedLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication(),
-    riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
-    eligibilityReport: EligibilityReport = faker.eligibilityReport(),
-    reasons: List<String> = listOf(faker.lorem().sentence())
-) = Rejected(id, application, riskReport, eligibilityReport, reasons)
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication(),
+    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    customerEligibility: CustomerEligibility = eligibility()
+) = Evaluated(id, application, customerCreditRisk, customerEligibility, Rejected)
 
 fun buildFurtherVerificationNeededLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication(),
-    riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
-    eligibilityReport: EligibilityReport = faker.eligibilityReport()
-) = FurtherVerificationNeeded(id, application, riskReport, eligibilityReport)
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication(),
+    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    customerEligibility: CustomerEligibility = eligibility()
+) = Evaluated(id, application, customerCreditRisk, customerEligibility, FurtherVerificationNeeded)
 
 fun buildApprovedLoan(
-    id: EvaluationId = EvaluationId(UUID.randomUUID()),
-    application: LoanApplication = buildLoanApplication(),
-    riskReport: RiskReport = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
-    eligibilityReport: EligibilityReport = faker.eligibilityReport()
-) = Approved(id, application, riskReport, eligibilityReport)
+    id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
+    application: Application = buildApplication(),
+    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    customerEligibility: CustomerEligibility = eligibility()
+) = Evaluated(id, application, customerCreditRisk, customerEligibility, Approved)

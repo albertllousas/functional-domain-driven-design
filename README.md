@@ -177,7 +177,7 @@ implementation, again, developers and business experts together.
 
 This exercise will give us an idea about the business workflows in terms of:
 
-- Aggregates: In our case, only one, `Loan Evaluation`, it will be reflected in the code.
+- Aggregates: In our case, only one, `Loan Application` and `Customer`, it will be reflected in the code.
 - Domain Events: **Things that happened in the domain that are relevant for the business, it does not mean that they will
 be events in our implementation, they could be events or just states in our model**. Some of them will be published
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
@@ -350,21 +350,15 @@ Having said that, imagine that we already started to implement our solution and 
 The place to implement the **workflow** is the where the use-cases of the application will be placed, in DDD
  nomenclature, the **application services**, the orchestrators of our business.
 
-Keeping in mind our previous workflow:
-
-<p align="center">
-  <img width="70%" src="doc/img/whole-workflow.png">
-</p>
-
 First of all, let's be type driven and define the functionality that we are going to expose to the world:
 
 Our API (business workflow):
 ```kotlin
-typealias Evaluate = (LoanEvaluationRequest) -> Unit
-data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
+typealias Evaluate = (LoanApplicationEvaluationRequest) -> Unit
+data class LoanApplicationEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
-The type is self-explanatory, we want to evaluate a loan given a loan request, the result, just side-effects, we decided to represent
+The type is self-explanatory, we want to evaluate an application loan given a request, the result, just side-effects, we decided to represent
 it as `Unit`, but there are other ways todo it; in our business, we don't know about the loan application created event
 coming from other context, it will be handled in the business client, the stream consumer adapter.
 
@@ -375,10 +369,11 @@ Taking a look on our [previous workflows](https://github.com/albertllousas/funct
 </p>
 
 Let's implement the workflow, again, let's be declarative, we already know our pipeline steps:
+
 ```kotlin
-typealias AssessCreditRisk = (UnevaluatedLoan) -> RiskAssessed
-typealias AssessEligibility = (RiskAssessed) -> EligibilityAssessed
-typealias EvaluateLoan = (EligibilityAssessed) -> Pair<EvaluatedLoan, List<DomainEvent>>
+typealias AssessCreditRisk = (LoanApplication.Created) -> LoanApplication.CreditRiskAssessed
+typealias AssessEligibility = (LoanApplication.CreditRiskAssessed) -> LoanApplication.EligibilityAssessed
+typealias EvaluateLoanApplication = (LoanApplication.EligibilityAssessed) -> Pair<LoanApplication.Evaluated, List<DomainEvent>>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
@@ -388,8 +383,7 @@ fun evaluateService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
     evaluateLoanApplication: EvaluateLoanApplication,
-    saveLoanEvaluation: SaveLoanEvaluation,
-    createEvents: CreateEvents,
+    saveLoanApplication: SaveLoanApplication,
     publishEvents: PublishEvents
 ): Evaluate = { request ->
     request
@@ -398,18 +392,15 @@ fun evaluateService(
         .let(assessEligibility)
         .let(evaluateLoan)
         .also { (loan, events) ->
-             saveLoanEvaluation(loan)
+             saveLoanApplication(loan)
              publishEvents(events)
         }
 }
 ```
-**Side notes**:
-    - We could use a class that implements the type if you prefer, it does not matter
-    - We could try to currify all the dependencies, but kotlin does not help.
 
 > Shall we include external dependencies in this stage?
 
-Well it depends, matter of taste, in my case I  prefer to go one step further and be dependency agnostic in the workflows
+Well it depends, matter of taste, in my case I prefer to go one step further and be dependency agnostic in the workflows
 as well, remember about being type-driven, how things are done is not really so important, we want to be declarative,
 focusing on what we want to do.
 
@@ -469,11 +460,11 @@ sealed class Error
 data class CustomerNotFound(val customerId: CustomerId) : Error()
 
 // The workflow definition
-typealias Evaluate = (LoanEvaluationRequest) -> Either<Error, Unit>
+typealias Evaluate = (LoanApplicationEvaluationRequest) -> Either<Error, Unit>
 
 // Workflow steps
-typealias AssessCreditRisk = (UnevaluatedLoan) -> Either<CustomerNotFound, RiskAssessed>
-typealias AssessEligibility = (RiskAssessed) -> Either<CustomerNotFound, EligibilityAssessed>
+typealias AssessCreditRisk = (LoanApplication.Created) -> Either<CustomerNotFound, LoanApplication.CreditRiskAssessed>
+typealias AssessEligibility = (LoanApplication.CreditRiskAssessed) -> Either<CustomerNotFound, LoanApplication.EligibilityAssessed>
 
 // Workflow implementation
 fun evaluateService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
@@ -481,9 +472,9 @@ fun evaluateService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
         .loanApplication()
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
-        .map(evaluateLoan)
+        .map(evaluateLoanApplication)
         .map { (loan, events) ->
-            saveLoanEvaluation(loan)
+            saveLoanApplication(loan)
             publishEvents(events)
         }
 }
