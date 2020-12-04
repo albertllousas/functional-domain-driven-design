@@ -11,4 +11,3 @@ data class LoanApplicationApproved(val evaluationId: UUID) : DomainEvent()
 sealed class Error
 
 data class CustomerNotFound(val customerId: CustomerId) : Error()
-

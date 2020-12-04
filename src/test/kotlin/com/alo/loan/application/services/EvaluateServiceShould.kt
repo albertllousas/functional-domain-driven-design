@@ -1,6 +1,5 @@
 package com.alo.loan.application.services
 
-import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.alo.loan.domain.model.AmountToLend
@@ -9,25 +8,22 @@ import com.alo.loan.domain.model.AssessEligibility
 import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.CustomerNotFound
 import com.alo.loan.domain.model.EvaluateLoanApplication
-import com.alo.loan.domain.model.LoanApplication
-import com.alo.loan.domain.model.LoanApplicationId
 import com.alo.loan.domain.model.LoanApplicationApproved
+import com.alo.loan.domain.model.LoanApplicationId
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoanApplication
 import com.alo.loan.fixtures.buildApplication
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildCreatedLoanApplication
-import com.alo.loan.fixtures.buildEligibilityAssessed
 import com.alo.loan.fixtures.buildCreditRiskAssessed
+import com.alo.loan.fixtures.buildEligibilityAssessed
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 
-@Tag("component")
 class EvaluateServiceShould {
 
     private val assessCreditRisk = mockk<AssessCreditRisk>(relaxed = true)
@@ -55,8 +51,7 @@ class EvaluateServiceShould {
         val riskAssessedLoan = buildCreditRiskAssessed()
         val evaluableLoan = buildEligibilityAssessed()
         val approvedLoan = buildApprovedLoan()
-        val right: Either<CustomerNotFound, LoanApplication.CreditRiskAssessed> = riskAssessedLoan.right()
-        every { assessCreditRisk(created) } returns right
+        every { assessCreditRisk(created) } returns riskAssessedLoan.right()
         every { assessEligibility(riskAssessedLoan) } returns evaluableLoan.right()
         every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApplicationApproved(request.id)))
         every { publishEvents(listOf(LoanApplicationApproved(request.id))) } returns Unit

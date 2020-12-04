@@ -10,8 +10,8 @@ import com.alo.loan.domain.model.CustomerNotFound
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.fixtures.buildCreatedLoanApplication
-import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.fixtures.buildCreditRiskAssessed
+import com.alo.loan.fixtures.buildCustomer
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat

@@ -8,9 +8,11 @@ import com.alo.loan.infrastructure.configuration.FakeApp
 import com.alo.loan.infrastructure.fake.Event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 
+@Tag("component")
 class EvaluateLoanApplicationShould {
 
     private val optimalAge = 30
@@ -46,7 +48,7 @@ class EvaluateLoanApplicationShould {
         assertThat(testConsumer.receivedEvents).isEqualTo(
             listOf(
                 Event(
-                    "LoanApproved",
+                    "LoanApplicationApproved",
                     fakeApp.objectMapper.writeValueAsBytes(LoanApplicationApproved(applicationCreatedEvent.id))
                 )
             )

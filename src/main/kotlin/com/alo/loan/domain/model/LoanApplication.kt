@@ -13,9 +13,9 @@ import com.alo.loan.domain.model.LoanApplication.Evaluated
 // Aggregate
 
 sealed class LoanApplication {
-    companion object
+    companion object {}
 
-    class Created(
+    data class Created(
         val id: LoanApplicationId,
         val application: Application
     ) : LoanApplication()

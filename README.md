@@ -82,6 +82,9 @@ last **payslips** and request for a personal loan with a **very low interests!**
   <img width="70%" src="doc/img/give-me-the-loan.png">
 </p>
 
+**DISCLAIMER:** This just a domain to play with, I am not an expert, maybe some of the assumptions, terms or processes
+are wrong from a real business expert. I apologise in advance.
+
 
 ### Discovering the domain
 
@@ -177,7 +180,8 @@ implementation, again, developers and business experts together.
 
 This exercise will give us an idea about the business workflows in terms of:
 
-- Aggregates: In our case, only one, `Loan Application` and `Customer`, it will be reflected in the code.
+- Aggregates: In our case, `Loan Application` and `Customer`, it will be reflected in the code. This aggregates could be
+also entities at code level.
 - Domain Events: **Things that happened in the domain that are relevant for the business, it does not mean that they will
 be events in our implementation, they could be events or just states in our model**. Some of them will be published
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
