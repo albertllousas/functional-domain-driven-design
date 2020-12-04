@@ -381,6 +381,7 @@ Let's implement the workflow, again, let's be declarative, we already know our p
 typealias AssessCreditRisk = (Loan.Created) -> Loan.CreditRiskAssessed
 typealias AssessEligibility = (Loan.CreditRiskAssessed) -> Loan.EligibilityAssessed
 typealias EvaluateLoan = (Loan.EligibilityAssessed) -> Pair<Loan.Evaluated, List<DomainEvent>>
+typealias SaveLoan = (Loan.Evaluated) -> Unit
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
