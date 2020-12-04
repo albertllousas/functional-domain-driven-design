@@ -33,8 +33,8 @@ breaking down the problem in a top down approach.
 As a developer, I've been working almost all my career in JS and java, imperative OOP and layered architectures,
 through different companies and variety of domains.
 
-Some years ago a decided to open my mind, I learned functional programming with Scala, at least I tried, my head almost exploded.
-I also tried different programming languages, such as ruby, elixir, typescript or even ocaml, till finally in I fell in love
+Some years ago I decided to open my mind, I learned functional programming with Scala, at least I tried, my head almost exploded.
+I also tried different programming languages, such as ruby, elixir, typescript or even ocaml, till finally I fell in love
 with kotlin .
 
 One day I realised that I didn't know what the S of Solid really meant, so it led me to understand dependency-inversion and
@@ -57,7 +57,7 @@ Let's put everything together:
 
 Wow, a lot of fuzzy words, right?
 
-Now, I still feel that I know nothing, I had to review concepts time to time, but in this project I will try apply DDD,
+Now, I still feel that I know nothing, I had to review concepts time to time, but in this project I will to try apply DDD,
 FP, hexagonal, microservices and kotlin in a real complex scenario in order to see how powerful they are.
 
 
@@ -102,7 +102,7 @@ a workshop-based method where we only need a big space, a wide wall, a lot of st
 I am not an expert of running this kind of workshop, and the goal of this post is not to explain it; but in a nutshell,
 an [event-storming](https://en.wikipedia.org/wiki/Event_storming) is a collaborative and visual tool that can be used for
 several purposes, one of them is to discover and decompose a domain into subdomains through domain events, which will
-discovered and clustered by development teams and domain experts together (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
+be discovered and clustered by development teams and domain experts together (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
 
 Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and we got the subdomains
 as a result:
@@ -124,7 +124,7 @@ Sub-domains summary:
 - Negotiation & Billing: All the loan management after a decision has been made, including negotiation, contracting, billing ...
 
 During these sessions we also spotted that a Loan have different meanings depending on the subdomain, we are discovering
-the **ubiquitous language**, another DDD concept.
+the [**ubiquitous language**](https://martinfowler.com/bliki/UbiquitousLanguage.html), another DDD concept.
 
 ## The solution
 
