@@ -67,7 +67,7 @@ fun LoanApplication.Companion.evaluate(loan: EligibilityAssessed): Evaluated =
 
 fun LoanApplication.Companion.createEvents(evaluated: Evaluated): List<DomainEvent> =
     when (evaluated.evaluation) {
-        Rejected -> listOf(LoanRejected(evaluated.id.value))
-        FurtherVerificationNeeded -> listOf(LoanHeldForFurtherVerification(evaluated.id.value))
-        Approved -> listOf(LoanApproved(evaluated.id.value))
+        Rejected -> listOf(LoanApplicationRejected(evaluated.id.value))
+        FurtherVerificationNeeded -> listOf(LoanApplicationHeldForFurtherVerification(evaluated.id.value))
+        Approved -> listOf(LoanApplicationApproved(evaluated.id.value))
     }

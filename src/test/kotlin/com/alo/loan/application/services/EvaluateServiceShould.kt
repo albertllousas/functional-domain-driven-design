@@ -11,7 +11,7 @@ import com.alo.loan.domain.model.CustomerNotFound
 import com.alo.loan.domain.model.EvaluateLoanApplication
 import com.alo.loan.domain.model.LoanApplication
 import com.alo.loan.domain.model.LoanApplicationId
-import com.alo.loan.domain.model.LoanApproved
+import com.alo.loan.domain.model.LoanApplicationApproved
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoanApplication
 import com.alo.loan.fixtures.buildApplication
@@ -58,8 +58,8 @@ class EvaluateServiceShould {
         val right: Either<CustomerNotFound, LoanApplication.CreditRiskAssessed> = riskAssessedLoan.right()
         every { assessCreditRisk(created) } returns right
         every { assessEligibility(riskAssessedLoan) } returns evaluableLoan.right()
-        every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApproved(request.id)))
-        every { publishEvents(listOf(LoanApproved(request.id))) } returns Unit
+        every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApplicationApproved(request.id)))
+        every { publishEvents(listOf(LoanApplicationApproved(request.id))) } returns Unit
 
         val result = evaluate(request)
 
