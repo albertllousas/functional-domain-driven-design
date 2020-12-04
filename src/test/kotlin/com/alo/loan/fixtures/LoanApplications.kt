@@ -2,10 +2,10 @@ package com.alo.loan.fixtures
 
 import com.alo.loan.domain.model.AmountToLend
 import com.alo.loan.domain.model.Application
-import com.alo.loan.domain.model.CustomerCreditRisk
-import com.alo.loan.domain.model.CustomerCreditRisk.Low
-import com.alo.loan.domain.model.CustomerCreditRisk.ManualRiskAssessmentRequired
-import com.alo.loan.domain.model.CustomerCreditRisk.TooRisky
+import com.alo.loan.domain.model.CreditRisk
+import com.alo.loan.domain.model.CreditRisk.Low
+import com.alo.loan.domain.model.CreditRisk.ManualRiskAssessmentRequired
+import com.alo.loan.domain.model.CreditRisk.TooRisky
 import com.alo.loan.domain.model.CustomerEligibility
 import com.alo.loan.domain.model.CustomerEligibility.Eligible
 import com.alo.loan.domain.model.CustomerEligibility.NotEligible.AlreadyInDebt
@@ -16,10 +16,10 @@ import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.Evaluation.Approved
 import com.alo.loan.domain.model.Evaluation.FurtherVerificationNeeded
 import com.alo.loan.domain.model.Evaluation.Rejected
-import com.alo.loan.domain.model.LoanApplication.Created
-import com.alo.loan.domain.model.LoanApplication.CreditRiskAssessed
-import com.alo.loan.domain.model.LoanApplication.EligibilityAssessed
-import com.alo.loan.domain.model.LoanApplication.Evaluated
+import com.alo.loan.domain.model.Loan.Created
+import com.alo.loan.domain.model.Loan.CreditRiskAssessed
+import com.alo.loan.domain.model.Loan.CustomerEligibilityAssessed
+import com.alo.loan.domain.model.Loan.Evaluated
 import com.alo.loan.domain.model.LoanApplicationId
 import com.github.javafaker.Faker
 import java.util.UUID
@@ -41,33 +41,33 @@ fun buildCreatedLoanApplication(
 fun buildCreditRiskAssessed(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication(),
-    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired)
-) = CreditRiskAssessed(id, application, customerCreditRisk)
+    creditRisk: CreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired)
+) = CreditRiskAssessed(id, application, creditRisk)
 
 fun buildEligibilityAssessed(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication(),
-    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    creditRisk: CreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
     customerEligibility: CustomerEligibility = eligibility()
-) = EligibilityAssessed(id, application, customerCreditRisk, customerEligibility)
+) = CustomerEligibilityAssessed(id, application, creditRisk, customerEligibility)
 
 fun buildRejectedLoan(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication(),
-    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    creditRisk: CreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
     customerEligibility: CustomerEligibility = eligibility()
-) = Evaluated(id, application, customerCreditRisk, customerEligibility, Rejected)
+) = Evaluated(id, application, creditRisk, customerEligibility, Rejected)
 
 fun buildFurtherVerificationNeededLoan(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication(),
-    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    creditRisk: CreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
     customerEligibility: CustomerEligibility = eligibility()
-) = Evaluated(id, application, customerCreditRisk, customerEligibility, FurtherVerificationNeeded)
+) = Evaluated(id, application, creditRisk, customerEligibility, FurtherVerificationNeeded)
 
 fun buildApprovedLoan(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication(),
-    customerCreditRisk: CustomerCreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
+    creditRisk: CreditRisk = faker.options().option(Low, TooRisky, ManualRiskAssessmentRequired),
     customerEligibility: CustomerEligibility = eligibility()
-) = Evaluated(id, application, customerCreditRisk, customerEligibility, Approved)
+) = Evaluated(id, application, creditRisk, customerEligibility, Approved)

@@ -7,11 +7,11 @@ import com.alo.loan.domain.model.AssessCreditRisk
 import com.alo.loan.domain.model.AssessEligibility
 import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.CustomerNotFound
-import com.alo.loan.domain.model.EvaluateLoanApplication
+import com.alo.loan.domain.model.EvaluateLoan
 import com.alo.loan.domain.model.LoanApplicationApproved
 import com.alo.loan.domain.model.LoanApplicationId
 import com.alo.loan.domain.model.PublishEvents
-import com.alo.loan.domain.model.SaveLoanApplication
+import com.alo.loan.domain.model.SaveLoan
 import com.alo.loan.fixtures.buildApplication
 import com.alo.loan.fixtures.buildApprovedLoan
 import com.alo.loan.fixtures.buildCreatedLoanApplication
@@ -28,8 +28,8 @@ class EvaluateServiceShould {
 
     private val assessCreditRisk = mockk<AssessCreditRisk>(relaxed = true)
     private val assessEligibility = mockk<AssessEligibility>(relaxed = true)
-    private val evaluateLoanApplication = mockk<EvaluateLoanApplication>(relaxed = true)
-    private val saveLoanEvaluationReport = mockk<SaveLoanApplication>(relaxed = true)
+    private val evaluateLoanApplication = mockk<EvaluateLoan>(relaxed = true)
+    private val saveLoanEvaluationReport = mockk<SaveLoan>(relaxed = true)
     private val publishEvents = mockk<PublishEvents>(relaxed = true)
     private val evaluate: Evaluate = evaluateService(
         assessCreditRisk,
@@ -41,7 +41,7 @@ class EvaluateServiceShould {
 
     @Test
     fun `evaluate a loan`() {
-        val request = LoanApplicationEvaluationRequest(
+        val request = LoanEvaluationRequest(
             id = randomUUID(),
             customerId = randomUUID(),
             amount = 15000.toBigDecimal()
@@ -64,7 +64,7 @@ class EvaluateServiceShould {
 
     @Test
     fun `fail evaluating a loan when any of the steps fail`() {
-        val request = LoanApplicationEvaluationRequest(
+        val request = LoanEvaluationRequest(
             id = randomUUID(),
             customerId = randomUUID(),
             amount = 15000.toBigDecimal()

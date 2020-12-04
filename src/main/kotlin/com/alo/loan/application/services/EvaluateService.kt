@@ -6,30 +6,30 @@ import com.alo.loan.domain.model.Application
 import com.alo.loan.domain.model.AssessCreditRisk
 import com.alo.loan.domain.model.AssessEligibility
 import com.alo.loan.domain.model.CustomerId
-import com.alo.loan.domain.model.EvaluateLoanApplication
-import com.alo.loan.domain.model.LoanApplication
+import com.alo.loan.domain.model.EvaluateLoan
+import com.alo.loan.domain.model.Loan
 import com.alo.loan.domain.model.LoanApplicationId
 import com.alo.loan.domain.model.PublishEvents
-import com.alo.loan.domain.model.SaveLoanApplication
+import com.alo.loan.domain.model.SaveLoan
 
 // If you prefer you can create a class that implements the contract, it does not matter both are functions
 fun evaluateService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
-    evaluateLoanApplication: EvaluateLoanApplication,
-    saveLoanApplication: SaveLoanApplication,
+    evaluateLoan: EvaluateLoan,
+    saveLoan: SaveLoan,
     publishEvents: PublishEvents
 ): Evaluate = { request ->
     request
-        .loanApplication()
+        .loan()
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
-        .map(evaluateLoanApplication)
+        .map(evaluateLoan)
         .map { (loan, events) ->
-            saveLoanApplication(loan)
+            saveLoan(loan)
             publishEvents(events)
         }
 }
 
-private fun LoanApplicationEvaluationRequest.loanApplication() =
-    LoanApplication.Created(LoanApplicationId(id), Application(CustomerId(customerId), AmountToLend(amount)))
+private fun LoanEvaluationRequest.loan() =
+    Loan.Created(LoanApplicationId(id), Application(CustomerId(customerId), AmountToLend(amount)))

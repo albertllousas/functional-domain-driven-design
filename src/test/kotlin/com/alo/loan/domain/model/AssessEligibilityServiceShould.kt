@@ -1,14 +1,7 @@
-package com.alo.loan.domain.model.loan
+package com.alo.loan.domain.model
 
 import arrow.core.left
 import arrow.core.right
-import com.alo.loan.domain.model.AssessEligibilityService
-import com.alo.loan.domain.model.Customer
-import com.alo.loan.domain.model.CustomerEligibility
-import com.alo.loan.domain.model.CustomerNotFound
-import com.alo.loan.domain.model.FindCustomer
-import com.alo.loan.domain.model.GetLoanRecords
-import com.alo.loan.domain.model.LoanRecord
 import com.alo.loan.fixtures.buildCreditRiskAssessed
 import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.fixtures.buildEligibilityAssessed
@@ -41,7 +34,7 @@ class AssessEligibilityServiceShould {
             buildEligibilityAssessed(
                 id = riskAssessed.id,
                 application = riskAssessed.application,
-                customerCreditRisk = riskAssessed.customerCreditRisk,
+                creditRisk = riskAssessed.creditRisk,
                 customerEligibility = CustomerEligibility.Eligible
             ).right()
         )

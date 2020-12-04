@@ -72,17 +72,17 @@ interested, or you already master all the DDD concepts.
 ### The domain - Give me the loan!
 
 In DDD terminology, the domain is the group of business problems we are trying to solve usually associated with one activity,
-or more simple, what do we want to solve? In our case our imaginary activity is an online company that gives **Fast Personal Loans**
+or more simple, what do we want to solve? In our case, we will work on an online company that gives **Fast Personal Loans**
 called **Give me the loan!**.
 
 The idea is pretty simple, you download the mobile app, create an account, take one **photo** of your **ID** and some of your
-last **payslips** and request for a personal loan with a **very low interests!**.
+last **payslips**, and then, request for a personal loan with **very low interests!**.
 
 <p align="center">
   <img width="70%" src="doc/img/give-me-the-loan.png">
 </p>
 
-**DISCLAIMER:** This just a domain to play with, I am not an expert, maybe some of the assumptions, terms or processes
+**DISCLAIMER:** This is just a domain to play with, I am not an expert, maybe some of the assumptions, terms or processes
 are wrong from a real business expert. I apologise in advance.
 
 
@@ -104,14 +104,14 @@ an [event-storming](https://en.wikipedia.org/wiki/Event_storming) is a collabora
 several purposes, one of them is to discover and decompose a domain into subdomains through domain events, which will
 discovered and clustered by development teams and domain experts together (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
 
-Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and here the subdomains
+Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and we got the subdomains
 as a result:
 
 <p align="center">
   <img width="70%" src="doc/img/sub-domains.png">
 </p>
 
-As you can see we also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
+As you can see we have also identified the different [types](https://thedomaindrivendesign.io/domains-and-subdomains/) of subdomains,
 the **core** ones, the parts of the domain which have the greatest potential for business impact, supporting subdomains,
 without them our Domain cannot be successful, and generic subdomains, the ones that could be even outsourced.
 
@@ -180,7 +180,7 @@ implementation, again, developers and business experts together.
 
 This exercise will give us an idea about the business workflows in terms of:
 
-- Aggregates: In our case, `Loan Application` and `Customer`, it will be reflected in the code. These aggregates could be
+- Aggregates: In our case, `Loan` and `Customer`, it will be reflected in the code. These aggregates could be
 aggregate roots, aggregates or  entities at code level.
 - Domain Events: **Things that happened in the domain that are relevant for the business, it does not mean that they will
 be events in our implementation, they could be events or just states in our model**. Some of them will be published
@@ -189,8 +189,8 @@ to other domains, applications or third party services. We'll see later how they
 - More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
 - Dependencies: Other systems that our BC depends on
 - Policies:
-    - `Credit Risk Policy`: Whenever a loan is created we need to check the credit risk, this check uses the credit scoring
-        and the amount to lend to determine how risky is to give money to this customer.
+    - `Credit Risk Policy`: Whenever a loan is created we need to check the credit risk, this check uses the credit score
+        and the amount to lend to determine how risky is this loan.
     - `Customer Elibibility policy`: Whenever a loan is created we need to check the eligibility, this check uses the customer
         personal information, such as previous loans, age or incomes to see whether we would be in a position to offer them a
         credit based on your their circumstances.
@@ -361,8 +361,8 @@ First of all, let's be type driven and define the functionality that we are goin
 
 Our API (business workflow):
 ```kotlin
-typealias Evaluate = (LoanApplicationEvaluationRequest) -> Unit
-data class LoanApplicationEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
+typealias Evaluate = (LoanEvaluationRequest) -> Unit
+data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
 ```
 
 The type is self-explanatory, we want to evaluate an application loan given a request, the result, just side-effects, we decided to represent
@@ -378,9 +378,9 @@ Taking a look on our [previous workflows](https://github.com/albertllousas/funct
 Let's implement the workflow, again, let's be declarative, we already know our pipeline steps:
 
 ```kotlin
-typealias AssessCreditRisk = (LoanApplication.Created) -> LoanApplication.CreditRiskAssessed
-typealias AssessEligibility = (LoanApplication.CreditRiskAssessed) -> LoanApplication.EligibilityAssessed
-typealias EvaluateLoanApplication = (LoanApplication.EligibilityAssessed) -> Pair<LoanApplication.Evaluated, List<DomainEvent>>
+typealias AssessCreditRisk = (Loan.Created) -> Loan.CreditRiskAssessed
+typealias AssessEligibility = (Loan.CreditRiskAssessed) -> Loan.EligibilityAssessed
+typealias EvaluateLoan = (Loan.EligibilityAssessed) -> Pair<Loan.Evaluated, List<DomainEvent>>
 typealias PublishEvents = (List<DomainEvent>) -> Unit
 ```
 
@@ -389,17 +389,17 @@ And finally, let's chain everything to create our application service (a.k.a bus
 fun evaluateService(
     assessCreditRisk: AssessCreditRisk,
     assessEligibility: AssessEligibility,
-    evaluateLoanApplication: EvaluateLoanApplication,
-    saveLoanApplication: SaveLoanApplication,
+    evaluateLoan: EvaluateLoan,
+    saveLoan: SaveLoan,
     publishEvents: PublishEvents
 ): Evaluate = { request ->
     request
-        .loanApplication()
+        .loan()
         .let(assessCreditRisk)
         .let(assessEligibility)
         .let(evaluateLoan)
         .also { (loan, events) ->
-             saveLoanApplication(loan)
+             saveLoan(loan)
              publishEvents(events)
         }
 }
@@ -467,21 +467,21 @@ sealed class Error
 data class CustomerNotFound(val customerId: CustomerId) : Error()
 
 // The workflow definition
-typealias Evaluate = (LoanApplicationEvaluationRequest) -> Either<Error, Unit>
+typealias Evaluate = (LoanEvaluationRequest) -> Either<Error, Unit>
 
 // Workflow steps
-typealias AssessCreditRisk = (LoanApplication.Created) -> Either<CustomerNotFound, LoanApplication.CreditRiskAssessed>
-typealias AssessEligibility = (LoanApplication.CreditRiskAssessed) -> Either<CustomerNotFound, LoanApplication.EligibilityAssessed>
+typealias AssessCreditRisk = (Loan.Created) -> Either<CustomerNotFound, Loan.CreditRiskAssessed>
+typealias AssessEligibility = (Loan.CreditRiskAssessed) -> Either<CustomerNotFound, Loan.EligibilityAssessed>
 
 // Workflow implementation
 fun evaluateService( /*dependencies omitted*/ ): EvaluateLoan = { request ->
     request
-        .loanApplication()
+        .loan()
         .let(assessCreditRisk)
         .flatMap(assessEligibility)
-        .map(evaluateLoanApplication)
+        .map(evaluateLoan)
         .map { (loan, events) ->
-            saveLoanApplication(loan)
+            saveLoan(loan)
             publishEvents(events)
         }
 }

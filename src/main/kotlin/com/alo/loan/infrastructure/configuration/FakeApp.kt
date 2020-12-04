@@ -11,7 +11,7 @@ import com.alo.loan.domain.model.Customer
 import com.alo.loan.domain.model.FindCustomer
 import com.alo.loan.domain.model.GetCreditScore
 import com.alo.loan.domain.model.GetLoanRecords
-import com.alo.loan.domain.model.LoanApplication
+import com.alo.loan.domain.model.Loan
 import com.alo.loan.domain.model.LoanRecord
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.evaluateAndCreateEvents
@@ -51,8 +51,8 @@ class FakeApp(
         val evaluateService: Evaluate = evaluateService(
             assessCreditRisk = assessRiskService,
             assessEligibility = assessEligibilityService,
-            evaluateLoanApplication = LoanApplication.evaluateAndCreateEvents,
-            saveLoanApplication = inMemoryLoanEvaluationRepository.save,
+            evaluateLoan = Loan.evaluateAndCreateEvents,
+            saveLoan = inMemoryLoanEvaluationRepository.save,
             publishEvents = publishEvents
         )
         // wire up incoming infrastructure adapters

@@ -1,13 +1,5 @@
 package com.alo.loan.domain.model
 
-import com.alo.loan.domain.model.CreditScore.Bad
-import com.alo.loan.domain.model.CreditScore.Excellent
-import com.alo.loan.domain.model.CreditScore.Fair
-import com.alo.loan.domain.model.CreditScore.Good
-import com.alo.loan.domain.model.CreditScore.Poor
-import com.alo.loan.domain.model.CustomerCreditRisk.Low
-import com.alo.loan.domain.model.CustomerCreditRisk.ManualRiskAssessmentRequired
-import com.alo.loan.domain.model.CustomerCreditRisk.TooRisky
 import com.alo.loan.domain.model.CustomerEligibility.Eligible
 import com.alo.loan.domain.model.CustomerEligibility.ManualEligibilityAssessmentRequired
 import com.alo.loan.domain.model.CustomerEligibility.NotEligible
@@ -23,12 +15,6 @@ data class Customer(
     companion object
 }
 
-sealed class CustomerCreditRisk {
-    object Low : CustomerCreditRisk()
-    object TooRisky : CustomerCreditRisk()
-    object ManualRiskAssessmentRequired : CustomerCreditRisk()
-}
-
 sealed class CustomerEligibility {
     object Eligible : CustomerEligibility()
     object ManualEligibilityAssessmentRequired : CustomerEligibility()
@@ -41,17 +27,6 @@ sealed class CustomerEligibility {
 }
 
 // simple implementation, for real production code you could have different implementations, as complex as business requires
-fun Customer.Companion.creditRiskOf(
-    amountToLend: AmountToLend,
-    creditScore: CreditScore
-): CustomerCreditRisk =
-    when (creditScore) {
-        is Bad, is Poor -> TooRisky
-        is Fair -> if (amountToLend.amount > 1000.toBigDecimal()) TooRisky else Low
-        is Good -> if (amountToLend.amount > 5000.toBigDecimal()) TooRisky else Low
-        is Excellent -> if (amountToLend.amount > 10000.toBigDecimal()) ManualRiskAssessmentRequired else Low
-    }
-
 fun Customer.Companion.eligibilityOf(
     customer: Customer,
     loanRecords: List<LoanRecord>

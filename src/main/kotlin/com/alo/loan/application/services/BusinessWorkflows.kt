@@ -7,6 +7,6 @@ import java.util.UUID
 
 // AKA: Incoming ports in hexagonal architecture
 
-typealias Evaluate = (LoanApplicationEvaluationRequest) -> Either<Error, Unit>
+typealias Evaluate = (LoanEvaluationRequest) -> Either<Error, Unit>
 
-data class LoanApplicationEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)
+data class LoanEvaluationRequest(val id: UUID, val customerId: UUID, val amount: BigDecimal)

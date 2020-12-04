@@ -8,6 +8,6 @@ typealias GetLoanRecords = (CustomerId) -> List<LoanRecord>
 
 typealias GetCreditScore = (Customer) -> CreditScore
 
-typealias SaveLoanApplication = (LoanApplication.Evaluated) -> Unit
+typealias SaveLoan = (Loan.Evaluated) -> Unit
 
 typealias PublishEvents = (List<DomainEvent>) -> Unit
