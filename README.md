@@ -180,8 +180,8 @@ implementation, again, developers and business experts together.
 
 This exercise will give us an idea about the business workflows in terms of:
 
-- Aggregates: In our case, `Loan Application` and `Customer`, it will be reflected in the code. This aggregates could be
-also entities at code level.
+- Aggregates: In our case, `Loan Application` and `Customer`, it will be reflected in the code. These aggregates could be
+aggregate roots, aggregates or  entities at code level.
 - Domain Events: **Things that happened in the domain that are relevant for the business, it does not mean that they will
 be events in our implementation, they could be events or just states in our model**. Some of them will be published
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
