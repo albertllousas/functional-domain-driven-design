@@ -499,7 +499,9 @@ IMHO, this is how to apply DDD tactical patterns in FP context:
 - **Value Objects (VO, Tiny types)**: Algebraic data types
 - **Factories**: Smart constructors or just Functions
 - **Aggregates**: Aggregate root + Entities + V.O. + Functions
-- **Domain Services**: Functions
+- **Domain Services**: Stateless functions
+- **Domain Events**: Algebraic data types. (the important ones that the team decide, not all of the ones that we get from
+the event-storming should be implemented as events)
 - **Repositories or any external dependency**: Type abstractions in the domain
 
 

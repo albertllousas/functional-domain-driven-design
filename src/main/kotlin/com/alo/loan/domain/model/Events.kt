@@ -4,9 +4,9 @@ import java.util.UUID
 
 sealed class DomainEvent
 
-data class LoanApplicationRejected(val evaluationId: UUID) : DomainEvent()
-data class LoanApplicationHeldForFurtherVerification(val evaluationId: UUID) : DomainEvent()
-data class LoanApplicationApproved(val evaluationId: UUID) : DomainEvent()
+data class LoanRejected(val evaluationId: UUID) : DomainEvent()
+data class LoanHeldForFurtherVerification(val evaluationId: UUID) : DomainEvent()
+data class LoanApproved(val evaluationId: UUID) : DomainEvent()
 
 sealed class Error
 

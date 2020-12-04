@@ -1,7 +1,7 @@
 package com.alo.loan.componenttest
 
 import com.alo.loan.domain.model.CreditScore
-import com.alo.loan.domain.model.LoanApplicationApproved
+import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.fixtures.buildCustomer
 import com.alo.loan.infrastructure.adapters.incoming.stream.LoanApplicationCreatedEvent
 import com.alo.loan.infrastructure.configuration.FakeApp
@@ -49,7 +49,7 @@ class EvaluateLoanApplicationShould {
             listOf(
                 Event(
                     "LoanApplicationApproved",
-                    fakeApp.objectMapper.writeValueAsBytes(LoanApplicationApproved(applicationCreatedEvent.id))
+                    fakeApp.objectMapper.writeValueAsBytes(LoanApproved(applicationCreatedEvent.id))
                 )
             )
         )
