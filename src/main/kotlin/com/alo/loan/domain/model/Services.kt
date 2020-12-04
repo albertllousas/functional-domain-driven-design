@@ -10,7 +10,7 @@ import com.alo.loan.domain.model.LoanApplication.EligibilityAssessed
 // Domain Services
 
 private val defaultCreditRiskOf = Customer.Companion::creditRiskOf
-
+// If you prefer you can create a fun that implements the contract, it does not matter both are functions
 class AssessRiskService(
     private val findCustomer: FindCustomer,
     private val getCreditScore: GetCreditScore,

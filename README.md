@@ -187,10 +187,13 @@ be events in our implementation, they could be events or just states in our mode
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
 to other domains, applications or third party services. We'll see later how they will be implemented.
 - More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
-- Dependencies: Other contexts that our BC depends on
-- Policies: a.k.a. business rules
-- UI: Not applies here.
-
+- Dependencies: Other systems that our BC depends on
+- Policies:
+    - `Credit Risk Policy`: Whenever a loan is created we need to check the credit risk, this check uses the credit scoring
+        and the amount to lend to determine how risky is to give money to this customer.
+    - `Customer Elibibility policy`: Whenever a loan is created we need to check the eligibility, this check uses the customer
+        personal information, such as previous loans, age or incomes to see whether we would be in a position to offer them a
+        credit based on your their circumstances.
 
 In summary, an idea of how our solution will look like.
 
@@ -401,7 +404,7 @@ fun evaluateService(
         }
 }
 ```
-
+**Note:** This is a funtion but could be a class, it does not matter
 > Shall we include external dependencies in this stage?
 
 Well it depends, matter of taste, in my case I prefer to go one step further and be dependency agnostic in the workflows
@@ -443,7 +446,7 @@ A useful one is `Either` monad, that mainly is a generic container, where we can
 failure or a success.
 
 <p align="center">
-  <img width="20%" src="doc/img/either-box.png">
+  <img width="40%" src="doc/img/either-box.png">
 </p>
 
 If you want to know more about how to deal with errors with monads, take a look on [railway programming](https://fsharpforfunandprofit.com/rop/) concept.
