@@ -445,7 +445,7 @@ The downsides:
 > What do we do then?
 
 Functional programming has a really cool concept that we can use to mitigate this issues with exceptions, **[a monad](https://en.wikipedia.org/wiki/Monad_(functional_programming))**.
-Monads are a functional pattern, ( I am not going even try to explain them, it would take a whole post), but they are
+Monads are a functional pattern, ( I am not going even try to explain them, it would take a whole post) and they are
 useful for several purposes, one of them is error handling.
 
 A useful one is `Either` monad, that mainly is a generic container, where we can wrap the result of an operation either a
