@@ -176,7 +176,9 @@ Luckily, we have tools in place, you remember the event-storming? the previous o
 another one, a **Software Design Event-Storming**, a more granular version where we will discover the moving parts of a our software
 implementation, again, developers and business experts together.
 
-[diagram: TODO]
+<p align="center">
+  <img width="100%" src="doc/img/software-design-event-storming.png">
+</p>
 
 This exercise will give us an idea about the business workflows in terms of:
 
@@ -189,11 +191,14 @@ to other domains, applications or third party services. We'll see later how they
 - More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
 - Dependencies: Other systems that our BC depends on
 - Policies:
+    - `Create Loan Policy`: Whenever a loan application is created we need to create a loan to start the approval process.
     - `Credit Risk Policy`: Whenever a loan is created we need to check the credit risk, this check uses the credit score
         and the amount to lend to determine how risky is this loan.
     - `Customer Elibibility policy`: Whenever a loan is created we need to check the eligibility, this check uses the customer
         personal information, such as previous loans, age or incomes to see whether we would be in a position to offer them a
         credit based on your their circumstances.
+    - `Evaluate Loan policy`: Whenever a risk credit and customer eligibility have been assessed we are able to decide
+        if we approve the loan.
 
 In summary, an idea of how our solution will look like.
 
