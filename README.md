@@ -188,7 +188,7 @@ aggregate roots, aggregates or  entities at code level.
 be events in our implementation, they could be events or just states in our model**. Some of them will be published
 to the outside world, the integration ones, committed events that occurred within our bounded context which may be interesting
 to other domains, applications or third party services. We'll see later how they will be implemented.
-- More shared model, more ubiquitous language, commands and events give us an idea of which methods, functions or domain components.
+- More shared model, more ubiquitous language.
 - Dependencies: Other systems that our BC depends on
 - Policies:
     - `Create Loan Policy`: Whenever a loan application is created we need to create a loan to start the approval process.
@@ -200,7 +200,7 @@ to other domains, applications or third party services. We'll see later how they
     - `Evaluate Loan policy`: Whenever a risk credit and customer eligibility have been assessed we are able to decide
         if we approve the loan.
 
-In summary, an idea of how our solution will look like.
+In summary, an idea of how our solution will look like in terms of software components.
 
 ### Business Workflows as pipelines
 

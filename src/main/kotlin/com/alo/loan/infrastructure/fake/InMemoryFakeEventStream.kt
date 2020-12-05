@@ -1,7 +1,8 @@
 package com.alo.loan.infrastructure.fake
 
 typealias EventHandler = (Event) -> Unit
-
+// Just in memory stream impl, in a prod code it could be kafka, kinesis, rabbitmq.
+// Don't pay attention on the impl, just for testing purposes
 class InMemoryFakeEventStream {
 
     private val streams: MutableMap<String, List<Event>> = mutableMapOf()
