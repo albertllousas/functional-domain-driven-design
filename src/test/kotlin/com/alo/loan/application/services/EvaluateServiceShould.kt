@@ -8,8 +8,8 @@ import com.alo.loan.domain.model.AssessEligibility
 import com.alo.loan.domain.model.CustomerId
 import com.alo.loan.domain.model.CustomerNotFound
 import com.alo.loan.domain.model.EvaluateLoan
-import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.LoanApplicationId
+import com.alo.loan.domain.model.LoanApproved
 import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoan
 import com.alo.loan.fixtures.buildApplication

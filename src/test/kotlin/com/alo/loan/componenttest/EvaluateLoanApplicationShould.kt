@@ -48,7 +48,7 @@ class EvaluateLoanApplicationShould {
         assertThat(testConsumer.receivedEvents).isEqualTo(
             listOf(
                 Event(
-                    "LoanApplicationApproved",
+                    "LoanApproved",
                     fakeApp.objectMapper.writeValueAsBytes(LoanApproved(applicationCreatedEvent.id))
                 )
             )
