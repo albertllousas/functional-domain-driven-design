@@ -14,7 +14,7 @@ import com.alo.loan.domain.model.PublishEvents
 import com.alo.loan.domain.model.SaveLoan
 import com.alo.loan.fixtures.buildApplication
 import com.alo.loan.fixtures.buildApprovedLoan
-import com.alo.loan.fixtures.buildCreatedLoanApplication
+import com.alo.loan.fixtures.buildLoanCreated
 import com.alo.loan.fixtures.buildCreditRiskAssessed
 import com.alo.loan.fixtures.buildEligibilityAssessed
 import io.mockk.every
@@ -47,19 +47,19 @@ class EvaluateServiceShould {
             amount = 15000.toBigDecimal()
         )
         val application = buildApplication(CustomerId(request.customerId), AmountToLend(request.amount))
-        val created = buildCreatedLoanApplication(LoanApplicationId(request.id), application)
-        val riskAssessedLoan = buildCreditRiskAssessed()
-        val evaluableLoan = buildEligibilityAssessed()
-        val approvedLoan = buildApprovedLoan()
-        every { assessCreditRisk(created) } returns riskAssessedLoan.right()
-        every { assessEligibility(riskAssessedLoan) } returns evaluableLoan.right()
-        every { evaluateLoanApplication(evaluableLoan) } returns Pair(approvedLoan, listOf(LoanApproved(request.id)))
+        val created = buildLoanCreated(LoanApplicationId(request.id), application)
+        val creditRiskAssessed = buildCreditRiskAssessed()
+        val eligibilityAssessed = buildEligibilityAssessed()
+        val approved = buildApprovedLoan()
+        every { assessCreditRisk(created) } returns creditRiskAssessed.right()
+        every { assessEligibility(creditRiskAssessed) } returns eligibilityAssessed.right()
+        every { evaluateLoanApplication(eligibilityAssessed) } returns Pair(approved, listOf(LoanApproved(request.id)))
         every { publishEvents(listOf(LoanApproved(request.id))) } returns Unit
 
         val result = evaluate(request)
 
         assertThat(result).isEqualTo(Unit.right())
-        verify { saveLoanEvaluationReport(approvedLoan) }
+        verify { saveLoanEvaluationReport(approved) }
     }
 
     @Test
@@ -70,7 +70,7 @@ class EvaluateServiceShould {
             amount = 15000.toBigDecimal()
         )
         val loanApplication = buildApplication(CustomerId(request.customerId), AmountToLend(request.amount))
-        val unevaluatedLoan = buildCreatedLoanApplication(LoanApplicationId(request.id), loanApplication)
+        val unevaluatedLoan = buildLoanCreated(LoanApplicationId(request.id), loanApplication)
         val customerNotFound = CustomerNotFound(unevaluatedLoan.application.customerId)
         every { assessCreditRisk(unevaluatedLoan) } returns customerNotFound.left()
 

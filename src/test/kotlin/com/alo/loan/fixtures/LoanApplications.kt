@@ -33,7 +33,7 @@ fun buildApplication(
     amountToLend: AmountToLend = AmountToLend(faker.number().randomDigit().toBigDecimal())
 ) = Application(customerId, amountToLend)
 
-fun buildCreatedLoanApplication(
+fun buildLoanCreated(
     id: LoanApplicationId = LoanApplicationId(UUID.randomUUID()),
     application: Application = buildApplication()
 ) = Created(id, application)

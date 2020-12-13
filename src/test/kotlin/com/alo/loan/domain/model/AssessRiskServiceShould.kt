@@ -2,7 +2,7 @@ package com.alo.loan.domain.model
 
 import arrow.core.left
 import arrow.core.right
-import com.alo.loan.fixtures.buildCreatedLoanApplication
+import com.alo.loan.fixtures.buildLoanCreated
 import com.alo.loan.fixtures.buildCreditRiskAssessed
 import com.alo.loan.fixtures.buildCustomer
 import io.mockk.every
@@ -22,7 +22,7 @@ class AssessRiskServiceShould {
 
     @Test
     fun `coordinate the risk assessment of a loan with external world dependencies`() {
-        val created = buildCreatedLoanApplication()
+        val created = buildLoanCreated()
         val customer = buildCustomer()
         val creditScore = CreditScore.Poor
         every { findCustomer(created.application.customerId) } returns customer
@@ -42,7 +42,7 @@ class AssessRiskServiceShould {
 
     @Test
     fun `fail coordinating the risk assessment of a loan when customer is not found`() {
-        val unevaluatedLoan = buildCreatedLoanApplication()
+        val unevaluatedLoan = buildLoanCreated()
         every { findCustomer(unevaluatedLoan.application.customerId) } returns null
 
         val result = assessRisk(unevaluatedLoan)
