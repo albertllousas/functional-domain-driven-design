@@ -33,12 +33,12 @@ breaking down the problem in a top down approach.
 As a developer, I've been working almost all my career in JS and java, imperative OOP and layered architectures,
 through different companies and variety of domains.
 
-Some years ago I decided to open my mind, I learned functional programming with Scala, at least I tried, my head almost exploded.
-I also tried different programming languages, such as ruby, elixir, typescript or even ocaml, till finally I fell in love
-with kotlin .
+Some years ago I decided to open my mind to new ways of thinking, so I decide to learn functional programming with Scala,
+well ... at least I tried, my head almost exploded, literally :). I also tried different programming languages and paradigms
+ such as ruby, elixir, typescript or even ocaml, till finally I fell in love with kotlin, a good mix of everything.
 
-One day I realised that I didn't know what the S of Solid really meant, so it led me to understand dependency-inversion and
-the architectures based on it, I fell in love again, this time with hexagonal architecture.
+One day I realised that I didn't know what the S of Solid really meant, so it led me to understand dependency inversion
+principle and the architectures based on it ... I fell in love again, this time with hexagonal architecture.
 
 Parallel to all of that, I learned that software engineers should not work alone and isolated, we need to work together,
  so, welcome agile and [XP](https://en.wikipedia.org/wiki/Extreme_programming).
@@ -55,7 +55,7 @@ Let's put everything together:
   <img width="55%" src="doc/img/cloud.png">
 </p>
 
-Wow, a lot of fuzzy words, right?
+Wow, a lot of buzzwords, right?
 
 Now, I still feel that I know nothing, I had to review concepts time to time, but in this project I will to try apply DDD,
 FP, hexagonal, microservices and kotlin in a real complex scenario in order to see how powerful they are.
