@@ -204,7 +204,7 @@ In summary, an idea of how our solution will look like in terms of software comp
 
 ### Business Workflows as pipelines
 
-We have been tacking about DDD concepts enough, we have our domain divided, we have aggregates, domain events, we know
+We have been talking about DDD concepts enough, we have our domain divided, we have aggregates, domain events, we know
 how our solution would look like but now is time to introduce some functional concepts at business level.
 
 What is a function?
@@ -283,7 +283,7 @@ database.
 ## The implementation
 
 We are going to work with the assumption that our bounded context is going to be one implemented for now in just one microservice,
-if it grows, we will decide together with our team if we need to split it.
+if it grows, eventually, we will decide together with our team if we need to split it.
 
 ### Applying hexagonal architecture
 
@@ -462,7 +462,7 @@ If you want to know more about how to deal with errors with monads, take a look 
 Well, pure functional code does it, but here we are mixing paradigms, so here my personal strategy to handle errors, and
 again, close to the domain:
 - Domain errors: Any error meaningful from the domain perspective, wrap it in a monad.
-- Crashes: Are you going to recover or do anything with an exceptional crash? Let it crash then and deal with them at
+- Crashes: Are you going to recover or do anything with an exceptional crash? Let it crash then deal with them at
 the boundaries of your app.
 
 After this small introduction, let's fix our code introducing errors:
