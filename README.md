@@ -1,5 +1,5 @@
 # functional-domain-driven-design
-A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture, microservices all together with Kotlin,
+A pragmatic and balanced approach to combine DDD, FP, hexagonal architecture and microservices all together with Kotlin,
 breaking down the problem in a top down approach.
 
 ## Content
@@ -35,7 +35,7 @@ through different companies and variety of domains.
 
 Some years ago I decided to open my mind to new ways of thinking, so I decide to learn functional programming with Scala,
 well ... at least I tried, my head almost exploded, literally :). I also tried different programming languages and paradigms
- such as ruby, elixir, typescript or even ocaml, till finally I fell in love with kotlin, a good mix of everything.
+ such as ruby, elixir, typescript, haskell or even ocaml, till finally I fell in love with kotlin, a good mix of everything.
 
 One day I realised that I didn't know what the S of Solid really meant, so it led me to understand dependency inversion
 principle and the architectures based on it ... I fell in love again, this time with hexagonal architecture.
@@ -43,7 +43,7 @@ principle and the architectures based on it ... I fell in love again, this time 
 Parallel to all of that, I learned that software engineers should not work alone and isolated, we need to work together,
  so, welcome agile and [XP](https://en.wikipedia.org/wiki/Extreme_programming).
 
-What was next? divide and conquer! microservice architectures, time to create small, autonomous and decoupled services, well I
+What was next? divide and conquer! microservice architectures, it was time to me to time to create small, autonomous and decoupled services, well, honestly, I
 thought I was. Actually, I was going more to the path of creating distributed monoliths.
 
 Still, something was missing, that's when I was introduced to domain-driven design. Wow, how it was possible to work all
@@ -57,7 +57,7 @@ Let's put everything together:
 
 Wow, a lot of buzzwords, right?
 
-Now, I still feel that I know nothing, I had to review concepts time to time, but in this project I will to try apply DDD,
+Now, I still feel that I know nothing, I still have to review concepts time to time, but in this project I will to try apply DDD,
 FP, hexagonal, microservices and kotlin in a real complex scenario in order to see how powerful they are.
 
 
