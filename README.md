@@ -169,11 +169,11 @@ Yeah, bounded context and microservices are trying to achieve the same at differ
 
 ### Loan Evaluation Context
 
-We are lucky, we have assigned to the team in charge of Loan Evaluation, one of the core bounded contexts, but, what we know
+We are lucky, we wre the team in charge of Loan Evaluation, one of the core bounded contexts, but, what we know
 about it?
 
 Luckily, we have tools in place, you remember the event-storming? the previous one was the big picture version, but there is
-another one, a **Software Design Event-Storming**, a more granular version where we will discover the moving parts of a our software
+another one, a **Software Design Event-Storming**, a more granular version where we will discover the moving parts of our software
 implementation, again, developers and business experts together.
 
 <p align="center">
