@@ -180,7 +180,7 @@ implementation, again, developers and business experts together.
   <img width="100%" src="doc/img/software-design-event-storming.png">
 </p>
 
-This exercise will give us an idea about the business workflows in terms of:
+This exercise will give us an idea about:
 
 - Aggregates: In our case, `Loan` and `Customer`, it will be reflected in the code. These aggregates could be
 aggregate roots, aggregates or  entities at code level.
