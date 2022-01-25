@@ -101,7 +101,7 @@ I am not an expert of running this kind of workshop, and the goal of this post i
 an [event-storming](https://en.wikipedia.org/wiki/Event_storming) is a collaborative and visual tool that can be used for
 several purposes, one of them is to discover and decompose a domain into subdomains through domain events (If you are already interested [here](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) some tips.)
 
-Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and these are the [subdomains](https://thedomaindrivendesign.io/domains-and-subdomains/)
+Coming back to our cool problem, let's suppose we have run this session with all the stakeholders and these are the different [types of subdomains](https://thedomaindrivendesign.io/domains-and-subdomains/)
 discovered:
 
 <p align="center">
