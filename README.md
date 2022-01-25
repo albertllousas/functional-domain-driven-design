@@ -105,12 +105,11 @@ Coming back to our cool problem, let's suppose we have run this session with all
 discovered:
 
 <p align="center">
-  <img width="70%" src="doc/img/sub-domains.png">
+  <img width="70%" src="doc/img/subdomains.png">
 </p>
 
 Sub-domains summary:
 - Acquisition:  Responsible for account creation, kyc and customer data.
-- Fraud detection: Analise, extract data from upload customer docs and detect possible frauds (out-sourced).
 - Scoring: Credit scoring (out-sourced).
 - Loan application: All the loan application lifecycle.
 - Loan evaluation: Basically, it decides if we should lend the money to the customer.
